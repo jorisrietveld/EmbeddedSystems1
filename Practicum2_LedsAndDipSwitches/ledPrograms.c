@@ -51,10 +51,14 @@ void ledScanLeft(uint8_t delay, uint8_t times )
     }
 }
 
+/**
+ * Expand the led's from the middle two leds to the end of the array expanding on both sides at the same rate.
+ * @param delay
+ */
 void ledExpand(uint8_t delay)
 {
 	PORTC = 0xff;
-	uint8_t pattern[9] = {
+    const prog_uint8_t pattern[9] = { // The bitPattern to write, saved on the PROGMEM to save RAM.
 		0b11111111,
 		0b11100111,
 		0b11000011,
