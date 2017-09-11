@@ -27,12 +27,16 @@ displays with there bit pattern, hexadecimal, decimal and octal values.
 |        8  |           0b10000000 |           0x80 |         128 |     200  | pin \|= (1 << 7)                  |
 |        9  |           0b10010000 |           0x90 |         144 |     220  | pin \|= (1 << 4)\|(1<<7)          |
 
-# Practicum files
+# Files of this practicum
  - `main.c` The entry point to the program containing the main program loop.
  - `initiateIO.h` This file contains an function for initiating the I/O pins connected to the micro controller.
  - `sevenSegmentDisplay.h` This file contains functions to write to the seven segment displays.
  - `delaySpaceTime.h` This file contains functions to delay `The Fabric Of Space Time` - use with caution, it will make your code unresponsive. 
  
 # TODO's 
- - `Replace` delays with an timer and interrupts to make code more responsive.
- 
+ - [ ] `Replace` delays with an timer and interrupts to make code more responsive.
+ - [ ] `Fix` the deference in brightness on the segments.
+ - [ ] `Implement` functions to auto count on the display.
+ - [ ] `Implement` floating point numbers using the dot segments.
+ - [ ] `Implement` negative numbers prefixed with a minus sign.
+ - [ ] `Implement` some patterns for letters for Hexadecimal number representation.
