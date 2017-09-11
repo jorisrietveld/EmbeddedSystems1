@@ -3,7 +3,8 @@ This repository holds the source code for my school assignments for the Embedded
 <br>This is my first attempt at programming the Atmega32 in plain C, I have used the Arduino platform before
 but I am currently learning about the bare programming of the micro controllers and creating circuits.
 
-![img](resouces/EmbeddedSystemImage.png)
+
+![Emdedded Systems 1 Image](./resouces/EmbeddedSystemImage.png)
 
 # Author
  - Joris Rietveld <jorisrietveld@gmail.com> Student@Stenden University Emmen

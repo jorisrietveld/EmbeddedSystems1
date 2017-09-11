@@ -126,5 +126,5 @@ The goal is to control the led's using the settings set by the four dip switches
  - `delaySpaceTime.h` This file contains functions to delay `The Fabric Of Space Time` - use with caution, it will make your code unresponsive. 
  
 # TODO's 
- - `Replace` delays with an timer and interrupts to make code more responsive.
+ - [ ] `Replace` delays with an timer and interrupts to make code more responsive.
  
