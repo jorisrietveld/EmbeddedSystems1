@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Atmel Studio Solution File, Format Version 11.00
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Practicum2_Dipswitches", "GccApplication3\Practicum2_Dipswitches.cproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Practicum3_SevenSegmentDisplay", "EmbeddedSystems2\Practicum3_SevenSegmentDisplay.cproj", "{BBC241CD-2B53-4E04-87AB-96E2252D4ABB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.ActiveCfg = Debug|AVR
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.Build.0 = Debug|AVR
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.ActiveCfg = Release|AVR
+		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.Build.0 = Release|AVR
+		{BBC241CD-2B53-4E04-87AB-96E2252D4ABB}.Debug|AVR.ActiveCfg = Debug|AVR
+		{BBC241CD-2B53-4E04-87AB-96E2252D4ABB}.Debug|AVR.Build.0 = Debug|AVR
+		{BBC241CD-2B53-4E04-87AB-96E2252D4ABB}.Release|AVR.ActiveCfg = Release|AVR
+		{BBC241CD-2B53-4E04-87AB-96E2252D4ABB}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
