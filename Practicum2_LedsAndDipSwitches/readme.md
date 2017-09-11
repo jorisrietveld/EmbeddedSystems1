@@ -119,7 +119,7 @@ The goal is to control the led's using the settings set by the four dip switches
         ```
 
 # How to read input
-```
+```c
 /**
  * Initiate the I/O pins for reading input and writing output.
  */
