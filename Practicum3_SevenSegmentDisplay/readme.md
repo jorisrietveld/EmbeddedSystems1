@@ -11,7 +11,7 @@ time. The assignment is writing the number 8765 to the seven segment display.
 
 ## The seven segment display
 Below is an list of the bit patterns for an certain number
-**Number** | **Bit Pattern (binary)** | **Hexdecimal** | **Decimal** | **Octal**
+  Number   |   Bit Pattern (binary)   |   Hexdecimal   |   Decimal   |   Octal  
 ---------  | ------------------------ | -------------- | ----------- | --------- 
         0  |               0b10000010 |           0x82 |         130 |     202 
         1  |               0b10010000 |           0x90 |         144 |     220 
