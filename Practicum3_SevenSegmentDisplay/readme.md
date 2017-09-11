@@ -14,7 +14,7 @@ To write an value to an 7 segment display you will have to know what bit pattern
 desired effect. The table below shows an list with all possible numbers that can be displayed on the 
 displays with there bit pattern, hexadecimal, decimal and octal values.
 
-|  Number   | Bit Pattern (binary) |   Hexadecimal  |   Decimal   |   Octal  | Bit Shift sets               |
+|  Number   | Bit Pattern (binary) |   Hexadecimal  |   Decimal   |   Octal  | I/O Sets using Left Bit Shift     |
 |:---------:|:--------------------:|:--------------:|:-----------:|:--------:|:-----------------------------|
 |        0  |           0b10000010 |           0x82 |         130 |     202  | pin \|= (1 << 2) \| (1 << 7) |
 |        1  |           0b10010000 |           0x90 |         144 |     220  | pin \|= (1 << 5) \| (1 << 7) |
