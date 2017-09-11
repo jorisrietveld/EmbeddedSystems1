@@ -14,3 +14,6 @@ resouces/Practicum4_LedsAndInterupts/
 resouces/Practicum5_PulseCounter/
 resouces/Practicum6_LedsAndTimers/
 resouces/Practicum7_Tachometer/
+.pioenvs
+.piolibdeps
+CMakeListsPrivate.txt

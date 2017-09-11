@@ -5,19 +5,18 @@
  */
 #include "sevenSegmentDisplay.h"
 
-uint8_t sevenSegmentDisplayNumbers[10] =
-        {
-                0b10000010,
-                0b10111011,
-                0b10000101,
-                0b10010001,
-                0b10111000,
-                0b11010000,
-                0b11000000,
-                0b10011011,
-                0b10000000,
-                0b10010000,
-        };
+uint8_t sevenSegmentDisplayNumbers[10] = {
+        0b10000010,
+        0b10111011,
+        0b10000101,
+        0b10010001,
+        0b10111000,
+        0b11010000,
+        0b11000000,
+        0b10011011,
+        0b10000000,
+        0b10010000,
+};
 
 uint8_t digitsToDisplay[4]  = {1,2,3,4};
 
@@ -57,7 +56,11 @@ void writeToDisplay( uint16_t numberToDisplay )
         // 4
 
 		PORTD = (1 << (1+displayCounter));
-        // PORTD ! ( 1 << 1 ) 0000 0001 1111 1110
+        // PORTD ! ( 1 << 1 ) 0000 0001
+        // PORTD ! ( 1 << 1 ) 0000 0001
+        // PORTD ! ( 1 << 1 ) 0000 0001
+        // PORTD ! ( 1 << 1 ) 0000 0001s
+
 		PORTC = sevenSegmentDisplayNumbers[ digitsToDisplay[displayCounter] ];
 		_delay_us(50);
 		PORTD = (0 << (1+displayCounter));

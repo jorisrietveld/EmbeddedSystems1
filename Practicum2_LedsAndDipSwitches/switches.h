@@ -9,6 +9,9 @@
 #include <avr/io.h>
 #include "ledPrograms.h"
 
+/**
+ * Listen for state changes in the connected dip switches.
+ */
 extern void readSwitches();
 
 #endif //GCCAPPLICATION3_SWITCHES_H

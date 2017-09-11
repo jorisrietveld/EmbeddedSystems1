@@ -12,6 +12,10 @@
 int main (void)
 {
 	initiateIO();
-	readSwitches();
-	return 0;
+
+	// Loop until the head death of the universe.
+	while ( 1 )
+	{
+		readSwitches(); // Check switch state chances.
+	}
 }

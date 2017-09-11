@@ -117,7 +117,58 @@ The goal is to control the led's using the settings set by the four dip switches
         1100 0000
         1000 0000
         ```
-        
+
+# How to read input
+```
+/**
+ * Initiate the I/O pins for reading input and writing output.
+ */
+void initiateIO()
+{
+    DDRC = 0xFF;
+    DDRD &= ~(1<<7); 	//Set Pin D1 for input
+    PORTD |= (1<<7); //Set internal pull-up resistor (after setting pin for input)
+    
+    DDRD &= ~(1<<6); 	//Set Pin D2 for input
+    PORTD |= (1<<6); //Set internal pull-up resistor (after setting pin for input)
+    
+    DDRD &= ~(1<<5); 	//Set Pin D3 for input
+    PORTD |= (1<<5); //Set internal pull-up resistor (after setting pin for input)
+    
+    DDRD &= ~(1<<5); 	//Set Pin D4 for input
+    PORTD |= (1<<5); //Set internal pull-up resistor (after setting pin for input)
+}
+
+/**
+ * Test if an certain switch is active by testing pins D input bit.
+ * @param switchNumber The number of the D input port.
+ * @return Is this switch activated?
+ */
+uint8_t isSwitchActive( uint8_t switchNumber )
+{
+    return !( PIND & ( 1 << switchNumber ));
+}
+
+/**
+ * Choose an led program based on the switch settings.
+ */
+uint8_t chooseSwitches()
+{
+        if ( isSwitchActive( 4 )) // The dip switch on the left is active.
+        {
+            ledScanLeft( LED_INTERVAL_DELAY, 1 );
+        }
+        else if ( isSwitchActive( 5 )) // The second dip switch on the left  is active.
+        {
+            ledScanRight( LED_INTERVAL_DELAY, 1 );
+        }
+        else if ( isSwitchActive( 6 )) // The first dip switch on the right  is active.
+        {
+            ledScan( LED_INTERVAL_DELAY, 1, 1 );
+        }
+}
+```
+
 # Practicum files
  - `main.c` The entry point to the program containing the main program loop.
  - `initiateIO.h` This file contains an function for initiating the I/O pins connected to the micro controller.

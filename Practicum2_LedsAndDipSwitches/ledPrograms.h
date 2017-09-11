@@ -46,6 +46,15 @@ void slideOut( uint8_t delay, uint8_t times );
  */
 void slideScan( uint8_t delay, uint8_t times );
 
-extern void ledExpand(uint8_t delay);
+/**
+ * Start with 2 leds in the middle of the array and slide them on both sides to the end of the array and back.
+ * @param delay
+ */
+void ledExpand(uint8_t delay);
+
+/**
+ * Blink S-O-S morse code to the user.
+ */
+void blinkSOS();
 
 #endif //GCCAPPLICATION3_LEDPROGRAMS_H

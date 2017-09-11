@@ -262,3 +262,36 @@ void slideScan( uint8_t delay, uint8_t times )
     }
 }
 
+void blinkCharacter(int delay)
+{
+    PORTC = 0x00; // Pull all leds low, this will turn the leds on.
+    delayMilliSeconds(delay);
+    PORTC = 0xFF; // Pull all leds high, this will turn the leds off.
+    delayMilliSeconds(300);
+}
+
+void blinkSOS()
+{
+    uint8_t morseCodeS =  300;
+    uint8_t morseCodeO = 800;
+
+    for (int x = 1; x <= 3; x++)
+    {
+        blinkCharacter(morseCodeS);
+    }
+
+    delayMilliSeconds(100);
+
+    for (int x = 1; x <= 3; x++)
+    {
+        blinkCharacter(morseCodeO);
+    }
+
+    delayMilliSeconds(100);
+    for (int x = 1; x <= 3; x++)
+    {
+        blinkCharacter(morseCodeS);
+    }
+    delay(2000);
+}
+}
