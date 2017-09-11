@@ -8,37 +8,38 @@ but I am currently learning about the bare programming of the micro controllers 
 
 # The courses assignments
  - [Practicum 1 - Led Blink](Practicum1_LedBlink/)  
-    - Started [x]
-    - Solved [x]
-    - Approved [ ]
+    - [x]Started
+    - [x]Solved 
+    - [ ]Approved
  - [Practicum 2 - Leds And Dip Switches](Practicum2_LedsAndDipSwitches/)
-     - Started [x]
-     - Solved [x]
-     - Approved [ ]
+    - [x]Started
+    - [x]Solved 
+    - [ ]Approved
  - [Practicum 3 - Seven Segment Display](Practicum3_SevenSegmentDisplay/)
-     - Started [x]
-     - Solved [ ]
-     - Approved [ ]
+    - [x]Started
+    - [ ]Solved 
+    - [ ]Approved
  - [Practicum 4 - Leds And Interrupts](Practicum4_LedsAndInterupts/)
-      - Started [ ]
-      - Solved [ ]
-      - Approved [ ]
+    - [ ]Started
+    - [ ]Solved 
+    - [ ]Approved
  - [Practicum 5 - Pulse Counter](Practicum5_PulseCounter/)
-       - Started [ ]
-       - Solved [ ]
-       - Approved [ ]
+    - [ ]Started
+    - [ ]Solved 
+    - [ ]Approved
  - [Practicum 6 - Leds And Timers](Practicum6_LedsAndTimers/)
-       - Started [ ]
-       - Solved [ ]
-       - Approved [ ]
+    - [ ]Started
+    - [ ]Solved 
+    - [ ]Approved
  - [Practicum 7 - Tachometer](Practicum7_Tachometer/)
-       - Started [ ]
-       - Solved [ ]
-       - Approved [ ]
+    - [ ]Started
+    - [ ]Solved 
+    - [ ]Approved
  - [Final Assignment - Odometer](FinalAssignment_Odometer)
-       - Started [ ]
-       - Solved [ ]
-       - Approved [ ]
+    - [ ]Started
+    - [ ]Solved 
+    - [ ]Approved
+
  
 # Author
  - Joris Rietveld <jorisrietveld@gmail.com> Student@Stenden University Emmen
