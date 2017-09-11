@@ -23,7 +23,7 @@ Below is an list of the bit patterns for an certain number
 |        7 |             0b10011011 |         0xE9 |       233 |     233 |
 |        8 |             0b10000000 |         0x80 |       128 |     200 |
 |        9 |             0b10010000 |         0x90 |       144 |     220 |
-|----------|------------------------|--------------|-----------|---------|
+
         
 # Practicum files
  - `main.c` The entry point to the program containing the main program loop.
