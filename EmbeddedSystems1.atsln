@@ -3,9 +3,28 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Atmel Studio Solution File, Format Version 11.00
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Practicum2_Dipswitches", "GccApplication3\Practicum2_Dipswitches.cproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Practicum2_Dipswitches", "Practicum2_LedsAndDipSwitches\Practicum2_Dipswitches.cproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
 EndProject
-Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Practicum3_SevenSegmentDisplay", "EmbeddedSystems2\Practicum3_SevenSegmentDisplay.cproj", "{BBC241CD-2B53-4E04-87AB-96E2252D4ABB}"
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Practicum3_SevenSegmentDisplay", "Practicum3_SevenSegmentDisplay\Practicum3_SevenSegmentDisplay.cproj", "{BBC241CD-2B53-4E04-87AB-96E2252D4ABB}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Practicum4_LedsAndInterupts", "Practicum4_LedsAndInterupts\Practicum4_LedsAndInterupts.cproj", "{DC10C941-55F7-4D9C-9178-92BCBB08D263}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Practicum5_PulseCounter", "Practicum5_PulseCounter\Practicum5_PulseCounter.cproj", "{A336B095-C3A2-4742-93AE-90C2DD5F3F52}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Practicum1_LedBlink", "Practicum1_LedBlink\Practicum1_LedBlink.cproj", "{CAD18456-11E3-426A-8791-11FBDD0A4C20}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Practicum6_LedsAndTimers", "Practicum6_LedsAndTimers\Practicum6_LedsAndTimers.cproj", "{951435A6-E2AA-406D-A8B4-483261FE2142}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Practicum7_Tachometer", "Practicum7_Tachometer\Practicum7_Tachometer.cproj", "{193E50D4-E52A-45F2-A5D6-58952A98EE66}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "FinalAssignment_Odometer", "FinalAssignment_Odometer\FinalAssignment_Odometer.cproj", "{D1B3A01C-C066-475D-9EF9-8E45D6DAA440}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{76385D98-07A5-462B-A21E-54471E3D8C6E}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +40,30 @@ Global
 		{BBC241CD-2B53-4E04-87AB-96E2252D4ABB}.Debug|AVR.Build.0 = Debug|AVR
 		{BBC241CD-2B53-4E04-87AB-96E2252D4ABB}.Release|AVR.ActiveCfg = Release|AVR
 		{BBC241CD-2B53-4E04-87AB-96E2252D4ABB}.Release|AVR.Build.0 = Release|AVR
+		{DC10C941-55F7-4D9C-9178-92BCBB08D263}.Debug|AVR.ActiveCfg = Debug|AVR
+		{DC10C941-55F7-4D9C-9178-92BCBB08D263}.Debug|AVR.Build.0 = Debug|AVR
+		{DC10C941-55F7-4D9C-9178-92BCBB08D263}.Release|AVR.ActiveCfg = Release|AVR
+		{DC10C941-55F7-4D9C-9178-92BCBB08D263}.Release|AVR.Build.0 = Release|AVR
+		{A336B095-C3A2-4742-93AE-90C2DD5F3F52}.Debug|AVR.ActiveCfg = Debug|AVR
+		{A336B095-C3A2-4742-93AE-90C2DD5F3F52}.Debug|AVR.Build.0 = Debug|AVR
+		{A336B095-C3A2-4742-93AE-90C2DD5F3F52}.Release|AVR.ActiveCfg = Release|AVR
+		{A336B095-C3A2-4742-93AE-90C2DD5F3F52}.Release|AVR.Build.0 = Release|AVR
+		{CAD18456-11E3-426A-8791-11FBDD0A4C20}.Debug|AVR.ActiveCfg = Debug|AVR
+		{CAD18456-11E3-426A-8791-11FBDD0A4C20}.Debug|AVR.Build.0 = Debug|AVR
+		{CAD18456-11E3-426A-8791-11FBDD0A4C20}.Release|AVR.ActiveCfg = Release|AVR
+		{CAD18456-11E3-426A-8791-11FBDD0A4C20}.Release|AVR.Build.0 = Release|AVR
+		{951435A6-E2AA-406D-A8B4-483261FE2142}.Debug|AVR.ActiveCfg = Debug|AVR
+		{951435A6-E2AA-406D-A8B4-483261FE2142}.Debug|AVR.Build.0 = Debug|AVR
+		{951435A6-E2AA-406D-A8B4-483261FE2142}.Release|AVR.ActiveCfg = Release|AVR
+		{951435A6-E2AA-406D-A8B4-483261FE2142}.Release|AVR.Build.0 = Release|AVR
+		{193E50D4-E52A-45F2-A5D6-58952A98EE66}.Debug|AVR.ActiveCfg = Debug|AVR
+		{193E50D4-E52A-45F2-A5D6-58952A98EE66}.Debug|AVR.Build.0 = Debug|AVR
+		{193E50D4-E52A-45F2-A5D6-58952A98EE66}.Release|AVR.ActiveCfg = Release|AVR
+		{193E50D4-E52A-45F2-A5D6-58952A98EE66}.Release|AVR.Build.0 = Release|AVR
+		{D1B3A01C-C066-475D-9EF9-8E45D6DAA440}.Debug|AVR.ActiveCfg = Debug|AVR
+		{D1B3A01C-C066-475D-9EF9-8E45D6DAA440}.Debug|AVR.Build.0 = Debug|AVR
+		{D1B3A01C-C066-475D-9EF9-8E45D6DAA440}.Release|AVR.ActiveCfg = Release|AVR
+		{D1B3A01C-C066-475D-9EF9-8E45D6DAA440}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

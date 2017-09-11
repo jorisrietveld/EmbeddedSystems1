@@ -1,3 +1,16 @@
 .vs
 .idea
 cmake-build-debug
+FinalAssignment_Odometer/Debug/
+Practicum1_LedBlink/Debug/
+Practicum2_LedsAndDipSwitches/Debug/
+Practicum3_SevenSegmentDisplay/Debug/
+Practicum4_LedsAndInterupts/Debug/
+Practicum5_PulseCounter/Debug/
+Practicum6_LedsAndTimers/Debug/
+Practicum7_Tachometer/Debug/
+resouces/FinalAssignment_Odometer/
+resouces/Practicum4_LedsAndInterupts/
+resouces/Practicum5_PulseCounter/
+resouces/Practicum6_LedsAndTimers/
+resouces/Practicum7_Tachometer/

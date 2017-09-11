@@ -20,3 +20,4 @@ on the current program mode set by the buttons.
  - `initiateIO.h` This file contains an function for initiating the I/O pins connected to the micro controller.
  
 # TODO's 
+ - []

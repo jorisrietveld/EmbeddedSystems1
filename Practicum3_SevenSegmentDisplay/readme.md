@@ -1,4 +1,4 @@
-# Practicum 2 - Seven Segment Display
+# Practicum 3 - Seven Segment Display
 This assignment requires an expansion board containing four seven segment displays. The
 board has 2 connections, one to write data on the A, B, C, D, E, F, G ports to light the
 segments. And one to control the NPN transistors used to power the displays and to choose.

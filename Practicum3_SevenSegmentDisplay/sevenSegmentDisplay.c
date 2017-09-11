@@ -48,12 +48,19 @@ void writeToDisplay( uint16_t numberToDisplay )
 {
     splitInteger(numberToDisplay);
 	
-	for(int displayCounter = 0; displayCounter < 5; displayCounter++)
+	for(int displayCounter = 0; displayCounter < 4; displayCounter++)
 	{
-		PORTD = ~(1<<displayCounter);
+        // 0
+        // 1
+        // 2
+        // 3
+        // 4
+
+		PORTD = (1 << (1+displayCounter));
+        // PORTD ! ( 1 << 1 ) 0000 0001 1111 1110
 		PORTC = sevenSegmentDisplayNumbers[ digitsToDisplay[displayCounter] ];
 		_delay_us(50);
-		PORTD = ~(0<<displayCounter);
+		PORTD = (0 << (1+displayCounter));
 	}
 /*
     for( uint8_t displayCounter = 0; displayCounter < 4; displayCounter++ )

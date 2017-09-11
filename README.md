@@ -7,7 +7,7 @@ but I am currently learning about the bare programming of the micro controllers 
 ![Emdedded Systems 1 Image](./resouces/EmbeddedSystemImage.png)
 
 # The courses assignments
- - [Practicum 1 - Led Blink](Practicum1_LedBlink/)  
+ - [Practicum 1 - Led Blink](resouces/Practicum1_LedBlink/)  
     - [x] Started
     - [x] Solved 
     - [ ] Approved
@@ -19,23 +19,23 @@ but I am currently learning about the bare programming of the micro controllers 
     - [x] Started
     - [ ] Solved 
     - [ ] Approved
- - [Practicum 4 - Leds And Interrupts](Practicum4_LedsAndInterupts/)
+ - [Practicum 4 - Leds And Interrupts](resouces/Practicum4_LedsAndInterupts/)
     - [ ] Started
     - [ ] Solved 
     - [ ] Approved
- - [Practicum 5 - Pulse Counter](Practicum5_PulseCounter/)
+ - [Practicum 5 - Pulse Counter](resouces/Practicum5_PulseCounter/)
     - [ ] Started
     - [ ] Solved 
     - [ ] Approved
- - [Practicum 6 - Leds And Timers](Practicum6_LedsAndTimers/)
+ - [Practicum 6 - Leds And Timers](resouces/Practicum6_LedsAndTimers/)
     - [ ] Started
     - [ ] Solved 
     - [ ] Approved
- - [Practicum 7 - Tachometer](Practicum7_Tachometer/)
+ - [Practicum 7 - Tachometer](resouces/Practicum7_Tachometer/)
     - [ ] Started
     - [ ] Solved 
     - [ ] Approved
- - [Final Assignment - Odometer](FinalAssignment_Odometer)
+ - [Final Assignment - Odometer](resouces/FinalAssignment_Odometer)
     - [ ] Started
     - [ ] Solved 
     - [ ] Approved
