@@ -55,6 +55,33 @@
     </com_atmel_avrdbg_tool_stk500>
     <avrtoolinterface>ISP</avrtoolinterface>
     <avrtoolinterfaceclock>125000</avrtoolinterfaceclock>
+    <AAFDebugger>
+      <AAFDebugFiles xmlns="">
+        <DebugFile>
+          <path>\Debug\Practicum3_SevenSegmentDisplay.lss</path>
+          <AAFSetting>
+            <Label>Lss Files</Label>
+            <Extention>.lss</Extention>
+            <Regex>^\s*(?&lt;address&gt;[a-f0-9]*):\s*.*$</Regex>
+            <DebugEnabled>true</DebugEnabled>
+            <RegexGroups>address</RegexGroups>
+            <DebuggerExpression>$pc</DebuggerExpression>
+          </AAFSetting>
+        </DebugFile>
+      </AAFDebugFiles>
+    </AAFDebugger>
+    <com_atmel_avrdbg_tool_simulator>
+      <ToolOptions xmlns="">
+        <InterfaceProperties>
+        </InterfaceProperties>
+        <InterfaceName>
+        </InterfaceName>
+      </ToolOptions>
+      <ToolType xmlns="">com.atmel.avrdbg.tool.simulator</ToolType>
+      <ToolNumber xmlns="">
+      </ToolNumber>
+      <ToolName xmlns="">Simulator</ToolName>
+    </com_atmel_avrdbg_tool_simulator>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -150,6 +177,9 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="SegmentDisplayPatterns.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="sevenSegmentDisplay.c">
       <SubType>compile</SubType>
     </Compile>
@@ -158,9 +188,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="letsAbuseThePreProcessor.magic">
-      <SubType>compile</SubType>
-    </None>
     <None Include="readme.md">
       <SubType>compile</SubType>
     </None>

@@ -55,16 +55,6 @@ void unSetDisplay( int number );
  */
 void clearDisplays();
 
-/** Activate multiple displays at once.
- * @param displayIndexes The indexes of the displays on the connected ports.
- */
-void setDisplays( int displayIndexes[] );
-
-/** Deactivate multiple displays at once.
- * @param displayIndexes The indexes of the displays on the connected ports.
- */
-void unsetDisplays( int displayIndexes[] );
-
 /** Clears all data both the segment ports and the display ports.
  */
 void clearSegmentDisplays();
@@ -97,19 +87,20 @@ void numberToDigitArray( int number, uint8_t base );
  *  greater control over the program.
  **/
 
-/** Set the numer base for printing on the segment displays.
+/** Set the number base for printing on the segment displays.
  * @param numberBase The base like: BASE_DECIMAL, BASE_HEXADECIMAL or BASE_OCTAL
  */
 void setSegDisplayPrintBaseMode( uint8_t numberBase );
 
 /** Set the prefix mode for printing on the segment displays. Modes are difined in "./SegmentDisplayPatterns.h"
- * @param numberPrefixing The prefix to use when printing like: SEG7_PREFIX_MODE_ZERO = 0018 with leeding zeros or
+ * @param numberPrefixing The prefix to use when printing like: SEG7_PREFIX_MODE_ZERO = 0018 with leading zeros or
  * SEG7_PREFIX_MODE_HEX = 0xFF with the 0x notation.
  */
 void setSegDisplayPrefixMode( uint8_t numberPrefixing );
 
-void setSegDisplayAlignmentMode( uint8_t numberAlignment );
-
+/** Write an number to the connected segmented displays.
+ * @param numberToBeDisplayed
+ */
 void writeNumbersToSegmentDisplays( int numberToBeDisplayed );
 
 #endif //GCCAPPLICATION3_SEVENSEGMENTDISPLAY_H

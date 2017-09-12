@@ -16,6 +16,6 @@ int main( void )
 
 	while(1)
 	{
-		writeToDisplay( 8765 ); // Writes an integer to the 7 segment displays using multiplexing.
+        writeNumbersToSegmentDisplays( 8765 ); // Writes an integer to the 7 segment displays using multiplexing.
 	}
 }
