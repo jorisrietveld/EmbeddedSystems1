@@ -47,7 +47,7 @@ uint8_t numericSegmentDisplayPatterns[10] = {
         0b10011011, // Numeric character 7
         0b10000000, // Numeric character 8
         0b10010000, // Numeric character 9
-        0b10010000, // Numeric character A
+        0b10001000, // Numeric character A
         0b10010000, // Numeric character B
         0b10010000, // Numeric character C
         0b10010000, // Numeric character D
@@ -66,6 +66,8 @@ int digitsToDisplay[SEG_DISPLAY_COUNT];
  */
 uint8_t segDisplayPrefixMode = SEG7_PREFIX_MODE_ZERO;
 uint8_t segDisplayPrintBaseMode = BASE_DECIMAL;
+
+uint8_t hackState = 0;
 
 /*************************************************************************************************[ Segment manipulation
  * Write an raw byte to the segment ports.
@@ -233,6 +235,32 @@ void writeNumbersToSegmentDisplays( int numberToBeDisplayed )
 }*/
 
 
+void countUp( uint8_t updateInterval )
+{
+	hackState = 0;
+	clearDisplays();
+	clearSegments();
+	uint64_t iterationCounter = 0;
+	
+	while(1)
+	{
+		for(int displayCounter = 0; displayCounter < 4; displayCounter++)
+		{
+			setDisplay( displayCounter );
+			PORTC = numericSegmentDisplayPatterns[hackState%BASE_DECIMAL];
+			delayMicroSeconds(1000);
+			clearDisplays();
+			
+			if(iterationCounter > updateInterval)
+			{
+				hackState++;
+				iterationCounter = 0;
+			}
+			iterationCounter++;
+		}
+	}
+}
+
 /**
  * Write an number to the connected segmented displays.
  * @param numberToBeDisplayed
@@ -246,29 +274,32 @@ void writeNumbersToSegmentDisplays( int numberToBeDisplayed )
     //SEG7_DISPLAY_DISPLAY_PORT = 0xFF;
     //SEG7_DISPLAY_SEGMENT_PORT = 0xFF;
 	//int something = 0;
-	clearDisplays();
-    clearSegments();
 	
-	  for(int displayCounter = 0; displayCounter < 4; displayCounter++)
-	  {
-		  //PORTD = _BV( displayCounter );
-		  setDisplay( displayCounter );
+	clearDisplays();
+	clearSegments();
+	
+	for(int displayCounter = 0; displayCounter < 4; displayCounter++)
+	{
+		//PORTD = _BV( displayCounter );
+		setDisplay( displayCounter );
 		  
-		  //PORTD = ~(1<<displayCounter);
-		  //PORTD = (1 << displayCounter );// Right shift the display index.
-		  //setDisplay( displayCounter );
+		//PORTD = ~(1<<displayCounter);
+		//PORTD = (1 << displayCounter );// Right shift the display index.
+		//setDisplay( displayCounter );
 
-          //setNumericSegmentValue(segDisplayPrintBaseMode);
-		  // = numericSegmentDisplayPatterns[ digitsToDisplay[displayCounter] ];
-		  //setNumericSegmentValue( displayCounter );
+		PORTC = numericSegmentDisplayPatterns[hackState++];// SEG7_DISPLAY_NUMBER_0;
+		// rawSetSegments( SEG7_DISPLAY_NUMBER_0 );
+		//setNumericSegmentValue(segDisplayPrintBaseMode);
+		// = numericSegmentDisplayPatterns[ digitsToDisplay[displayCounter] ];
+		//setNumericSegmentValue( displayCounter );
 		  
-		  //delayMicroSeconds( SEG7_DELAY_SEGMENT_U_SEC );
-		  //delayMilliSeconds(500);
-		  delayMicroSeconds(50);
-          clearDisplays();
-		  //delayMicroSeconds( SEG7_DELAY_SWITCH_DISPLAY_U_SEC );
-		  //numericWriteDisplay( numberToBeDisplayed, displayCounter );
-	  }
+		//delayMicroSeconds( SEG7_DELAY_SEGMENT_U_SEC );
+		//delayMilliSeconds(500);
+		delayMicroSeconds(50);
+		clearDisplays();
+		//delayMicroSeconds( SEG7_DELAY_SWITCH_DISPLAY_U_SEC );
+		//numericWriteDisplay( numberToBeDisplayed, displayCounter );
+	}
 	/*
     for(int displayCounter = 0; displayCounter < SEG_DISPLAY_COUNT; displayCounter++)
     {
