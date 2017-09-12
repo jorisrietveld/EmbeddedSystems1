@@ -17,10 +17,10 @@ but I am currently learning about the bare programming of the micro controllers 
     - [ ] Approved
  - [Practicum 3 - Seven Segment Display](Practicum3_SevenSegmentDisplay/)
     - [x] Started
-    - [ ] Solved 
+    - [x] Solved 
     - [ ] Approved
  - [Practicum 4 - Leds And Interrupts](resouces/Practicum4_LedsAndInterupts/)
-    - [ ] Started
+    - [x] Started
     - [ ] Solved 
     - [ ] Approved
  - [Practicum 5 - Pulse Counter](resouces/Practicum5_PulseCounter/)
