@@ -12,17 +12,10 @@
  */
 int main( void )
 {
-    initiateIO();
+    initiateIO(); // Setup all the required I/O pins.
+
 	while(1)
 	{
-		writeToDisplay( 1000 ); // Writes an 4 digit integer to the 7 segment displays using multiplexing.
-		/*
-		for(int i=0;i<5;i++)
-		{
-			PORTD = ~( 1 << i);
-			PORTC = sevenSegmentDisplayNumbers1[theNumberToDisplay[i]];
-			_delay_us(100);
-			PORTD = ~( 0 << i);
-		}*/
+		writeToDisplay( 8765 ); // Writes an integer to the 7 segment displays using multiplexing.
 	}
 }

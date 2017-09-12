@@ -158,6 +158,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="letsAbuseThePreProcessor.magic">
+      <SubType>compile</SubType>
+    </None>
     <None Include="readme.md">
       <SubType>compile</SubType>
     </None>
