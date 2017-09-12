@@ -9,6 +9,7 @@
 
 #include <avr/io.h>
 #include <inttypes.h>
+#include <avr/pgmspace.h>
 #include "delaySpaceTime.h"
 #include "sevenSegmentDisplay.h"
 

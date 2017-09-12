@@ -1,17 +1,13 @@
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
  * Created: 12-09-2017 03:01
- * Licence: GPLv3 - General Public Licence version 3
+ * License: GPLv3 - General Public License version 3
  */
 
 #ifndef EMBEDDEDSYSTEMS1_SEGMENTDISPLAYPATTERNS_H
 #define EMBEDDEDSYSTEMS1_SEGMENTDISPLAYPATTERNS_H
 
-/**
- * Define an list with binary patterns for switching the individual segments on each
- * 7 segment display block. The values are inversed so an 0 means that the led segment
- * is switched on and 1 means off.
- */
+/********************************************************************************************************************************************[ Start of  Numbers - To base 16 ] */
 #define SEG7_DISPLAY_NUMBER_0 0b10000010 // The bit pattern to show the number 0.
 #define SEG7_DISPLAY_NUMBER_1 0b10111011 // The bit pattern to show the number 1.
 #define SEG7_DISPLAY_NUMBER_2 0b10000101 // The bit pattern to show the number 2.
@@ -22,37 +18,69 @@
 #define SEG7_DISPLAY_NUMBER_7 0b10011011 // The bit pattern to show the number 7.
 #define SEG7_DISPLAY_NUMBER_8 0b10000000 // The bit pattern to show the number 8.
 #define SEG7_DISPLAY_NUMBER_9 0b10010000 // The bit pattern to show the number 9.
+#define SEG7_DISPLAY_NUMBER_10 0b10000001 // The bit pattern to show the number 10 - Represented as lower case a
+#define SEG7_DISPLAY_NUMBER_11 0b11100000 // The bit pattern to show the number 11 - Represented as lower case  b
+#define SEG7_DISPLAY_NUMBER_12 0b11100101 // The bit pattern to show the number 12 - Represented as lower case  c
+#define SEG7_DISPLAY_NUMBER_13 0b10100001 // The bit pattern to show the number 13  - Represented as lower case  d
+#define SEG7_DISPLAY_NUMBER_14 0b11000100 // The bit pattern to show the number 14 - Represented as upper case  E
+#define SEG7_DISPLAY_NUMBER_15 0b11001100 // The bit pattern to show the number 13 - Represented as upper case F
 
-/**
- * Define an list with binary patterns for switching the individual segments on each
- * 7 segment display block. The values are inversed so an 0 means that the led segment
- * is switched on and 1 means off.
- */
-#define SEG7_DISPLAY_CHAR_a 0b10000010 // The bit pattern to show the number a.
-#define SEG7_DISPLAY_CHAR_b 0b10111011 // The bit pattern to show the number b.
-#define SEG7_DISPLAY_CHAR_C 0b10110001 // The bit pattern to show the character C.
 
-#define SEG7_DISPLAY_CHAR_d 0b10010001 // The bit pattern to show the number d.
-#define SEG7_DISPLAY_CHAR_E 0b10111000 // The bit pattern to show the number E.
-#define SEG7_DISPLAY_CHAR_A 0b10001000 // The bit pattern to show the character A..
+/********************************************************************************************************************************************[ Start of  Characters Lower Case ] */
+#define SEG7_DISPLAY_CHAR_A_LOWER 0b10000001 // The bit pattern to show the character lower case A
+#define SEG7_DISPLAY_CHAR_B_LOWER 0b11100000 // The bit pattern to show the character lower case B
+#define SEG7_DISPLAY_CHAR_C_LOWER 0b11100101 // The bit pattern to show the character lower case C 
+#define SEG7_DISPLAY_CHAR_D_LOWER 0b10100001 // The bit pattern to show the character lower case D
+// E lower does not exist
+// F lower does not exist
+// G lower does not exist
+#define SEG7_DISPLAY_CHAR_H_LOWER_ALT 0b11001000 // The bit pattern to show the character lower case H with an roof
+#define SEG7_DISPLAY_CHAR_H_LOWER 0b11101000 // The bit pattern to show the character lower case H
+// i lower does not exist
+#define SEG7_DISPLAY_CHAR_J_LOWER 0b11110011 // The bit pattern to show the character lower case J
+// K lower does not exist
+#define SEG7_DISPLAY_CHAR_L_LOWER 0b11100111 // The bit pattern to show the character lower case L
+// M lower does not exist
+#define SEG7_DISPLAY_CHAR_N_LOWER 0b11101001 // The bit pattern to show the character lower case N
+#define SEG7_DISPLAY_CHAR_O_LOWER 0b11100001 // The bit pattern to show the character lower case O
+// P lower does not exist
+// Q lower does not exist
+// R  lower does not exist
+// S  lower does not exist
+// T  lower does not exist
+#define SEG7_DISPLAY_CHAR_U_LOWER 0b11100011 // The bit pattern to show the character lower case U
+// V  lower does not exist
+// W  lower does not exist
+// X  lower does not exist
+// Y  lower does not exist
+// Z  lower does not exist
+/********************************************************************************************************************************************[ End of  Characters Lower Case ] */
 
-#define SEG7_DISPLAY_CHAR_D 0b11000010 // The bit pattern to show the character d.
-#define SEG7_DISPLAY_CHAR_F 0b10111000 // The bit pattern to show the character F.
-#define SEG7_DISPLAY_CHAR_G 0b10100001 // The bit pattern to show the character G.
-#define SEG7_DISPLAY_CHAR_H 0b11001000 // The bit pattern to show the character H.
-#define SEG7_DISPLAY_CHAR_I 0b1 // The bit pattern to show the character I.
-#define SEG7_DISPLAY_CHAR_J 0b11000011 // The bit pattern to show the character J.
-#define SEG7_DISPLAY_CHAR_L 0b1 // The bit pattern to show the character L.
-#define SEG7_DISPLAY_CHAR_N 0b1 // The bit pattern to show the character N.
-#define SEG7_DISPLAY_CHAR_O 0b1 // The bit pattern to show the character O lowercase o otherwise it would look like an 0.
-#define SEG7_DISPLAY_CHAR_P 0b1 // The bit pattern to show the character P.
-#define SEG7_DISPLAY_CHAR_R 0b1 // The bit pattern to show the character R.
-#define SEG7_DISPLAY_CHAR_S 0b1 // The bit pattern to show the character S.
-#define SEG7_DISPLAY_CHAR_U 0b1 // The bit pattern to show the character U lowercase u otherwise it would look like an V.
-#define SEG7_DISPLAY_CHAR_V 0b1 // The bit pattern to show the character V.
-#define SEG7_DISPLAY_CHAR_X 0b1 // The bit pattern to show the character X.
-#define SEG7_DISPLAY_CHAR_Y 0b1 // The bit pattern to show the character Y.
-#define SEG7_DISPLAY_CHAR_Z 0b1 // The bit pattern to show the character Z.
+#define SEG7_DISPLAY_CHAR_A_UPPER 0b10001000 // The bit pattern to show the character upper case A
+// B lower does not exist
+#define SEG7_DISPLAY_CHAR_C_UPPER 0b11000110 // The bit pattern to show the character upper case C
+// D lower does not exist
+#define SEG7_DISPLAY_CHAR_E_UPPER 0b11000100 // The bit pattern to show the character upper case E -
+#define SEG7_DISPLAY_CHAR_F_UPPER 0b11001100 // The bit pattern to show the character upper case F
+#define SEG7_DISPLAY_CHAR_G_UPPER 0b11000010 // The bit pattern to show the character upper case G
+
+
+#define SEG7_DISPLAY_CHAR_O_UPPER 0b10000010 // The bit pattern to show the character upper case 0
+#define SEG7_DISPLAY_CHAR_P_UPPER 0b10001100 // The bit pattern to show the character upper case P
+#define SEG7_DISPLAY_CHAR_J_UPPER 0b10100011 // The bit pattern to show the character upper case J
+#define SEG7_DISPLAY_CHAR_S_UPPER 0b11010000 // The bit pattern to show the character upper case S
+#define SEG7_DISPLAY_CHAR_L_UPPER 0b11100110 // The bit pattern to show the character upper case L
+#define SEG7_DISPLAY_CHAR_U_UPPER 0b10100010 // The bit pattern to show the character upper case U
+
+#define SEG7_DISPLAY_CHAR_X_UPPER 0b10001000 // The bit pattern to show the character upper case A
+
+#define SEG7_DISPLAY_CHAR_ROTATE_180_A_UPPER 0b10001000 // The bit pattern to show the character upper case A
+#define SEG7_DISPLAY_CHAR_ROTATE_180_P_UPPER 0b10100001
+
+#define SEG7_DISPLAY_CHAR_ROTATE_180_Y 0b11001000 // The bit pattern to show the character y upside down 
+#define SEG7_DISPLAY_CHAR_ROTATE_180_F 0b10110001 // The bit pattern to show the character F upside down 
+
+#define SEG7_DISPLAY_BLOCK_BRACKET_LEFT 0b11000110 // The bit pattern to show the character G. checked [ V ]
 
 /**
  * Define the available prefixing modes for printing data to the segment display.
