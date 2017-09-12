@@ -1,7 +1,7 @@
 /**
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
  * Created: 10-09-2017 15:35
- * Licence: GPLv3 - General Public Licence version 3
+ * License: GPLv3 - General Public License version 3
  */
 #include "sevenSegmentDisplay.h"
 
@@ -78,33 +78,13 @@ void rawSetSegments( uint8_t byte )
 }
 
 /**
- * Set an single bit to an specific position of the segment display port.
- *
- * @param bit The bit that will be set true.
- */
-void setSegmentDisplayBit( uint8_t bit )
-{
-    SEG7_DISPLAY_SEGMENT_PORT |= (1 << bit);
-}
-
-/**
- * Unset an single bit to an specific position of the segment display port.
- *
- * @param bit The bit that
- */
-void unsetSegmentDisplayBit( uint8_t bit )
-{
-    SEG7_DISPLAY_SEGMENT_PORT |= (0 << bit);
-}
-
-/**
  * Set an bit pattern to any display that is currently turned on.
  *
- * @param number The number to be displayed on the display{s}
+ * @param numericIndexValue The number to be displayed on the display{s}
  */
-void setNumericSegmentValue( int numericValueIndex )
+void setNumericSegmentValue( uint8_t numericIndexValue )
 {
-    SEG7_DISPLAY_SEGMENT_PORT = numericSegmentDisplayPatterns[numericValueIndex];
+    SEG7_DISPLAY_SEGMENT_PORT = numericSegmentDisplayPatterns[numericIndexValue];
 }
 
 /**
@@ -112,7 +92,7 @@ void setNumericSegmentValue( int numericValueIndex )
  */
 void clearSegments()
 {
-    SEG7_DISPLAY_SEGMENT_PORT = 0x00;
+    SEG7_DISPLAY_SEGMENT_PORT = 0xFF; // Enable pull up resistor.
 }
 
 /*************************************************************************************************[ Display manipulation
@@ -149,7 +129,7 @@ void unSetDisplay( int displayIndex )
  */
 void clearDisplays()
 {
-    SEG7_DISPLAY_DISPLAY_PORT = 0xFF;
+    SEG7_DISPLAY_DISPLAY_PORT = 0xFF; // Enable pull up resistor.
 }
 
 /*********************************************************************************[ Simple segment display manipulation
@@ -179,7 +159,7 @@ void rawWriteDisplay( uint8_t segmentByte, uint8_t displayByte )
 }
 
 /**
- * Write an numeric value to an segment certain display.
+ * Write an numeric value to an certain segment display.
  *
  * @param segmentByte The byte for for the segment port.
  * @param displayByte The byte for the display port.
@@ -188,7 +168,7 @@ void numericWriteDisplay( uint8_t numericIndex, uint8_t displayIndex )
 {
     clearSegmentDisplays();
     setDisplay( displayIndex );
-    setNumericSegmentValue( numericIndex );
+    setNumericSegmentValue( ~SEG7_DISPLAY_NUMBER_0 );
     delayMicroSeconds( SEG7_DELAY_SEGMENT_U_SEC );
 
     clearSegmentDisplays();
@@ -266,23 +246,26 @@ void writeNumbersToSegmentDisplays( int numberToBeDisplayed )
     //SEG7_DISPLAY_DISPLAY_PORT = 0xFF;
     //SEG7_DISPLAY_SEGMENT_PORT = 0xFF;
 	//int something = 0;
-	PORTC = 0xFF;
-	PORTD = 0xFF;
+	clearDisplays();
+    clearSegments();
 	
 	  for(int displayCounter = 0; displayCounter < 4; displayCounter++)
 	  {
 		  //PORTD = _BV( displayCounter );
-		  PORTD = ~(1<<displayCounter);
+		  setDisplay( displayCounter );
+		  
+		  //PORTD = ~(1<<displayCounter);
 		  //PORTD = (1 << displayCounter );// Right shift the display index.
 		  //setDisplay( displayCounter );
 
-		  PORTC = SEG7_DISPLAY_NUMBER_3;
+          //setNumericSegmentValue(segDisplayPrintBaseMode);
 		  // = numericSegmentDisplayPatterns[ digitsToDisplay[displayCounter] ];
 		  //setNumericSegmentValue( displayCounter );
 		  
 		  //delayMicroSeconds( SEG7_DELAY_SEGMENT_U_SEC );
-		  delayMilliSeconds(500);
-		  PORTD = 0xFF;
+		  //delayMilliSeconds(500);
+		  delayMicroSeconds(50);
+          clearDisplays();
 		  //delayMicroSeconds( SEG7_DELAY_SWITCH_DISPLAY_U_SEC );
 		  //numericWriteDisplay( numberToBeDisplayed, displayCounter );
 	  }

@@ -17,20 +17,10 @@
  */
 void rawSetSegments( uint8_t byte );
 
-/** Set an single bit to an specific position of the segment display port.
- * @param bit The bit that will be set true.
- */
-void setSegmentDisplayBit( uint8_t bit );
-
-/** Unset an single bit to an specific position of the segment display port.
- * @param bit The bit that
- */
-void unsetSegmentDisplayBit( uint8_t bit );
-
 /** Set an bit pattern to any display that is currently turned on.
  * @param number The number to be displayed on the display{s}
  */
-void setNumericSegmentValue( int numericValueIndex );
+void setNumericSegmentValue( uint8_t numericValueIndex );
 
 /** Clear all bit patterns that are currently being displayed on the display(s).
  */
@@ -77,22 +67,12 @@ void numericWriteDisplay( uint8_t numericIndex, uint8_t displayIndex );
  */
 void numberToDigitArray( int number, uint8_t base );
 
-/**********************************************************************************************************************
- *  Simple segment display printing and configuration functions.  *
- *  ------------------------------------------------------------  *
- *  Use the functions below for simply printing characters or
- *  numbers to the segment displays. If your doing something more
- *  advanced like animating, scrolling, sliding or something like that
- *  you can better use the functions above because, they give you
- *  greater control over the program.
- **/
-
 /** Set the number base for printing on the segment displays.
  * @param numberBase The base like: BASE_DECIMAL, BASE_HEXADECIMAL or BASE_OCTAL
  */
 void setSegDisplayPrintBaseMode( uint8_t numberBase );
 
-/** Set the prefix mode for printing on the segment displays. Modes are difined in "./SegmentDisplayPatterns.h"
+/** Set the prefix mode for printing on the segment displays. Modes are defined in "./SegmentDisplayPatterns.h"
  * @param numberPrefixing The prefix to use when printing like: SEG7_PREFIX_MODE_ZERO = 0018 with leading zeros or
  * SEG7_PREFIX_MODE_HEX = 0xFF with the 0x notation.
  */
