@@ -6,6 +6,30 @@
 #ifndef GCCAPPLICATION3_SEVENSEGMENTDISPLAY_H
 #define GCCAPPLICATION3_SEVENSEGMENTDISPLAY_H
 
+// Use these to activate an specific number prefixing mode on the displays.
+#define SEG7_PREFIX_MODE_OFF 0 // Turn off displays that are not used to show data.
+#define SEG7_PREFIX_MODE_ZERO 1 // Prefix with zero's (default)
+#define SEG7_PREFIX_MODE_HEX 3 // Hexadecimal prefix 0x
+#define SEG7_PREFIX_MODE_BIN 5 // Binary prefix 0b
+#define SEG7_PREFIX_MODE_MINUS 6 // Pre append with negative prefix -
+#define SEG7_PREFIX_MODE_NOT 7 // Pre append with  negation character ¬
+#define SEG7_PREFIX_MODE_EQUALS 8 // Pre append with equals sign =
+
+// Aliases for commonly used base's from number systems.
+#define BASE_VIGESIMAL 20
+#define BASE_HEXADECIMAL 16
+#define BASE_DUODECIMAL 12
+#define BASE_UNDECIMAL 11
+#define BASE_DECIMAL 10
+#define BASE_NONARY 9
+#define BASE_OCTAL 8
+#define BASE_SEPTENARY 7
+#define BASE_SENARY 6
+#define BASE_QUINARY 5
+#define BASE_QUATERNARY 4
+#define BASE_TERNARY 3
+#define BASE_BINARY 1
+
 /** Clears all data both the segment ports and the display ports.
  */
 void clearSegmentDisplays();

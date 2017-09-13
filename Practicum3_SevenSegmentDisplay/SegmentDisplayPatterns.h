@@ -82,53 +82,6 @@
 
 #define SEG7_DISPLAY_BLOCK_BRACKET_LEFT 0b11000110 // The bit pattern to show the character G. checked [ V ]
 
-/**
- * Define the available prefixing modes for printing data to the segment display.
- *
- * You can set the prefixing mode by calling setSegDisplayPrefixMode( prefixingModeConstant );
- * defined in the ./sevenSegmentDisplay header.
- */
-#define SEG7_PREFIX_MODE_OFF 0
-#define SEG7_PREFIX_MODE_ZERO 1
-#define SEG7_PREFIX_MODE_HEX_UPPER 2
-#define SEG7_PREFIX_MODE_HEX 3
-#define SEG7_PREFIX_MODE_BIN_UPPER 4
-#define SEG7_PREFIX_MODE_BIN 5
-#define SEG7_PREFIX_MODE_MINUS 6
-#define SEG7_PREFIX_MODE_NOT 7
-#define SEG7_PREFIX_MODE_EQUALS 8
-#define SEG7_PREFIX_MODE_DOTS 9
 
-/**
- * Define setting constants for configuring the text alignment on the segment displays.
- *
- * You can set the text alignment of the segment displays by calling the setSegDisplayAlignmentMode( textAlignConstant );
- * defined in the ./sevenSegmentDisplay header.
- */
-#define SEG7_PRINT_ALIGN_LEFT 1
-#define SEG7_PRINT_ALIGN_RIGHT 2
-#define SEG7_PRINT_ALIGN_CENTER 3
-
-/**
- * Define aliases for commonly used base's from number systems.
- *
- * These constants can be used as argument in the following functions:
- * setSegDisplayPrintBaseMode( baseConstant );
- * void numberToDigitArray( baseConstant );
- * defined in the ./sevenSegmentDisplay header. If not set it will usually take decimal as default.
- */
-#define BASE_VIGESIMAL 20
-#define BASE_HEXADECIMAL 16
-#define BASE_DUODECIMAL 12
-#define BASE_UNDECIMAL 11
-#define BASE_DECIMAL 10
-#define BASE_NONARY 9
-#define BASE_OCTAL 8
-#define BASE_SEPTENARY 7
-#define BASE_SENARY 6
-#define BASE_QUINARY 5
-#define BASE_QUATERNARY 4
-#define BASE_TERNARY 3
-#define BASE_BINARY 1
 
 #endif //EMBEDDEDSYSTEMS1_SEGMENTDISPLAYPATTERNS_H

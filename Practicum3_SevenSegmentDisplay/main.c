@@ -21,7 +21,7 @@ int main( void )
 	{
         //writeNumbersToSegmentDisplays( 8765 ); // Writes an integer to the 7 segment displays using multiplexing.
 		//writeNumbersToSegmentDisplays(numberToDisplay);
-
+		setPrintNumberBaseMode( BASE)
 		countUp(100);
 		//writeNumbersToSegmentDisplays(10);
 		
