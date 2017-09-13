@@ -47,12 +47,12 @@ uint8_t numericSegmentDisplayPatterns[16] = {
         SEG7_DISPLAY_NUMBER_7, // Numeric character 7
         SEG7_DISPLAY_NUMBER_8, // Numeric character 8
         SEG7_DISPLAY_NUMBER_9, // Numeric character 9
-        0b10010111, // Numeric character A
-        0b10010000, // Numeric character B
-        0b10010000, // Numeric character C
-        0b10010000, // Numeric character D
-        0b10010000, // Numeric character E
-        0b10010000, // Numeric character F
+        SEG7_DISPLAY_NUMBER_10, // Numeric character A
+        SEG7_DISPLAY_NUMBER_11, // Numeric character B
+        SEG7_DISPLAY_NUMBER_12, // Numeric character C
+        SEG7_DISPLAY_NUMBER_13, // Numeric character D
+        SEG7_DISPLAY_NUMBER_14, // Numeric character E
+        SEG7_DISPLAY_NUMBER_15, // Numeric character F
 };
 
 /**
@@ -74,7 +74,7 @@ uint8_t hackState = 0;
 /*************************************************************************************************[ Segment manipulation
  * Write an raw byte to the segment ports.
  *
- * @param byte The byte that wil be written to the segment port.
+ * @param byte The byte that will be written to the segment port.
  */
 void rawSetSegments( uint8_t byte )
 {
@@ -218,22 +218,32 @@ void setSegDisplayPrefixMode( uint8_t numberPrefixing )
 /**
  * Write an number to the connected segmented displays.
  * @param numberToBeDisplayed
- *//*
+ */
 void writeNumbersToSegmentDisplays( int numberToBeDisplayed )
 {
-    intToDigitArray( numberToDisplay ); // Split the integer passed into an array containing digits that will get passed to each display.
-    clearSegmentDisplays();
+	// Split the integer passed into an array containing digits that will get passed to each display.
+    numberToDigitArray( numberToBeDisplayed, segDisplayPrintBaseMode ); 
+	
+	// Reset all values on the displays and segments, pull everything up.
+	clearDisplays();
+	clearSegments();
 
+	// The multiplexing loop that iterates over the displays from right to left and shows an number on each of them.
+	/**
+	 *
+	 */
     for(int displayCounter = 0; displayCounter < SEG_DISPLAY_COUNT; displayCounter++)
     {
-        setDisplay( displayCounter ); // Set the correct seven segment display to high so we can write segments to it.
-
-        setDecimalSegmentDisplayByte( digitsToDisplay[ displayCounter ] ); // Write segments to all displays that are currently high.
-        delayMicroSeconds(SEG_DISPLAY_REFRESH_U_SEC); // Let the display show the segments for a few micro seconds before moving to the next.
-
-        unSetDisplay( displayCounter ); // Unset the display bit so it is low again.
+		// Set the correct display to high so we can write segments to it.
+        setDisplay( displayCounter ); 
+		
+		// Get the value for the current  display from the digitToDisplay array and write the segments.
+		setNumericSegmentValue( digitsToDisplay[ displayCounter ] ); 
+		
+		// Now wait for a few micro seconds so the user perceives 
+		
     }
-}*/
+}
 
 
 void countUp( uint8_t updateInterval )
@@ -247,7 +257,8 @@ void countUp( uint8_t updateInterval )
         // Screen multiplexing method.
         for ( int displayCounter = 0; displayCounter < 4; displayCounter++ ) {
             setDisplay( displayCounter );
-            rawSetSegments( numericSegmentDisplayPatterns[ hackState % BASE_UNDECIMAL ] );
+			
+            rawSetSegments( numericSegmentDisplayPatterns[ hackState % BASE_HEXADECIMAL ] );
             delayMicroSeconds( 1000 );
             clearDisplays();
 

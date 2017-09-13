@@ -13,10 +13,12 @@
 int main( void )
 {
     initiateIO(); // Setup all the required I/O pins.
-
+	
 	while(1)
 	{
         //writeNumbersToSegmentDisplays( 8765 ); // Writes an integer to the 7 segment displays using multiplexing.
-		countUp(1000);
+		//writeNumbersToSegmentDisplays(numberToDisplay);
+		countUp( 1000 );
+		
 	}
 }
