@@ -7,6 +7,9 @@
 #include "initiateIO.h"
 #include "sevenSegmentDisplay.h"
 
+#define SEG7_DISPLAY_DISPLAY_PORT PORTD // I/O config for the segment display.
+#define SEG7_DISPLAY_SEGMENT_PORT PORTC // I/O config for the segment display.
+
 /**
  * The entry point of the program.
  */
@@ -19,8 +22,8 @@ int main( void )
         //writeNumbersToSegmentDisplays( 8765 ); // Writes an integer to the 7 segment displays using multiplexing.
 		//writeNumbersToSegmentDisplays(numberToDisplay);
 
-
-		writeNumbersToSegmentDisplays(10);
+		countUp(100);
+		//writeNumbersToSegmentDisplays(10);
 		
 	}
 }

@@ -3,16 +3,14 @@
  * Created: 10-09-2017 15:35
  * License: GPLv3 - General Public License version 3
  */
-#include <avr/io.h>
-#include <avr/pgmspace.h>
-#include "delaySpaceTime.h"
-#include "SegmentDisplayPatterns.h"
+#include <avr/io.h> // Import to use its I/O configuration macros.
+#include "delaySpaceTime.h" // Import to time programs with an delay, should be replaced by an proper timer.
+#include "SegmentDisplayPatterns.h" // Import character to segment encoding mapping.
 
+// Implement the seven segment interface.
 #include "sevenSegmentDisplay.h"
 
-/**
- * Forward declare private functions in this file to avoid conflicts.
- */
+//Forward declare private functions in this file to avoid conflicts.
 void rawSetSegments( uint8_t byte );
 void setNumericSegmentValue( uint8_t numericValueIndex );
 void clearSegments();
@@ -27,23 +25,18 @@ void numberToDigitArray( int number, uint8_t base );
 #ifndef SEG7_DISPLAY_COUNT // Set the amount of segment displays that are connected.
     #define SEG_DISPLAY_COUNT 4 // Default for the expansion circuit.
 #endif
-
 #ifndef SEG7_DELAY_SEGMENT_U_SEC // The amount of time to show the segments when multiplexing.
     #define SEG7_DELAY_SEGMENT_U_SEC 10
 #endif
-
 #ifndef SEG7_DELAY_SWITCH_DISPLAY_U_SEC // The amount of time to
     #define SEG7_DELAY_SWITCH_DISPLAY_U_SEC 0 // If not set it to 1 microseconds.
 #endif
-
 #ifndef SEG7_REFRESH_U_SEC // Make sure the seven segment display refresh rate is defined.
     #define SEG7_REFRESH_U_SEC 1 // If not set it to 1 microseconds.
 #endif
-
 #ifndef SEG7_DISPLAY_DISPLAY_PORT // Make sure the seven segment display row pins are defined.
     #define SEG7_DISPLAY_DISPLAY_PORT PORTD // If not set to the D output pins.
 #endif
-
 #ifndef SEG7_DISPLAY_SEGMENT_PORT // Make sure the seven segment display column pins are defined.
     #define SEG7_DISPLAY_SEGMENT_PORT PORTC // If not set to the C output pins.
 #endif
@@ -103,7 +96,8 @@ void setNumericSegmentValue( uint8_t numericIndexValue )
  */
 void setStoredDigitSegments( uint8_t digitsIndex )
 {
-    SEG7_DISPLAY_SEGMENT_PORT = encodedNumbers[ digitsToDisplay[ digitsIndex ] % printNumberBaseMode ];
+    SEG7_DISPLAY_SEGMENT_PORT = encodedNumbers[ digitsToDisplay[digitsIndex] ];
+    //SEG7_DISPLAY_SEGMENT_PORT = encodedNumbers[ digitsToDisplay[ digitsIndex ] % printNumberBaseMode ];
 }
 
 /**
@@ -243,7 +237,7 @@ void writeNumbersToSegmentDisplays( int numberToBeDisplayed )
  * Count up with an certain interval.
  * @param updateInterval The time it displays an value on the displays.
  */
-void countUp( uint8_t updateInterval )
+void countUp( uint16_t updateInterval )
 {
     clearSegmentDisplays();
     uint16_t numberCounter = 0; // Used to track what value to print.
@@ -253,7 +247,7 @@ void countUp( uint8_t updateInterval )
         // Use multiplexing to print data to the displays.
         for ( int activeDisplay = 0; activeDisplay < 4; activeDisplay++ ) {
             setDisplay( activeDisplay ); // Activate the display.
-            setStoredDigitSegments( digitsToDisplay[ activeDisplay ] );
+            setStoredDigitSegments( activeDisplay );
             delayMicroSeconds( 1000 );
             clearDisplays();
 

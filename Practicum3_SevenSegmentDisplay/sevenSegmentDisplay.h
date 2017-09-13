@@ -41,6 +41,6 @@ void writeNumbersToSegmentDisplays( int numberToBeDisplayed );
 /** Count up with an certain interval.
  * @param updateInterval The time it displays an value on the displays.
  */
-void countUp( uint8_t updateInterval );
+void countUp( uint16_t updateInterval );
 
 #endif //GCCAPPLICATION3_SEVENSEGMENTDISPLAY_H
