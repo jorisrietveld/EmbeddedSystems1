@@ -18,7 +18,9 @@ int main( void )
 	{
         //writeNumbersToSegmentDisplays( 8765 ); // Writes an integer to the 7 segment displays using multiplexing.
 		//writeNumbersToSegmentDisplays(numberToDisplay);
-		countUp( 1000 );
+
+
+		writeNumbersToSegmentDisplays(10);
 		
 	}
 }
