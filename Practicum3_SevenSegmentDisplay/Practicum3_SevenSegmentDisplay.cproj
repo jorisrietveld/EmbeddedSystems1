@@ -38,7 +38,7 @@
         </dependencies>
       </framework-data>
     </AsfFrameworkConfig>
-    <avrtool>com.atmel.avrdbg.tool.stk500</avrtool>
+    <avrtool>com.atmel.avrdbg.tool.simulator</avrtool>
     <avrtoolserialnumber />
     <avrdeviceexpectedsignature>0x1E9502</avrdeviceexpectedsignature>
     <com_atmel_avrdbg_tool_stk500>
@@ -53,7 +53,8 @@
       </ToolNumber>
       <ToolName>STK500</ToolName>
     </com_atmel_avrdbg_tool_stk500>
-    <avrtoolinterface>ISP</avrtoolinterface>
+    <avrtoolinterface>
+    </avrtoolinterface>
     <avrtoolinterfaceclock>125000</avrtoolinterfaceclock>
     <AAFDebugger>
       <AAFDebugFiles xmlns="">
@@ -162,28 +163,22 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="delaySpaceTime.c">
+    <Compile Include="Helpers.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="delaySpaceTime.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="initiateIO.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="initiateIO.h">
+    <Compile Include="Helpers.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SegmentDisplayPatterns.h">
+    <Compile Include="SegDisplay.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="sevenSegmentDisplay.c">
+    <Compile Include="SegDisplay.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="sevenSegmentDisplay.h">
+    <Compile Include="SegDisplayEncoding.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

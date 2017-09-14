@@ -3,11 +3,10 @@
  * Created: 10-09-2017 06:32
  * Licence: GPLv3 - General Public Licence version 3
  */
+#include "Helpers.h" // Imported for some basic setup and helpful macros.
+#include "SegDisplay.h" // Imported to make use of an 7 segment display.
 
-#include "initiateIO.h"
-#include "sevenSegmentDisplay.h"
-
-#define SEG7_DISPLAY_DISPLAY_PORT PORTD // I/O config for the segment display.
+#define SEG7_DISPLAY_DISPLAY_PORT PORTB // I/O config for the segment display.
 #define SEG7_DISPLAY_SEGMENT_PORT PORTC // I/O config for the segment display.
 
 /**
@@ -15,15 +14,14 @@
  */
 int main( void )
 {
-    initiateIO(); // Setup all the required I/O pins.
-	
-	while(1)
-	{
-        //writeNumbersToSegmentDisplays( 8765 ); // Writes an integer to the 7 segment displays using multiplexing.
-		//writeNumbersToSegmentDisplays(numberToDisplay);
-		setPrintNumberBaseMode( BASE)
-		countUp(100);
-		//writeNumbersToSegmentDisplays(10);
-		
+	// Configure the data direction registers;
+    DDRB = 0xff;
+	DDRC = 0xff;
+	DDRD = 0x00;
+	PORTD = 0xFF; // Enable pull-up resistors for the inputs.
+
+	while(1){
+		setPrintNumberBaseMode( BASE_HEXADECIMAL );
+		countUp( 200 );
 	}
 }

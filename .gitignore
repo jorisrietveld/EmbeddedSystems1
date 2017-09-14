@@ -17,3 +17,5 @@ resouces/Practicum7_Tachometer/
 .pioenvs
 .piolibdeps
 CMakeListsPrivate.txt
+
+AssemblerLedBlink/Debug/
