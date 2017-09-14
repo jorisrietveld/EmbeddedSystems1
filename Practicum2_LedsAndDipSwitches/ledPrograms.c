@@ -58,7 +58,7 @@ void ledScanLeft(uint8_t delay, uint8_t times )
 void ledExpand(uint8_t delay)
 {
 	PORTC = 0xff;
-    const prog_uint8_t pattern[9] = { // The bitPattern to write, saved on the PROGMEM to save RAM.
+    uint8_t pattern[9] = { // The bitPattern to write, saved on the PROGMEM to save RAM.
 		0b11111111,
 		0b11100111,
 		0b11000011,
@@ -272,8 +272,8 @@ void blinkCharacter(int delay)
 
 void blinkSOS()
 {
-    uint8_t morseCodeS =  300;
-    uint8_t morseCodeO = 800;
+    uint16_t morseCodeS =  300;
+    uint16_t morseCodeO = 800;
 
     for (int x = 1; x <= 3; x++)
     {
@@ -288,10 +288,11 @@ void blinkSOS()
     }
 
     delayMilliSeconds(100);
+	
     for (int x = 1; x <= 3; x++)
     {
         blinkCharacter(morseCodeS);
     }
-    delay(2000);
-}
+	
+    delayMilliSeconds(2000);
 }
