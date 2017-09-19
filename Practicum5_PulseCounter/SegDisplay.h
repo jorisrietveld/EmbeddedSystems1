@@ -6,6 +6,10 @@
 #ifndef GCCAPPLICATION3_SEVENSEGMENTDISPLAY_H
 #define GCCAPPLICATION3_SEVENSEGMENTDISPLAY_H
 
+#ifndef F_CPU // Setup the clock speed so we delay loops work correct.
+#define F_CPU 16000000UL // 16 MHz clock speed
+#endif
+
 // Use these to activate an specific number prefixing mode on the displays.
 #define SEG7_PREFIX_MODE_OFF 0 // Turn off displays that are not used to show data.
 #define SEG7_PREFIX_MODE_ZERO 1 // Prefix with zero's (default)
@@ -14,15 +18,6 @@
 #define SEG7_PREFIX_MODE_MINUS 6 // Pre append with negative prefix -
 #define SEG7_PREFIX_MODE_NOT 7 // Pre append with  negation character ¬
 #define SEG7_PREFIX_MODE_EQUALS 8 // Pre append with equals sign =
-
-#ifndef SEG7_DISPLAY_DISPLAY_PORT // Make sure the seven segment display row pins are defined.
-	#warning "No output port for the displays defined, fall back on default A ports"
-	#define SEG7_DISPLAY_DISPLAY_PORT PORTA // If not set to the A output pins.
-#endif
-#ifndef SEG7_DISPLAY_SEGMENT_PORT // Make sure the seven segment display column pins are defined.
-	#warning "No output port for display segments defined, fall back on default C ports"
-	#define SEG7_DISPLAY_SEGMENT_PORT PORTC // If not set to the C output pins.
-#endif
 
 /** Clears all data both the segment ports and the display ports.
  */

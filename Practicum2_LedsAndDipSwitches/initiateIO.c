@@ -3,6 +3,7 @@
  * Created: 09-09-2017 04:35
  * Licence: GPLv3 - General Public Licence version 3
  */
+
 #include "initiateIO.h"
 
 /**
@@ -20,11 +21,9 @@ void initiateIO(void)
     DDRC |= (1<<PC0); // Set port C8 to for output;
 
     DDRD &= ~(1<<7); 	//Set Pin D1 for input
-    // 10000000
     PORTD |= (1<<7); //Set internal pull-up resistor (after setting pin for input)
 
     DDRD &= ~(1<<6); 	//Set Pin D2 for input
-    //
     PORTD |= (1<<6); //Set internal pull-up resistor (after setting pin for input)
 
     DDRD &= ~(1<<5); 	//Set Pin D3 for input

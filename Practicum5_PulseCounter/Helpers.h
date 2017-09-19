@@ -14,8 +14,14 @@
 #include <avr/io.h> // Import to use the I/O macros that define the port addresses.
 #include <util/delay.h> // Import to delay the program execution.
 
-#define SEG7_DISPLAY_DISPLAY_PORT PORTA // If not set to the A output pins.
-#define SEG7_DISPLAY_SEGMENT_PORT PORTC // If not set to the C output pins.
+// Unorthodox way of specifying functions or variables that are only accessible in a module.
+#ifndef private
+    #define private static
+#endif
+
+#define SEG7_DISPLAY_DISPLAY_PORT PORTA // I/O config for the segment display.
+#define SEG7_DISPLAY_SEGMENT_PORT PORTC // I/O config for the segment display.
+#define SWITCH_PORTS PORTD;
 
 #define ARRAY_LENGTH( x )  (sizeof(x) / sizeof((x)[0])) // Get array length: array.size / array.element.size = array.length
 

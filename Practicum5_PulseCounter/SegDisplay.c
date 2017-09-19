@@ -3,13 +3,30 @@
  * Created: 10-09-2017 15:35
  * License: GPLv3 - General Public License version 3
  */
+#ifndef F_CPU // Setup the clock speed so we delay loops work correct.
+#define F_CPU 16000000UL // 16 MHz clock speed
+#endif
+
+#include <avr/io.h> // Import to use its I/O configuration macros.
+#include <util/delay.h> // Import macros for delaying the execution of an program.
+
 #include "Helpers.h" // Import some helper functions, macros and constants.
 #include "SegDisplayEncoding.h" // Import character to segment encoding mapping.
 
-#include "SegDisplay.h" // Implement the seven segment interface.
+// Implement the seven segment interface.
+#include "SegDisplay.h"
+
+#ifndef SEG7_DISPLAY_DISPLAY_PORT // Make sure the seven segment display row pins are defined.
+    #warning "No output port for the displays defined, fall back on default D ports"
+    #define SEG7_DISPLAY_DISPLAY_PORT PORTA // If not set to the D output pins.
+#endif
+#ifndef SEG7_DISPLAY_SEGMENT_PORT // Make sure the seven segment display column pins are defined.
+    #warning "No output port for display segments defined, fall back on default C ports"
+    #define SEG7_DISPLAY_SEGMENT_PORT PORTC // If not set to the C output pins.
+#endif
 
 #ifndef SEG7_DELAY_SEGMENT_U_SEC // The amount of time to show the segments when multiplexing.
-    #define SEG7_DELAY_SEGMENT_U_SEC 100
+    #define SEG7_DELAY_SEGMENT_U_SEC 1000
 #endif
 #ifndef SEG7_DELAY_SWITCH_DISPLAY_U_SEC // The amount of time to
     #define SEG7_DELAY_SWITCH_DISPLAY_U_SEC 0 // If not set it to 1 microseconds.
@@ -45,27 +62,27 @@ static uint8_t encodedNumbers[16] = {
 };
 
 //This array stores the unencoded individual digits of the data to be printed on the 7 segment display.
-static int digitsToDisplay[SEG_DISPLAY_COUNT];
+private int digitsToDisplay[SEG_DISPLAY_COUNT] = {255,255,255,255};
 // Settings that affect how the numbers get prefixed on the 7 segment display.
-static uint8_t printNumberPrefixMode = SEG7_PREFIX_MODE_ZERO;
+private uint8_t printNumberPrefixMode = SEG7_PREFIX_MODE_ZERO;
 // Setting that defines what number base to display on the 7 segment display.
-static uint8_t printNumberBaseMode = BASE_DECIMAL;
+private uint8_t printNumberBaseMode = BASE_DECIMAL;
 
 //Forward declare private functions.
-static void rawSetSegments( uint8_t byte );
-static void setNumericSegmentValue( uint8_t numericValueIndex );
-static void clearSegments();
-static void rawSetDisplays( uint8_t byte );
-static void setDisplay( int displayIndex );
-static void unSetDisplay( int number );
-static void clearDisplays();
-static void numberToDigitArray( int number, uint8_t base );
+private void rawSetSegments( uint8_t byte );
+private void setNumericSegmentValue( uint8_t numericValueIndex );
+private void clearSegments();
+private void rawSetDisplays( uint8_t byte );
+private void setDisplay( int displayIndex );
+private void unSetDisplay( int number );
+private void clearDisplays();
+private void numberToDigitArray( int number, uint8_t base );
 
 /*************************************************************************************************[ Segment manipulation
  * Write an raw byte to the segment ports.
  * @param byte The byte that will be written to the segment port.
  */
-static void rawSetSegments( uint8_t byte )
+void rawSetSegments( uint8_t byte )
 {
     SEG7_DISPLAY_SEGMENT_PORT = byte;
 }
@@ -74,7 +91,7 @@ static void rawSetSegments( uint8_t byte )
  * Set an bit pattern to any display that is currently turned on.
  * @param numericIndexValue The number to be displayed on the display{s}
  */
-static void setNumericSegmentValue( uint8_t numericIndexValue )
+void setNumericSegmentValue( uint8_t numericIndexValue )
 {
     SEG7_DISPLAY_SEGMENT_PORT = encodedNumbers[ numericIndexValue % printNumberBaseMode ];
 }
@@ -83,24 +100,37 @@ static void setNumericSegmentValue( uint8_t numericIndexValue )
  * Decode an digit from the digits to display storage and print it to the segment display.
  * @param digitsIndex The number to be displayed on the display{s}
  */
-static void setStoredDigitSegments( uint8_t digitsIndex )
+void setStoredDigitSegments( uint8_t digitsIndex )
 {
     SEG7_DISPLAY_SEGMENT_PORT = encodedNumbers[ digitsToDisplay[ digitsIndex ]];
+    //SEG7_DISPLAY_SEGMENT_PORT = encodedNumbers[ digitsToDisplay[ digitsIndex ] % printNumberBaseMode ];
 }
 
 /**
  * Clear all bit patterns that are currently being displayed on the display(s).
  */
-static void clearSegments()
+void clearSegments()
 {
     SEG7_DISPLAY_SEGMENT_PORT = 0xFF; // Enable pull up resistor.
+}
+
+static void writeSegmentSequence( uint8_t segmentByte )
+{
+    for ( int i = 0; i < 7; ++i )
+    {
+        // 1111 1110
+        //!( segmentByte & ( 1 << i ) )
+        SEG7_DISPLAY_SEGMENT_PORT = 0xFF;
+        SEG7_DISPLAY_SEGMENT_PORT = ( !( segmentByte & ( 1 << i ) ) << i );
+        _delay_us(10);
+    }
 }
 
 /*************************************************************************************************[ Display manipulation
  * Set an raw byte to the display port.
  * @param byte The byte that will be written to the display port.
  */
-static void rawSetDisplays( uint8_t byte )
+void rawSetDisplays( uint8_t byte )
 {
     SEG7_DISPLAY_DISPLAY_PORT = byte;
 }
@@ -109,7 +139,7 @@ static void rawSetDisplays( uint8_t byte )
  * Activate an specific seven segment display so it will be available to write data to it.
  * @param displayIndex The displays index on the connected ports.
  */
-static void setDisplay( int displayIndex )
+void setDisplay( int displayIndex )
 {
     SEG7_DISPLAY_DISPLAY_PORT = ~( 1 << displayIndex );
 }
@@ -118,7 +148,7 @@ static void setDisplay( int displayIndex )
  * Deactivate an seven segment so it will no longer display any data.
  * @param displayIndex The displays index on the connected ports.
  */
-static void unSetDisplay( int displayIndex )
+void unSetDisplay( int displayIndex )
 {
     SEG7_DISPLAY_DISPLAY_PORT = ~( 0 << ( displayIndex ));
 }
@@ -126,27 +156,31 @@ static void unSetDisplay( int displayIndex )
 /**
  * Deactivates all seven segment displays.
  */
-static void clearDisplays()
+void clearDisplays()
 {
     SEG7_DISPLAY_DISPLAY_PORT = 0xFF; // Enable pull up resistor.
 }
 
-/*****************************************************************************************************[ Helper functions
+/*************************************************************************************************[ Helper functions
  * Parse an numeric value to an array with single digits for multiple number bases.
  * @param number The input number to be displayed on the segment displays.
  * @param base The number system base.
  */
-static void numberToDigitArray( int number, uint8_t base )
+void numberToDigitArray( int number, uint8_t base )
 {
     uint8_t currentParsingIndex = 0; // The digitsToDisplay array index that will get filled with an new digit.
-    while ( number ) 
-	{
+    while ( number ) {
         digitsToDisplay[ currentParsingIndex++ ] = number % base; // Assign the least significant digit to the next array index. ( like: 123 % 10 = 3 )
         number /= base; // Throw the least significant digit away, so shift the value one place to the right. ( like: 123 / 10 = 12 )
     }
+	// Edited
+	//while( currentParsingIndex < ARRAY_LENGTH(digitsToDisplay) ) // Fill the complete array.
+    //{
+    //    digitsToDisplay[currentParsingIndex] = 255;
+   // }
 }
 
-/*****************************************************************************************************[ Public functions
+/****************************************************************************************************[ Public functions
  *  Clears all data both the segment ports and the display ports.
  */
 void clearSegmentDisplays()
@@ -210,15 +244,15 @@ void writeNumbersToSegmentDisplays( int numberToBeDisplayed )
 
     // Use multiplexing to write different numbers on different displays. Quickly refresh each display
     // from left to right to make it seem that all displays are constantly on.
-    for ( int displayCounter = 0; displayCounter < SEG_DISPLAY_COUNT; displayCounter++ ) 
-	{
+    for ( int displayCounter = 0; displayCounter < SEG_DISPLAY_COUNT; displayCounter++ ) {
         // Set the correct display to high so we can write segments to it.
         setDisplay( displayCounter );
         // Get the value for the current display from the digitToDisplay array and write the segments.
         setNumericSegmentValue( digitsToDisplay[ displayCounter ] );
         // Display the segments for a few micro seconds, then turn off the display and move to the next.
         _delay_us( SEG7_DELAY_SEGMENT_U_SEC );
-        clearSegmentDisplays();
+        //delayMicroSeconds( SEG7_DELAY_SEGMENT_U_SEC );
+        unSetDisplay( displayCounter );
     }
 }
 
@@ -232,18 +266,17 @@ void countUp( uint16_t updateInterval )
     uint16_t numberCounter = 0; // Used to track what value to print.
     uint64_t iterationCounter = 0; // Used to count iterations, an iteration cost 1000 micro seconds.
 
-    while ( THE_UNIVERSE_HASNT_ENDED ) 
-	{
+    while ( THE_UNIVERSE_HASNT_ENDED ) {
         // Use multiplexing to print data to the displays.
-        for ( int activeDisplay = 0; activeDisplay < 4; activeDisplay++ ) 
-		{
-            setDisplay( activeDisplay ); // Activate the display.
-            setStoredDigitSegments( activeDisplay ); // Activate segments.
-            _delay_us( SEG7_DELAY_SEGMENT_U_SEC );
-			
-            clearSegmentDisplays();
-            if ( iterationCounter > updateInterval ) 
-			{ 
+        for ( int activeDisplay = 0; activeDisplay < 4; activeDisplay++ ) {
+			if( digitsToDisplay[ activeDisplay] < 20 )
+			{
+				setDisplay( activeDisplay ); // Activate the display.
+				setStoredDigitSegments( activeDisplay );
+			}
+			_delay_us( 1000 );
+            
+            if ( iterationCounter > updateInterval/10 ) {
                 numberToDigitArray( numberCounter++, printNumberBaseMode );
                 iterationCounter = 0;
             }

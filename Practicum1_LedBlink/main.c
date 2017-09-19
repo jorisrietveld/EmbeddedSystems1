@@ -6,13 +6,16 @@
 #include <avr/io.h>
 #include "delaySpaceTime.h"
 
+/**
+ * Initiate I/O and other default settings on the atmega32.
+ */
 void init()
 {
 	DDRC = 0xFF; // Set I/O pin C[0-7] as output.
 }
 
 /**
- * The entry point of the program.
+ * The main entry point of the program.
  */
 int main (void)
 {

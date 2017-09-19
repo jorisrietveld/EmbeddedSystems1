@@ -68,7 +68,7 @@
 #define SEG7_DISPLAY_CHAR_G_UPPER 0b11000010  // The segment display encoded upper case character G
 #define SEG7_DISPLAY_CHAR_H_UPPER 0b0 // The segment display encoded upper case character H (MISSING)
 // I missing
-//#define SEG7_DISPLAY_CHAR_J_UPPER 0b11110011 // The segment display encoded upper case character J ( CONFLICT )
+#define SEG7_DISPLAY_CHAR_J_UPPER 0b11110011 // The segment display encoded upper case character J ( CONFLICT )
 #define SEG7_DISPLAY_CHAR_J_UPPER 0b10100011 // The segment display encoded upper case character J ( CONFLICT )
 // K upper does not exist.
 #define SEG7_DISPLAY_CHAR_L_UPPER 0b11100110 // The bit pattern to show the character upper case L
