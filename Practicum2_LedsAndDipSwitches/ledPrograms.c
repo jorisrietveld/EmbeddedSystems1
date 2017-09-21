@@ -8,8 +8,8 @@
 /**
  * Blink all leds
  * Pattern written to the output pins:
- * 0000 0000	0x00	0
- * 1111 1111	0xFF	255
+ * 0000 0000    0x00    0
+ * 1111 1111    0xFF    255
  */
 void ledBlink( uint8_t delay, uint16_t times )
 {
@@ -25,14 +25,14 @@ void ledBlink( uint8_t delay, uint16_t times )
 /**
  * Slide single led  from the left to the right
  * Pattern written to the output pins:
- * 1111 1110	0x7F	127
- * 1111 1101	0xBF	191
- * 1111 1011	0xDF	232
- * 1111 0111	0xEF	239
- * 1110 1111	0xF7	247
- * 1101 1111	0xFB	251
- * 1011 1111	0xFD	253
- * 0111 1111	0xFE	254
+ * 1111 1110    0x7F    127
+ * 1111 1101    0xBF    191
+ * 1111 1011    0xDF    232
+ * 1111 0111    0xEF    239
+ * 1110 1111    0xF7    247
+ * 1101 1111    0xFB    251
+ * 1011 1111    0xFD    253
+ * 0111 1111    0xFE    254
  */
 void ledScanLeft(uint8_t delay, uint8_t times )
 {
@@ -57,37 +57,37 @@ void ledScanLeft(uint8_t delay, uint8_t times )
  */
 void ledExpand(uint8_t delay)
 {
-	PORTC = 0xff;
+    PORTC = 0xff;
     uint8_t pattern[9] = { // The bitPattern to write, saved on the PROGMEM to save RAM.
-		0b11111111,
-		0b11100111,
-		0b11000011,
-		0b10000001,
-		0b00000000,
-		0b10000001,
-		0b11000011,
-		0b11100111,
-		0b11111111,
-	};
-	
-	for(int i = 0; i < 9; i++)
-	{
-		 PORTC = pattern[i];	// Output new values to LEDs
-		 delayMilliSeconds(delay);
-	}
+        0b11111111,
+        0b11100111,
+        0b11000011,
+        0b10000001,
+        0b00000000,
+        0b10000001,
+        0b11000011,
+        0b11100111,
+        0b11111111,
+    };
+
+    for(int i = 0; i < 9; i++)
+    {
+         PORTC = pattern[i];	// Output new values to LEDs
+         delayMilliSeconds(delay);
+    }
 }
 
 /**
  * Slide single led  from the left to the right
  * Pattern written to the output pins:
- * 0111 1111	0x7F	127
- * 1011 1111	0xBF	191
- * 1101 1111	0xDF	232
- * 1110 1111	0xEF	239
- * 1111 0111	0xF7	247
- * 1111 1011	0xFB	251
- * 1111 1101	0xFD	253
- * 1111 1110	0xFE	254
+ * 0111 1111    0x7F    127
+ * 1011 1111    0xBF    191
+ * 1101 1111    0xDF    232
+ * 1110 1111    0xEF    239
+ * 1111 0111    0xF7    247
+ * 1111 1011    0xFB    251
+ * 1111 1101    0xFD    253
+ * 1111 1110    0xFE    254
  */
 void ledScanRight(uint8_t delay, uint8_t times )
 {
@@ -108,21 +108,21 @@ void ledScanRight(uint8_t delay, uint8_t times )
 /**
  * Slide an single led from left to right and back.
  * Pattern written to the output pins:
- * 1111 1110	0xFE	254
- * 1111 1101	0xFD	253
- * 1111 1011	0xFB    251
- * 1111 0111	0xF7	247
- * 1110 1111	0xEF	239
- * 1101 1111	0xDF	223
- * 1011 1111	0xBF    191
- * 0111 1111	0x7F	127
- * 1011 1111	0xBF	191
- * 1101 1111	0xDF	232
- * 1110 1111	0xEF	239
- * 1111 0111	0xF7	247
- * 1111 1011	0xFB	251
- * 1111 1101	0xFD	253
- * 1111 1110	0xFE	254
+ * 1111 1110    0xFE    254
+ * 1111 1101    0xFD    253
+ * 1111 1011    0xFB    251
+ * 1111 0111    0xF7    247
+ * 1110 1111    0xEF    239
+ * 1101 1111    0xDF    223
+ * 1011 1111    0xBF    191
+ * 0111 1111    0x7F    127
+ * 1011 1111    0xBF    191
+ * 1101 1111    0xDF    232
+ * 1110 1111    0xEF    239
+ * 1111 0111    0xF7    247
+ * 1111 1011    0xFB    251
+ * 1111 1101    0xFD    253
+ * 1111 1110    0xFE    254
  */
 void ledScan( uint8_t delay, uint16_t times, uint8_t inverse )
 {
@@ -288,11 +288,11 @@ void blinkSOS()
     }
 
     delayMilliSeconds(100);
-	
+
     for (int x = 1; x <= 3; x++)
     {
         blinkCharacter(morseCodeS);
     }
-	
+
     delayMilliSeconds(2000);
 }

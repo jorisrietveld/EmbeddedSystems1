@@ -10,8 +10,8 @@
 #include <util/delay.h>
 #include <avr/io.h>
 
-volatile uint8_t counterMode = 0; // 
-volatile uint8_t numberBase = 10; // The base the use when counting.
+volatile static uint8_t counterMode = 0; //  The mode of the pulse counter
+static uint8_t numberBase = 10; // The base the use when counting.
 
 // Encoded numbers for 7 segment display, where the indexes correspond to the value being displayed. numbers 1 to 16 (hexadecimal) 
 static uint8_t encodedNumbers[16] = { 0x82, 0xbb, 0x85, 0x91, 0x8b, 0xd0, 0xc0, 0x9B, 0x80, 0x90 ,0x88,	0xe0, 0xc6, 0xa1, 0xc4, 0xcc, };
@@ -35,23 +35,20 @@ static void writeNumbToDisplay(uint16_t number)
 	
 	while( number ) // While there is something left of the number to display.
 	{
-		uint8_t numberIndex = number % numberBase; // 
-		writeSegmentSequence( encodedNumbers[ numberIndex ], index );
-		number /= numberBase;
-		index++;
+		uint8_t numberIndex = number % numberBase; //  Get the lowest  digit like: 123, get  3 by dividing by the number base and getting the remainder.
+		writeSegmentSequence( encodedNumbers[ numberIndex ], index ); // Write the digit to the screen by getting the encoded value.
+		number /= numberBase; // Throw away the lowest digit and move on the the next.
+		index++; // Increase the display index.
 	}
 }
 
 int main(void)
 {
-    DDRA = DDRC = 0xff;
-	uint8_t displayCounter =10;
+    DDRA = DDRC = 0xff; // Initiate ports A and C as output ports.
+	
 	
     while (1) 
     {
-		writeNumbToDisplay(1810);
-       // _delay_ms(1000);
-		//_delay_ms(1);
-        //readSwitches();
+		writeNumbToDisplay(numberBase);
     }
 }

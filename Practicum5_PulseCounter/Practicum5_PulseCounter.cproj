@@ -162,28 +162,7 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Helpers.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Helpers.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="main.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="SegDisplay.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="SegDisplay.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="SegDisplayEncoding.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Switches.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Switches.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
