@@ -24,8 +24,8 @@ static void writeSegmentSequence( uint8_t segmentByte, uint8_t displayIndex)
         if( !( segmentByte & ( 1 << i ) ) ) // If the bit is 0 at the n'th position of the byte.
         {
             PORTC = ~( 1 << i ); // Turn on the corresponding segment (remember that 0 means on)
-        }
-		_delay_us(20);     
+			_delay_us(20); 
+        }    
     }
 }
 
@@ -49,6 +49,6 @@ int main(void)
 	
     while (1) 
     {
-		writeNumbToDisplay(numberBase);
+		writeNumbToDisplay(8192);
     }
 }

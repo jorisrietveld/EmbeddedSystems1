@@ -16,6 +16,13 @@
 uint8_t isSwitchActive( uint8_t switchNumber )
 {
     return !( PIND & ( 1 << switchNumber ));
+    /**
+     * switchNumber = 7
+     * 1111 1110    PIND
+     * 0
+     * 0
+     * !
+     */
 }
 
 /**
