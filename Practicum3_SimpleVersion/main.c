@@ -37,12 +37,12 @@ ISR (TIMER2_COMP_vect)
  */
 static void writeSegmentSequence( uint8_t segmentByte, uint8_t displayIndex)
 {
-    PORTA = ~( 1 << displayIndex ); // Set the correct display.
+    PORTC = ~( 1 << displayIndex ); // Set the correct display.
     for ( int i = 0; i < 7; ++i ) // Loop though every bit in an the segment display number encodings.
     {
         if( !( segmentByte & ( 1 << i ) ) ) // If the bit is 0 at the n'th position of the byte.
         {
-            PORTC = ~( 1 << i ); // Turn on the corresponding segment (remember that 0 means on)
+            PORTA = ~( 1 << i ); // Turn on the corresponding segment (remember that 0 means on)
 			_delay_us(20);
         }
     }
