@@ -9,19 +9,37 @@
 volatile uint8_t state = 0;
 
 /**
- * This function gets executed when the external intrrupt 0 is triggered. It will track the state of the leds
- * and update there values accordingly. The pattern used:
- * 1111 1111
- * 1111 1110
- * 1111 1100
- * 1111 1101
- * 1111 1111
+ * The Interrupt Service Routine gets executed when the external interrupt 0 is triggered.
+ * It will track the state of the leds and update there values accordingly.
+ * The values written to the led port:
+ * State 1:     1111 1111
+ * State 2:     0111 1111
+ * State 3:     0011 1101
+ * State 4:     1011 1111
+ * State 1:     1111 1111
  */
-ISR (INT0_vect)
+ISR ( INT0_vect )
 {
     PORTC = ~( state ^ ( state >> 1 )); // Encode the state to led output signals.
     state++; // Increase state by 1
     state %= 4; // Limit the state to 3
+}
+
+Initiate()
+{
+	// Enable port D2 as input and activate the internal pull up resistor to prevent floating values.
+	DDRD = ~(1<<2);
+	PORTD = (1<<2);
+	
+	//DDRD = ~PORTD = (1<<2);
+	
+	// Enable interrupt 0 in the general interrupt control register.
+	GICR = 1 << INT0;
+	
+	// Set the ISC (Interrupt Sens Control) bits in the MCUCR (MCU control register to listen for an raising edge event.
+	MCUCR = 1 << ISC01 | 1 << ISC00;
+	// Set enable interrupt to the control register so interrupts are enabled globally.
+	sei();
 }
 
 /**
@@ -29,18 +47,6 @@ ISR (INT0_vect)
  */
 int main()
 {
-    //  Enable port D2 as input and activate the internal pull up resistor.
-    DDRD = ~(1<<2);
-    PORTD = (1<<2);
-
-    // Initiate port C 1&2 as output ports and turn off the leds.
-    DDRC = PORTC = (1<<0) | (1<<1);
-    // Enable interrupt 0 in the general interrupt control register.
-    GICR = 1 << INT0;
-     // Set the interrupt sens control bits in the MCU control register to listen for an raising edge event.
-    MCUCR = 1 << ISC01 | 1 << ISC00;
-    // Set enable interrupt to the control register so interrupts are enabled globally.
-    sei();
     while(1);
 }
 

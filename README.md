@@ -3,28 +3,30 @@ This repository holds the source code for my school assignments for the Embedded
 <br>This is my first attempt at programming the Atmega32 in plain C, I have used the Arduino platform before
 but I am currently learning about the bare programming of the micro controllers and creating circuits.
 
+## Info
+ - [Information about the atmega32's registers like names, address](AtmegaRegisters.md)
 
 ![Emdedded Systems 1 Image](./resouces/EmbeddedSystemImage.png)
 
-# The courses assignments
+## The courses assignments
  - [Practicum 1 - Led Blink](resouces/Practicum1_LedBlink/)  
     - [x] Started
     - [x] Solved 
-    - [ ] Approved
+    - [x] Approved
  - [Practicum 2 - Leds And Dip Switches](Practicum2_LedsAndDipSwitches/)
     - [x] Started
     - [x] Solved 
-    - [ ] Approved
+    - [x] Approved
  - [Practicum 3 - Seven Segment Display](Practicum3_SevenSegmentDisplay/)
     - [x] Started
     - [x] Solved 
-    - [ ] Approved
+    - [x] Approved
  - [Practicum 4 - Leds And Interrupts](resouces/Practicum4_LedsAndInterupts/)
     - [x] Started
-    - [ ] Solved 
+    - [x] Solved 
     - [ ] Approved
  - [Practicum 5 - Pulse Counter](resouces/Practicum5_PulseCounter/)
-    - [ ] Started
+    - [x] Started
     - [ ] Solved 
     - [ ] Approved
  - [Practicum 6 - Leds And Timers](resouces/Practicum6_LedsAndTimers/)
