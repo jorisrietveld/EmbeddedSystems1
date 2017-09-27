@@ -17,7 +17,7 @@ volatile static uint16_t countUp = 1; // The counter mode 3 tracker.
 static uint8_t numberBase = 10; // The base the use when counting.
 
 // Encoded numbers for 7 segment display, where the indexes correspond to the value being displayed. numbers 1 to 16 (hexadecimal) 
-static uint8_t encodedNumbers[16] = { 0x82, 0xbb, 0x85, 0x91, 0b10111000, 0xd0, 0xc0, 0x9B, 0x80, 0x90 ,0x88,	0xe0, 0xc6, 0xa1, 0xc4, 0xcc, };
+static uint8_t encodedNumbers[16] = { 0x82, 0xbb, 0x85, 0x91, 0xB8, 0xd0, 0xc0, 0x9B, 0x80, 0x90 ,0x88,	0xe0, 0xc6, 0xa1, 0xc4, 0xcc, };
 
 /**
  * This function gets executed when the external interrupt 0 is triggered. It will track the state of the leds
@@ -27,7 +27,6 @@ ISR (INT0_vect)
 {
     switch( counterMode )
     {
-		
         case 4:
             countedPulses++; // Increase the pulse count by one.
             countedPulses %= 10000;
@@ -156,6 +155,6 @@ int main(void)
     while (1) 
     {
         getActiveSwitch();
-		writeNumbToDisplay(counterMode);
+		writeNumbToDisplay(countedPulses);
     }
 }
