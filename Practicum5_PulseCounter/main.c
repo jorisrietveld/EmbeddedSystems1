@@ -27,30 +27,35 @@ ISR (INT0_vect)
 {
     switch( counterMode )
     {
-        case 4:
+        case 4: // Mode 00, count pulses up
             countedPulses++; // Increase the pulse count by one.
             countedPulses %= 10000;
             break;
-        case 5:
-            countedPulses--;
-            countedPulses %= 10000;
+        case 5: // Mode 01, count pulses down
+			countedPulses--;
+			countedPulses = countedPulses == 0 ? 9999 : countedPulses;
             break;
-        case 6:
-            //countUp ? countedPulses++ : countedPulses--;
-
-            if( countedPulses == 100 || countedPulses == 0 )
+        case 6: // Mode 10, count pules up and down between 0 and 100
+            countUp ? countedPulses++ : countedPulses--;
+			
+            if( countedPulses == 100 || countedPulses == 0 ) // Are we out of range?
             {
-                countUp ^= countUp;
+                countUp = !countUp; // Switch between counting up and counting down.
             }
+			
             break;
         case 7:
-			
+			numberBase = 15;
+			countUp ? countedPulses++ : countedPulses--;
+			if( countedPulses == 9999 || countedPulses == 0 )
+			{
+				countUp = !countUp;
+			}
             break;
 		default:
 			countedPulses = 0;
 			break;
     }
-
 }
 
 /**
@@ -73,13 +78,12 @@ static void writeSegmentSequence( uint8_t segmentByte, uint8_t displayIndex)
 			PORTA = 0xff;
 		}
 		_delay_us(20);
-			
 	}
 }
 
 /**
  * Displays an number on the seven segment display.
- *
+
  * @param number The number to be printed on the display.
  */
 static void writeNumbToDisplay(uint16_t number)
@@ -112,15 +116,15 @@ static void writeNumbToDisplay(uint16_t number)
  */
 void getActiveSwitch()
 {
-    if( !( PIND & ( 1 << 4 )) )
+    if( !( PIND & ( 1 << 4 )) ) // Count interrupts up, reset at 9999.
 	{
 		counterMode = 4;
 	}
-	else if( !( PIND & ( 1 << 5 )) )
+	else if( !( PIND & ( 1 << 5 )) ) // Count interrupts down, reset at 0.
 	{
 		counterMode = 5;
 	}
-	else if( !( PIND & ( 1 << 6 )) )
+	else if( !( PIND & ( 1 << 6 )) ) // Count interrupts up and down between 100.
 	{
 		counterMode = 6;
 	}
@@ -135,13 +139,11 @@ void getActiveSwitch()
 }
 
 /**
- * This is the main
- * @return
+ * This is the main entry point of the program.
  */
 int main(void)
 {
     DDRA = DDRC = 0xff; // Initiate ports A and C as output ports.
-	PORTA = PORTD = 0xff;
     DDRD |= ~(1<<4) | ~(1<<5) | ~(1<<6) | ~(1<<7); // Set ports D [4-7] to be inputs.
     PORTD = (1<<4) | (1<<5) | (1<<6) | (1<<7); // Enable pull up resistors.
 
