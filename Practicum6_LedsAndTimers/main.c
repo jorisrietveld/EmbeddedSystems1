@@ -6,11 +6,13 @@
 
 #include <avr/io.h>
 #include <stdbool.h>
+#ifndef F_CPU // Setup the clock speed so we delay loops work correct.
+    #define F_CPU 16000000UL // 16 MHz clock speed
+#endif
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include "SegDisplayEncoding.h"
 
- 
 
 /**
  * Define boolean types.
@@ -39,18 +41,39 @@ ISR ( TIMER0_OVF_vect )
  * @param segmentByte The encoded number.
  * @param displayIndex The display to print it on.
  */
-static void writeSegmentSequence( uint8_t segmentByte, uint8_t displayIndex, uint8_t totalLength )
+static void writeSegmentSequence( uint8_t segmentByte, uint8_t displayIndex )
 {
     PORTC = ~( 1 << displayIndex ); // Set the correct display.
-    for ( int i = 0; i < 7; ++i ) // Loop though every bit in an the segment display number encodings.
+    uint8_t testByte = 0b1000000;
+
+    while( testByte > 0 )
     {
-        if ( !( segmentByte & ( 1 << i ))) // If the bit is 0 at the n'th position of the byte.
-        {
-            PORTA = ~( 1 << i ); // Turn on the corresponding segment (remember that 0 means on)
-        } else {
-            PORTA = 0xff;
-        }
-        _delay_us( 20 );
+        // The testBytes (bitwise AND operator) segmentByte sequence for the character A looks like:
+        // Bit to check  Compare  Inverted Encoded character    Inverted number to write to display.
+        // 1000 0000        &       ~1000 0010 ( 0111 1101 )    = 0000 0000 ~=  1111 1111
+        // 0100 0000        &       ~1000 0010 ( 0111 1101 )    = 0100 0000 ~=  1011 1111
+        // 0010 0000        &       ~1000 0010 ( 0111 1101 )    = 0010 0000 ~=  1101 1111
+        // 0001 0000        &       ~1000 0010 ( 0111 1101 )    = 0001 0000 ~=  1110 1111
+        // 0000 1000        &       ~1000 0010 ( 0111 1101 )    = 0000 1000 ~=  1111 0111
+        // 0000 0100        &       ~1000 0010 ( 0111 1101 )    = 0000 0100 ~=  1111 1101
+        // 0000 0010        &       ~1000 0010 ( 0111 1101 )    = 0000 0000 ~=  1111 1111
+        // 0000 0001        &       ~1000 0010 ( 0111 1101 )    = 0000 0001 ~=  1111 1110
+
+        // 0000 0001 ^ 1000 0010 = 1000 0010
+        // 0000 0001 & 1000 0010 = 0000 0000
+        // 0000 0001 | 1000 0010 = 1000 0011
+
+        // ~1111 1110 ^ 1000 0010 = 0111 1101
+        // ~1111 1110 & 1000 0010 = 1000 0010
+
+        // ~1111 1110 | 1000 0010 = 1111 1110
+        // ~0111 1111 | 1000 0010 = 1111 1111
+        // ~1011 1111 | 1000 0010 = 1011 1111
+
+        PORTA = ~testByte | segmentByte;
+        //PORTA = ~(testByte & ~segmentByte); // (bit index to check) & ~(encoded character/number)
+        testByte >>= 1; // Shift the test byte 1 place to the right.
+        _delay_us( 50 );
     }
 }
 
@@ -72,7 +95,6 @@ int main( void )
             writeSegmentSequence( SEG7_DISPLAY_CHAR_F_UPPER, 0 );
             writeSegmentSequence( SEG7_DISPLAY_CHAR_F_UPPER, 1 );
             writeSegmentSequence( SEG7_DISPLAY_CHAR_O_UPPER, 2 );
-			writeSegmentSequence( 0xff, 2 );
         }
         else
         {

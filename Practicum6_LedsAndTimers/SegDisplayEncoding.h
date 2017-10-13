@@ -60,13 +60,13 @@
 
 /***********************************************************************************[ Encoded of uppercase characters ] */
 #define SEG7_DISPLAY_CHAR_A_UPPER 0b10001000  // The segment display encoded upper case character A
-// B upper does not exist
+#define SEG7_DISPLAY_CHAR_B_UPPER 0b10000000  // The segment display encoded upper case character B
 #define SEG7_DISPLAY_CHAR_C_UPPER 0b11000110  // The segment display encoded upper case character C
-// D upper does not exist
+#define SEG7_DISPLAY_CHAR_D_UPPER 0b10000010  // The segment display encoded upper case character D
 #define SEG7_DISPLAY_CHAR_E_UPPER 0b11000100  // The segment display encoded upper case character E
 #define SEG7_DISPLAY_CHAR_F_UPPER 0b11001100  // The segment display encoded upper case character F
 #define SEG7_DISPLAY_CHAR_G_UPPER 0b11000010  // The segment display encoded upper case character G
-#define SEG7_DISPLAY_CHAR_H_UPPER 0b0 // The segment display encoded upper case character H (MISSING)
+#define SEG7_DISPLAY_CHAR_H_UPPER 0b10101000 // The segment display encoded upper case character H (MISSING)
 // I missing
 //#define SEG7_DISPLAY_CHAR_J_UPPER 0b11110011 // The segment display encoded upper case character J ( CONFLICT )
 #define SEG7_DISPLAY_CHAR_J_UPPER 0b10100011 // The segment display encoded upper case character J ( CONFLICT )
@@ -82,11 +82,11 @@
 #define SEG7_DISPLAY_CHAR_S_UPPER 0b11010000 // The segment display encoded upper case character S
 // T
 #define SEG7_DISPLAY_CHAR_U_UPPER 0b10100010 // The segment display encoded upper case character U
-// V
+#define SEG7_DISPLAY_CHAR_U_UPPER 0b10100010 // The segment display encoded upper case character V
 // W
 #define SEG7_DISPLAY_CHAR_X_UPPER 0b10001000 // The segment display encoded upper case character X
 // Y missing
-// Z missing
+#define SEG7_DISPLAY_CHAR_Z_UPPER 0b11010000 // The segment display encoded upper case character Z
 
 /***********************************************************************[ Encoded of uppercase characters upside down] */
 #define SEG7_DISPLAY_CHAR_ROTATE_180_A_UPPER 0b10001000 // The segment display encoded upper case character A upside down.
