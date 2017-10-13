@@ -46,17 +46,14 @@ ISR ( TIMER0_OVF_vect )
 {
     TCNT0 = 6; // The interrupt counter offset.
 
-    if ( ++timerInterruptCount == 200 ) {
-        displayValue = !displayValue;
-        timerInterruptCount = 0;
-    }
+    displayValue = !displayValue;
 }
 
 int main( void )
 {
     DDRA = DDRC = 0xff; // Initiate ports A and C as output ports.
 
-    TCCR0 = _BV( CS01 ) | _BV( CS00 );
+    TCCR0 =_BV( CS01 ) | _BV( CS00 );
     TCNT0 = 6;
     TIMSK = _BV( TOIE0 );
 
