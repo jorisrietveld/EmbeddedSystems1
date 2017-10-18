@@ -2,6 +2,7 @@
 
 # Files of this practicum
  - `main.c` The entry point to the program containing the main program loop.
- - `initiateIO.h` This file contains an function for initiating the I/O pins connected to the micro controller.
+ - `SegDisplayEncoding.h` This file contains constants that define segment display encoded characters.
  
-# TODO's 
+# TODO's
+ - []
