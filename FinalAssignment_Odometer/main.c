@@ -64,6 +64,22 @@ void initRegisters()
 {
     // todo init IO directions
     // Todo init timers
+
+    // TCNT0 - Timer/Counter 0
+    TCNT0 = 0; // Initiate the timer/counter register of timer 0  with an value of 0;
+
+    /** TCCR0 - Timer/Counter Control register 0,  option bits: FOC 0 | WGM 00 | COM 01 | COM 00 | WGM 01 | CS 02 | CS 01 | CS 00 |
+     * CS - Clock select settings:
+     * Modue 0  = 0b00000000    = 0x00     =  (0 << CS02) | (0 << CS01) | (0 << CS01)   =   Timer off
+     * Modue 1  = 0b00000001    = 0x01     =  (0 << CS02) | (0 << CS01) | (1 << CS01)   =   Internal Clock / 0     =  Prescaler disapled
+     * Modue 2  = 0b00000010    = 0x02     =  (0 << CS02) | (1 << CS01) | (0 << CS01)   =   Internal Clock / 8     =  From Prescaler
+     * Modue 3  = 0b00000011    = 0x03     =  (0 << CS02) | (1 << CS01) | (1 << CS01)   =   Internal Clock / 64    =  From Prescaler
+     * Modue 4  = 0b00000100    = 0x04     =  (1 << CS02) | (0 << CS01) | (0 << CS01)   =   Internal Clock / 256   =  From Prescaler
+     * Modue 5  = 0b00000101    = 0x05     =  (1 << CS02) | (0 << CS01) | (1 << CS01)   =   Internal Clock / 1024  =  From Prescaler
+     * Modue 5  = 0b00000110    = 0x06     =  (1 << CS02) | (1 << CS01) | (0 << CS01)   =   External clock on pin
+     */
+
+
     // Todo init interrupts
 }
 
