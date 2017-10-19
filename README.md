@@ -3,10 +3,12 @@ This repository holds the source code for my school assignments for the Embedded
 <br>This is my first attempt at programming the Atmega32 in plain C, I have used the Arduino platform before
 but I am currently learning about the bare programming of the micro controllers and creating circuits.
 
-![Emdedded Systems 1 Image](./resouces/EmbeddedSystemImage.png)
-
 ## Info
  - [Information about the atmega32's registers like names, address](AtmegaRegisters.md)
+ - [Information about the atmega32's Timers](AtmegaTimers.md)
+
+![Emdedded Systems 1 Image](./resouces/EmbeddedSystemImage.png)
+
 
 ## The courses assignments
  - [Practicum 1 - Led Blink](resouces/Practicum1_LedBlink/)  

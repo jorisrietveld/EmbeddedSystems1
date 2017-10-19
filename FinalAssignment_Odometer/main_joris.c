@@ -84,7 +84,7 @@ int main( void )
     PORTD = (1<<4) | (1<<5) | (1<<6) | (1<<7); // Enable pull up resistors.
 
     TCCR0 = ( 1 << CS10 );
-    TCNT0 = 0;
+    TCNT0 = 0;a
     TIMSK = ( 1 << TOIE0 );
 
     // Enable interrupt 0 in the general interrupt control register.

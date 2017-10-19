@@ -1,4 +1,5 @@
 # Atmega 32 registers
+These table shows all the registers of the Atmega32 with the full names so I have an idea what they do.
 
 | Address       | Name  | Description                                   |
 |:--------------|:------|:----------------------------------------------|

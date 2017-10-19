@@ -8,85 +8,83 @@
 #define EMBEDDEDSYSTEMS1_SEGMENTDISPLAYPATTERNS_H
 
 /***********************************************************************************[ Encoded of numeric characters ] */
-#define SEG7_DISPLAY_NUMBER_0 0b10000010 // The segment display encoded  number 0
-#define SEG7_DISPLAY_NUMBER_1 0b10111011 // The segment display encoded  number 1
-#define SEG7_DISPLAY_NUMBER_2 0b10000101 //The segment display encoded  number 2
-#define SEG7_DISPLAY_NUMBER_3 0b10010001 // The segment display encoded  number 3
-#define SEG7_DISPLAY_NUMBER_4 0b10111000 // The segment display encoded  number 4
-#define SEG7_DISPLAY_NUMBER_5 0b11010000 // The segment display encoded  number 5
-#define SEG7_DISPLAY_NUMBER_6 0b11000000 // The segment display encoded  number 6
-#define SEG7_DISPLAY_NUMBER_7 0b10011011 // The segment display encoded  number 7
-#define SEG7_DISPLAY_NUMBER_8 0b10000000 // The segment display encoded  number 8
-#define SEG7_DISPLAY_NUMBER_9 0b10010000 // The segment display encoded  number 9
-#define SEG7_DISPLAY_NUMBER_10 0b10001000 // The segment display encoded number 10 - Represented as upper case a
-#define SEG7_DISPLAY_NUMBER_11 0b11100000 // The segment display encoded number 11 - Represented as lower case b
-#define SEG7_DISPLAY_NUMBER_12 0b11000110 // The segment display encoded number 12 - Represented as upper case c
-#define SEG7_DISPLAY_NUMBER_13 0b10100001 // The segment display encoded number 13 - Represented as lower case d
-#define SEG7_DISPLAY_NUMBER_14 0b11000100 // The segment display encoded number 14 - Represented as lower case E
-#define SEG7_DISPLAY_NUMBER_15 0b11001100 // The segment display encoded number 15 - Represented as upper case F
-#define SEG7_DISPLAY_NUMBER_16 0b11000010 // The segment display encoded number 16 - Represented as upper case G
-#define SEG7_DISPLAY_NUMBER_17 0b11101000 // The segment display encoded number 17 - Represented as lower case H
-
+#define SEG7_NUM_0 { 0b11111111, 0b10111111, 0b11011111, 0b11101111, 0b11110111, 0b11111011, 0b11111111, 0b11111110 }
+#define SEG7_NUM_1 { 0b11111111, 0b10111111, 0b11111111, 0b11111111, 0b11111111, 0b11111011, 0b11111111, 0b11111111 }
+#define SEG7_NUM_2 { 0b11111111, 0b10111111, 0b11011111, 0b11101111, 0b11110111, 0b11111111, 0b11111101, 0b11111111 }
+#define SEG7_NUM_3 { 0b11111111, 0b10111111, 0b11011111, 0b11111111, 0b11110111, 0b11111011, 0b11111101, 0b11111111 }
+#define SEG7_NUM_4 { 0b11111111, 0b10111111, 0b11111111, 0b11111111, 0b11111111, 0b11111011, 0b11111101, 0b11111110 }
+#define SEG7_NUM_5 { 0b11111111, 0b11111111, 0b11011111, 0b11111111, 0b11110111, 0b11111011, 0b11111101, 0b11111110 }
+#define SEG7_NUM_6 { 0b11111111, 0b11111111, 0b11011111, 0b11101111, 0b11110111, 0b11111011, 0b11111101, 0b11111110 }
+#define SEG7_NUM_7 { 0b11111111, 0b10111111, 0b11011111, 0b11111111, 0b11111111, 0b11111011, 0b11111111, 0b11111111 }
+#define SEG7_NUM_8 { 0b11111111, 0b10111111, 0b11011111, 0b11101111, 0b11110111, 0b11111011, 0b11111101, 0b11111110 }
+#define SEG7_NUM_9 { 0b11111111, 0b10111111, 0b11011111, 0b11111111, 0b11110111, 0b11111011, 0b11111101, 0b11111110 }
+#define SEG7_NUM_10 { 0b11111111, 0b10111111, 0b11011111, 0b11101111, 0b11111111, 0b11111011, 0b11111101, 0b11111110 }
+#define SEG7_NUM_11 { 0b11111111, 0b11111111, 0b11111111, 0b11101111, 0b11110111, 0b11111011, 0b11111101, 0b11111110 }
+#define SEG7_NUM_12 { 0b11111111, 0b11111111, 0b11011111, 0b11101111, 0b11110111, 0b11111111, 0b11111111, 0b11111110 }
+#define SEG7_NUM_13 { 0b11111111, 0b10111111, 0b11111111, 0b11101111, 0b11110111, 0b11111011, 0b11111101, 0b11111111 }
+#define SEG7_NUM_14 { 0b11111111, 0b11111111, 0b11011111, 0b11101111, 0b11110111, 0b11111111, 0b11111101, 0b11111110 }
+#define SEG7_NUM_15 { 0b11111111, 0b11111111, 0b11011111, 0b11101111, 0b11111111, 0b11111111, 0b11111101, 0b11111110 }
+#define SEG8_NUM_16 { 0b11111111, 0b11111111, 0b11011111, 0b11101111, 0b11110111, 0b11111011, 0b11111111, 0b11111110 }
+#define SEG8_NUM_17 { 0b11111111, 0b11111111, 0b11111111, 0b11101111, 0b11111111, 0b11111011, 0b11111101, 0b11111110 }
 
 /***********************************************************************************[ Encoded of lowercase characters ] */
-#define SEG7_DISPLAY_CHAR_A_LOWER 0b10000001 // The segment display encoded lower case character A
-#define SEG7_DISPLAY_CHAR_B_LOWER 0b11100000 // The segment display encoded lower case character B
-#define SEG7_DISPLAY_CHAR_C_LOWER 0b11100101 // The segment display encoded lower case character C
-#define SEG7_DISPLAY_CHAR_D_LOWER 0b10100001 // The segment display encoded lower case character D
-// E lower does not exist
+#define SEG7_CHAR_LOW_A { 0b11111111, 0b10111111, 0b11011111, 0b11101111, 0b11110111, 0b11111011, 0b11111101, 0b11111111 }
+#define SEG7_CHAR_LOW_B { 0b11111111, 0b11111111, 0b11111111, 0b11101111, 0b11110111, 0b11111011, 0b11111101, 0b11111110 }
+#define SEG7_CHAR_LOW_C { 0b11111111, 0b11111111, 0b11111111, 0b11101111, 0b11110111, 0b11111111, 0b11111101, 0b11111111 }
+#define SEG7_CHAR_LOW_D { 0b11111111, 0b10111111, 0b11111111, 0b11101111, 0b11110111, 0b11111011, 0b11111101, 0b11111111 }
+#define SEG7_CHAR_LOW_E 0 // Character E missing
 // F lower does not exist
 // G lower does not exist
-#define SEG7_DISPLAY_CHAR_H_LOWER_ALT 0b11001000 // The segment display encoded lower case character H with an roof
-#define SEG7_DISPLAY_CHAR_H_LOWER 0b11101000 // The segment display encoded lower case character H
+#define SEG_CHAR_LOW_H { 0b11111111, 0b11111111, 0b11011111, 0b11101111, 0b11111111, 0b11111011, 0b11111101, 0b11111110 }
+#define SEG_CHAR_LOW_H_ALT { 0b11111111, 0b11111111, 0b11111111, 0b11101111, 0b11111111, 0b11111011, 0b11111101, 0b11111110 }
 // i lower does not exist
 // J lower does not exist
 // K lower does not exist
-#define SEG7_DISPLAY_CHAR_L_LOWER 0b11100111 // The bit pattern to show the character lower case L
+#define SEG_CHAR_LOW_L { 0b11111111, 0b11111111, 0b11111111, 0b11101111, 0b11110111, 0b11111111, 0b11111111, 0b11111111 }
 // M lower does not exist
-#define SEG7_DISPLAY_CHAR_N_LOWER 0b11101001 // The bit pattern to show the character lower case N
-#define SEG7_DISPLAY_CHAR_O_LOWER 0b11100001 // The bit pattern to show the character lower case O
+#define SEG_CHAR_LOW_N { 0b11111111, 0b11111111, 0b11111111, 0b11101111, 0b11111111, 0b11111011, 0b11111101, 0b11111111 }
+#define SEG_CHAR_LOW_O { 0b11111111, 0b11111111, 0b11111111, 0b11101111, 0b11110111, 0b11111011, 0b11111101, 0b11111111 }
 // P lower does not exist
 // Q lower does not exist
 // R  lower does not exist
 // S  lower does not exist
 // T  lower does not exist
-#define SEG7_DISPLAY_CHAR_U_LOWER 0b11100011 // The bit pattern to show the character lower case U
-// V  lower does not exist
+#define SEG_CHAR_LOW_U { 0b11111111, 0b11111111, 0b11111111, 0b11101111, 0b11110111, 0b11111011, 0b11111111, 0b11111111 }
+#define SEG_CHAR_LOW_V { 0b11111111, 0b11111111, 0b11111111, 0b11101111, 0b11110111, 0b11111011, 0b11111111, 0b11111111 }
 // W  lower does not exist
 // X  lower does not exist
 // Y  lower does not exist
 // Z  lower does not exist
 
-
 /***********************************************************************************[ Encoded of uppercase characters ] */
-#define SEG7_DISPLAY_CHAR_A_UPPER 0b10001000  // The segment display encoded upper case character A
-#define SEG7_DISPLAY_CHAR_B_UPPER 0b10000000  // The segment display encoded upper case character B
-#define SEG7_DISPLAY_CHAR_C_UPPER 0b11000110  // The segment display encoded upper case character C
-#define SEG7_DISPLAY_CHAR_D_UPPER 0b10000010  // The segment display encoded upper case character D
-#define SEG7_DISPLAY_CHAR_E_UPPER 0b11000100  // The segment display encoded upper case character E
-#define SEG7_DISPLAY_CHAR_F_UPPER 0b11001100  // The segment display encoded upper case character F
-#define SEG7_DISPLAY_CHAR_G_UPPER 0b11000010  // The segment display encoded upper case character G
-#define SEG7_DISPLAY_CHAR_H_UPPER 0b10101000 // The segment display encoded upper case character H (MISSING)
+#define SEG7_CHAR_UP_A { 0b11111111, 0b10111111, 0b11011111, 0b11101111, 0b11111111, 0b11111011, 0b11111101, 0b11111110 }
+#define SEG7_CHAR_UP_B { 0b11111111, 0b10111111, 0b11011111, 0b11101111, 0b11110111, 0b11111011, 0b11111101, 0b11111110 }
+#define SEG7_CHAR_UP_C { 0b11111111, 0b11111111, 0b11011111, 0b11101111, 0b11110111, 0b11111111, 0b11111111, 0b11111110 }
+#define SEG7_CHAR_UP_D { 0b11111111, 0b10111111, 0b11011111, 0b11101111, 0b11110111, 0b11111011, 0b11111111, 0b11111110 }
+#define SEG7_CHAR_UP_E { 0b11111111, 0b11111111, 0b11011111, 0b11101111, 0b11110111, 0b11111111, 0b11111101, 0b11111110 }
+#define SEG7_CHAR_UP_F { 0b11111111, 0b11111111, 0b11011111, 0b11101111, 0b11111111, 0b11111111, 0b11111101, 0b11111110 }
+#define SEG7_CHAR_UP_G { 0b11111111, 0b11111111, 0b11011111, 0b11101111, 0b11110111, 0b11111011, 0b11111111, 0b11111110 }
+#define SEG7_CHAR_UP_H { 0b11111111, 0b10111111, 0b11111111, 0b11101111, 0b11111111, 0b11111011, 0b11111101, 0b11111110 } // H is missing
 // I missing
 //#define SEG7_DISPLAY_CHAR_J_UPPER 0b11110011 // The segment display encoded upper case character J ( CONFLICT )
-#define SEG7_DISPLAY_CHAR_J_UPPER 0b10100011 // The segment display encoded upper case character J ( CONFLICT )
+#define SEG7_CHAR_UP_J { 0b11111111, 0b10111111, 0b11111111, 0b11101111, 0b11110111, 0b11111011, 0b11111111, 0b11111111 }
 // K upper does not exist.
-#define SEG7_DISPLAY_CHAR_L_UPPER 0b11100110 // The bit pattern to show the character upper case L
+#define SEG7_CHAR_UP_L { 0b11111111, 0b11111111, 0b11111111, 0b11101111, 0b11110111, 0b11111111, 0b11111111, 0b11111110 }
 // M upper does not exist.
-#define SEG7_DISPLAY_CHAR_N_UPPER 0b10001010 // The bit pattern to show the character upper case N
+#define SEG7_CHAR_UP_N { 0b11111111, 0b10111111, 0b11011111, 0b11101111, 0b11111111, 0b11111011, 0b11111111, 0b11111110 }
 //#define SEG7_DISPLAY_CHAR_U_UPPER 0b10001010 // The segment display encoded upper case character O
-#define SEG7_DISPLAY_CHAR_O_UPPER 0b10000010 // The segment display encoded upper case character O
-#define SEG7_DISPLAY_CHAR_P_UPPER 0b10001100 // The segment display encoded upper case character P
+#define SEG7_CHAR_UP_O { 0b11111111, 0b10111111, 0b11011111, 0b11101111, 0b11110111, 0b11111011, 0b11111111, 0b11111110 }
+#define SEG7_CHAR_UP_P { 0b11111111, 0b10111111, 0b11011111, 0b11101111, 0b11111111, 0b11111111, 0b11111101, 0b11111110 }
 // Q upper does not exist.
 // R
-#define SEG7_DISPLAY_CHAR_S_UPPER 0b11010000 // The segment display encoded upper case character S
+#define SEG7_CHAR_UP_S { 0b11111111, 0b11111111, 0b11011111, 0b11111111, 0b11110111, 0b11111011, 0b11111101, 0b11111110 }
 // T
-#define SEG7_DISPLAY_CHAR_U_UPPER 0b10100010 // The segment display encoded upper case character U
-#define SEG7_DISPLAY_CHAR_U_UPPER 0b10100010 // The segment display encoded upper case character V
+#define SEG7_CHAR_UP_U { 0b11111111, 0b10111111, 0b11111111, 0b11101111, 0b11110111, 0b11111011, 0b11111111, 0b11111110 }
+#define SEG7_CHAR_UP_V { 0b11111111, 0b10111111, 0b11111111, 0b11101111, 0b11110111, 0b11111011, 0b11111111, 0b11111110 }
 // W
-#define SEG7_DISPLAY_CHAR_X_UPPER 0b10001000 // The segment display encoded upper case character X
+#define SEG7_CHAR_UP_X { 0b11111111, 0b10111111, 0b11011111, 0b11101111, 0b11111111, 0b11111011, 0b11111101, 0b11111110 }
 // Y missing
-#define SEG7_DISPLAY_CHAR_Z_UPPER 0b11010000 // The segment display encoded upper case character Z
+#define SEG7_CHAR_UP_Z { 0b11111111, 0b11111111, 0b11011111, 0b11111111, 0b11110111, 0b11111011, 0b11111101, 0b11111110 }
 
 /***********************************************************************[ Encoded of uppercase characters upside down] */
 #define SEG7_DISPLAY_CHAR_ROTATE_180_A_UPPER 0b10001000 // The segment display encoded upper case character A upside down.
