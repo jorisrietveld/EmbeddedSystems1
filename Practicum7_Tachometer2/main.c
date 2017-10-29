@@ -56,7 +56,7 @@ uint8_t displayEncodedNumbers[10][7] = {
  * The Timer Interrupt flag register: T0V0 gets reset.
  */
 ISR(TIMER0_OVF_vect){
-	TCNT0 = 200;
+	TCNT0 = 125;
     if( segmentBufferIndex == 6 ){ // Is this the last segment in the buffer.
         segmentBufferIndex = 0; // Start from the first index.
 		if( screenBufferIndex < 3 ){
@@ -110,8 +110,8 @@ void initiateIO()
 void initiateRegisters()
 {
 	MCUCR = ( 1<<ISC00 );   // Enable interrupt reaction
-	TCCR0 = (1 << CS01); // Set up timer 0 without prescaler
-	TCNT0 = 200; // Initialize timer 0 tick counter to 0
+	TCCR0 = (1 << CS01); // Set up timer 0 with prescaler 8, 0.125 tick = 1 us
+	TCNT0 = 125; // Initialize timer 0 tick counter to 125, update every ms.
 	// TIMSK Timer Interrupt mask, TOIE0 Timer Overflow Interrupt Enable 0
 	TIMSK = ( 1<< TOIE0); // Enable interrupts on an overflow of the Timer 0 register.
 	sei(); // Enable global interrupts.
