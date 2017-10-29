@@ -21,31 +21,18 @@ volatile uint16_t countedPulses = 0; // The amount of pulses counted.
 
 uint8_t segmentsDisabled = 0xff;
 uint8_t encodedNumbers[16] = { 0x82, 0xbb, 0x85, 0x91, 0xB8, 0xd0, 0xc0, 0x9B, 0x80, 0x90 ,0x88, 0xe0, 0xc6, 0xa1, 0xc4, 0xcc, };
-uint8_t* screenBuffer[4] = { &encodedNumbers[1], &segmentsDisabled, &segmentsDisabled, &segmentsDisabled};// The display buffer, initiated with 255's
-///uint8_t encodedNumbers[16] = { 0x82, 0xbb, 0x85, 0x91, 0xB8, 0xd0, 0xc0, 0x9B, 0x80, 0x90 ,0x88, 0xe0, 0xc6, 0xa1, 0xc4, 0xcc, };
+
 uint8_t testByte = 0b10000000;
 
 void setScreenBuffer( uint16_t number );
 void flushScreenBuffer();
 void outputScreenBuffer();
 
-/**
- * This function gets executed when the external interrupt 0 is triggered. It will count incoming pulses.
- */
-ISR (INT0_vect){
-    SEGMENT_OUTPUT = 0x00;
-    DISPLAY_OUTPUT = 0x00;
-    //setScreenBuffer(countedPulses++);
-}
-
 int main( void )
 {
     DISPLAY_OUTPUT = SEGMENT_OUTPUT = 0xFF; // Initiate ports A and B as outputs.
     DDRD = 0x00; // Initiate ports D as inputs.
 
-    GICR = (1<<INT0); // Enable external interrupt 0 in the general interrupt control register.
-    MCUCR = (1<<ISC00); // Configure external interrupt 0 to be triggered at any logic chance.
-    sei(); // Enable all interrupt
     while ( 1 )
 	{
         outputScreenBuffer();
