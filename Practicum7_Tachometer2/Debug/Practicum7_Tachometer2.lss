@@ -112,7 +112,7 @@ Disassembly of section .text:
   a0:	9f 93       	push	r25
   a2:	ef 93       	push	r30
   a4:	ff 93       	push	r31
-  a6:	88 ec       	ldi	r24, 0xC8	; 200
+  a6:	8d e7       	ldi	r24, 0x7D	; 125
   a8:	82 bf       	out	0x32, r24	; 50
   aa:	80 91 7c 00 	lds	r24, 0x007C	; 0x80007c <__data_end>
   ae:	86 30       	cpi	r24, 0x06	; 6
@@ -166,14 +166,14 @@ Disassembly of section .text:
 
 void initiateIO()
 {
-	DDRA = 0xFF; // Configure all display ports as outputs.
+	DISPLAY_DATA_DIR = 0xFF; // Configure all display ports as outputs.
  11e:	8f ef       	ldi	r24, 0xFF	; 255
  120:	8a bb       	out	0x1a, r24	; 26
-	PORTA = 0xFF; // Pull up every segment so they turn off.
+	DISPLAY_OUTPUT_PORT = 0xFF; // Pull up every segment so they turn off.
  122:	8b bb       	out	0x1b, r24	; 27
-	DDRC = 0xFF; // Configure all segment ports as outputs.
+	SEGMENT_DATA_DIR = 0xFF; // Configure all segment ports as outputs.
  124:	84 bb       	out	0x14, r24	; 20
-	PORTC = 0xFF; // Pull up every segment so they turn off.
+	SEGMENT_OUTPUT_PORT = 0xFF; // Pull up every segment so they turn off.
  126:	85 bb       	out	0x15, r24	; 21
  128:	08 95       	ret
 
@@ -186,11 +186,11 @@ void initiateRegisters()
 	MCUCR = ( 1<<ISC00 );   // Enable interrupt reaction
  12a:	81 e0       	ldi	r24, 0x01	; 1
  12c:	85 bf       	out	0x35, r24	; 53
-	TCCR0 = (1 << CS01); // Set up timer 0 without prescaler
+	TCCR0 = (1 << CS01); // Set up timer 0 with prescaler 8, 0.125 tick = 1 us
  12e:	92 e0       	ldi	r25, 0x02	; 2
  130:	93 bf       	out	0x33, r25	; 51
-	TCNT0 = 200; // Initialize timer 0 tick counter to 0
- 132:	98 ec       	ldi	r25, 0xC8	; 200
+	TCNT0 = 125; // Initialize timer 0 tick counter to 125, update every ms.
+ 132:	9d e7       	ldi	r25, 0x7D	; 125
  134:	92 bf       	out	0x32, r25	; 50
 	// TIMSK Timer Interrupt mask, TOIE0 Timer Overflow Interrupt Enable 0
 	TIMSK = ( 1<< TOIE0); // Enable interrupts on an overflow of the Timer 0 register.
