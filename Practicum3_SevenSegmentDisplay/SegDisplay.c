@@ -142,7 +142,7 @@ static void numberToDigitArray( int number, uint8_t base )
     while ( number ) 
 	{
         digitsToDisplay[ currentParsingIndex++ ] = number % base; // Assign the least significant digit to the next array index. ( like: 123 % 10 = 3 )
-        number /= bas e; // Throw the least significant digit away, so shift the value one place to the right. ( like: 123 / 10 = 12 )
+        number /= base; // Throw the least significant digit away, so shift the value one place to the right. ( like: 123 / 10 = 12 )
     }
 }
 

@@ -7,131 +7,126 @@
 #define F_CPU 1000000UL // 1 MHz clock speed
 #endif
 
-#include <util/delay.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <util/delay.h>
+#include <stdlib.h>
 
-volatile uint16_t countedPulses = 0;
+#define DISPLAY_DATA_DIR DDRA
+#define DISPLAY_OUTPUT_PORT PORTA
 
-uint8_t characterEncodings[10][7] = {
-		{ 0xDF, 0xBF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFF },  // Sequence of encoded segments to create the number 0
-		{ 0xBF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 1
-		{ 0xDF, 0xBF, 0xFD, 0xEF, 0xF7, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 2
-		{ 0xDF, 0xBF, 0xFD, 0xFB, 0xF7, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 3
-		{ 0xFE, 0xFD, 0xBF, 0xFB, 0xFF, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 4
-		{ 0xDF, 0xFE, 0xFD, 0xFB, 0xF7, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 5
-		{ 0xDF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFD, 0xFF },  // Sequence of encoded segments to create the number 6
-		{ 0xDF, 0xBF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 7
-		{ 0xDF, 0xBF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFD },  // Sequence of encoded segments to create the number 8
-		{ 0xDF, 0xBF, 0xFB, 0xF7, 0xFE, 0xFD, 0xFF },  // Sequence of encoded segments to create the number 9
+#define SEGMENT_DATA_DIR DDRC
+#define SEGMENT_OUTPUT_PORT PORTC
+
+#define CONTROL_DATA_DIR DDRD
+#define CONTROL_INPUT_PIN PORTD
+/*
+volatile uint8_t screenBuffer[4][7] = {
+        { [0 ...(6)] = 0xff },
+        { [0 ...(6)] = 0xff },
+        { [0 ...(6)] = 0xff },
+        { [0 ...(6)] = 0xff },
+};*/
+volatile uint8_t screenBuffer[4][7] = {
+	 { 0xBF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF },
+	 { 0xBF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF },
+	 { 0xDF, 0xBF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFF },
+	 { 0xDF, 0xBF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFF }
 };
 
+volatile uint8_t screenBufferIndex = 0;
+volatile uint8_t segmentBufferIndex = 0;
+
+uint8_t displayEncodedNumbers[10][7] = {
+        { 0xDF, 0xBF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFF },  // Sequence of encoded segments to create the number 0
+        { 0xBF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 1
+        { 0xDF, 0xBF, 0xFD, 0xEF, 0xF7, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 2
+        { 0xDF, 0xBF, 0xFD, 0xFB, 0xF7, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 3
+        { 0xFE, 0xFD, 0xBF, 0xFB, 0xFF, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 4
+        { 0xDF, 0xFE, 0xFD, 0xFB, 0xF7, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 5
+        { 0xDF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFD, 0xFF },  // Sequence of encoded segments to create the number 6
+        { 0xDF, 0xBF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 7
+        { 0xDF, 0xBF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFD },  // Sequence of encoded segments to create the number 8
+        { 0xDF, 0xBF, 0xFB, 0xF7, 0xFE, 0xFD, 0xFF },  // Sequence of encoded segments to create the number 9
+};
 
 /**
- * This function gets executed when the external interrupt 0 is triggered. It will track the state of the leds
- * and update there values accordingly. The pattern used:
+ * This service routine is for updating the values displayed on the displays.
+ * It gets activated every 255 clock ticks, so for 1mHz = 255 uS
+ * The Timer Interrupt flag register: T0V0 gets reset.
  */
-ISR (INT0_vect)
-{
-    countedPulses++;
+ISR(TIMER0_OVF_vect){
+	TCNT0 = 200;
+    if( segmentBufferIndex == 6 ){ // Is this the last segment in the buffer.
+        segmentBufferIndex = 0; // Start from the first index.
+		if( screenBufferIndex < 3 ){
+			screenBufferIndex++; // Go the the next screen buffer.
+		}
+		else{
+			screenBufferIndex = 0;
+		}
+	}
+    DISPLAY_OUTPUT_PORT = ~(1<<screenBufferIndex); // Enable current display
+	SEGMENT_OUTPUT_PORT = screenBuffer[screenBufferIndex][segmentBufferIndex]; // Enable current segment
+	//segmentBufferIndex++; // Increment segment index for next timer overflow.
+	segmentBufferIndex++;
 }
 
 /**
- * Write encoded number to the display using multiplexing.
+ * This function updates the values in the screen buffer. It takes an number as argument and parses it into
+ * individual digits. Then it fills the screen buffers for each digit with the corresponding encoded segment values.
  *
- * @param segmentByte The encoded number.
- * @param displayIndex The display to print it on.
+ * @param number An number to be displayed on the the 7 segment displays.
  */
-static void writeSegmentSequence( uint8_t segmentByte, uint8_t displayIndex)
+void updateScreenBuffer( uint16_t number )
 {
-	PORTC = ~( 1 << displayIndex ); // Set the correct display.
-	for ( int i = 0; i < 7; ++i ) // Loop though every bit in an the segment display number encodings.
-	{
-		if( !( segmentByte & ( 1 << i ) ) ) // If the bit is 0 at the n'th position of the byte.
-		{
-			PORTA = ~( 1 << i ); // Turn on the corresponding segment (remember that 0 means on)
-		}
-		else
-		{
-			PORTA = 0xff;
-		}
-		_delay_us(20);
-	}
-}
-
-/**
- * Displays an number on the seven segment display.
-
- * @param number The number to be printed on the display.
- */
-static void writeNumbToDisplay(uint16_t number)
-{
-	if( number == 0 )
-	{
-		writeSegmentSequence( 0b10000010, 0 ); // Write the digit to the screen by getting the encoded value.
-		writeSegmentSequence( 0b11100110, 1 ); // Write the digit to the screen by getting the encoded value.
-		writeSegmentSequence( 0b11000100, 2 ); // Write the digit to the screen by getting the encoded value.
-		writeSegmentSequence( 0b10101000, 3 ); // Write the digit to the screen by getting the encoded value.
-	}
-	else
-	{
-		uint8_t index = 0; // Tracks the display that is being written on.
-		
-		while( number ) // While there is something left of the number to display.
-		{
-			uint8_t numberIndex = number % numberBase; //  Get the lowest  digit like: 123, get  3 by dividing by the number base and getting the remainder.
-			writeSegmentSequence( encodedNumbers[ numberIndex ], index ); // Write the digit to the screen by getting the encoded value.
-			number /= numberBase; // Throw away the lowest digit and move on the the next.
-			index++; // Increase the display index.
-		}
-	}
-}
-
-/**
- * Test if an certain switch is active by testing pins D input bit.
- * @param switchNumber The number of the D input port.
- * @return Is this switch activated?
- */
-void getActiveSwitch()
-{
-    if( !( PIND & ( 1 << 4 )) ) // Count interrupts up, reset at 9999.
-	{
-		counterMode = 4;
-	}
-	else if( !( PIND & ( 1 << 5 )) ) // Count interrupts down, reset at 0.
-	{
-		counterMode = 5;
-	}
-	else if( !( PIND & ( 1 << 6 )) ) // Count interrupts up and down between 100.
-	{
-		counterMode = 6;
-	}
-	else if( !( PIND & ( 1 << 7 )) )
-	{
-		counterMode = 7;
-	}
-	else
-	{
-		counterMode = 0;
-	}
-}
-
-/**
- * This is the main entry point of the program.
- */
-int main(void)
-{
-    DDRA = DDRC = 0xff; // Initiate ports A and C as output ports.
-    DDRD |= ~(1<<4) | ~(1<<5) | ~(1<<6) | ~(1<<7); // Set ports D [4-7] to be inputs.
-    PORTD = (1<<4) | (1<<5) | (1<<6) | (1<<7); // Enable pull up resistors.
-	
-	GICR = 1 << INT0; // Enable interrupt 0 in the general interrupt control register.
-	MCUCR = 1 << ISC01 | 1 << ISC00; // Set the interrupt sens control bits in the MCU control register to listen for an raising edge event.
-	sei(); // Set enable interrupt to the control register so interrupts are enabled globally.
-	
-    while (1) 
-    {
-        getActiveSwitch();
-		writeNumbToDisplay(countedPulses);
+    screenBufferIndex = 0; // The starting position of the screen buffer to fill.
+    while( number ){ // While there are digits left to process.
+        uint8_t digit = number % 10; // Get the last digit.
+        number /=10; // Throw away the last digit.
+		for ( int i = 0; i<7; ++i ) { // Load 7 single segment values for an certain number into the screen buffer.
+            screenBuffer[screenBufferIndex][i] = displayEncodedNumbers[digit][i];
+        }
     }
+
+    while( screenBufferIndex < 4 ){ // Fill remaining displays with 0xff so the segments turn off.
+        for ( int i = 0; i<7; ++i ) { // Load 7 single segment values for an certain number into the screen buffer.
+            screenBuffer[screenBufferIndex][i] = 0xff;
+        }
+        screenBufferIndex--;
+    }
+}
+
+void initiateIO()
+{
+	DISPLAY_DATA_DIR = 0xFF; // Configure all display ports as outputs.
+	DISPLAY_OUTPUT_PORT = 0xFF; // Pull up every segment so they turn off.
+	SEGMENT_DATA_DIR = 0xFF; // Configure all segment ports as outputs.
+	SEGMENT_OUTPUT_PORT = 0xFF; // Pull up every segment so they turn off.
+	//CONTROL_DATA_DIR = ~(1<<0) | ~(1<<1) | ~(1<<2) | ~(1<<3); // Configure [0...3] user control ports as inputs.
+	//CONTROL_INPUT_PIN = (1<<4) | (1<<5) | (1<<6) | (1<<7); // Enable pull up resistors on the user input ports.
+}
+
+void initiateRegisters()
+{
+	MCUCR = ( 1<<ISC00 );   // Enable interrupt reaction
+	TCCR0 = (1 << CS01); // Set up timer 0 without prescaler
+	TCNT0 = 200; // Initialize timer 0 tick counter to 0
+	// TIMSK Timer Interrupt mask, TOIE0 Timer Overflow Interrupt Enable 0
+	TIMSK = ( 1<< TOIE0); // Enable interrupts on an overflow of the Timer 0 register.
+	sei(); // Enable global interrupts.
+}
+
+int main()
+{
+    initiateIO();
+	initiateRegisters();
+
+    while(1)
+	{
+		 _delay_ms(10);
+		 //updateScreenBuffer(1);
+		//PORTA = 0xff;
+		//updateScreenBuffer( 3 );
+	}
 }

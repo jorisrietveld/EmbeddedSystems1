@@ -5,6 +5,7 @@
  */
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
 
 #define DISPLAY_DATA_DIR DDRA
 #define SEGMENT_DATA_DIR DDRC
