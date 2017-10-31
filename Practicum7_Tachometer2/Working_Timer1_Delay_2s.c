@@ -2,39 +2,32 @@
  * Author: Joris Rietveld <jorisrietveld@gmail.com>
  * Created: 31-10-2017 15:31
  * License: GPLv3 - General Public License version 3
+ *//**
+ * Author: Joris Rietveld <jorisrietveld@gmail.com>
+ * Created: 31-10-2017 15:31
+ * License: GPLv3 - General Public License version 3
  */
-#define F_CPU 1000000UL
-
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include <util/delay.h>
-#define DISPLAY_DATA_DIR DDRA
-#define SEGMENT_DATA_DIR DDRC
-#define CONTROL_DATA_DIR DDRD
-#define DISPLAY_OUTPUT_PORT PORTA
-#define SEGMENT_OUTPUT_PORT PORTC
-#define CONTROL_INPUT_PIN PORTD
+#define LED_DATA_DIRECTION DDRA
+#define LED_PORT PORTA
 
-volatile uint16_t overflowCounter = 0;
+volatile uint16_t msCounter = 0;
 
 int main(){
-    DISPLAY_DATA_DIR |= 0xff;
-    DISPLAY_OUTPUT_PORT = 0xff;
-	
-    TCCR1B |= (1 << CS10) | (1<<CS11);
-	
-	for(;;){
-		if (TCNT1 >= 15624)
-        {
-            DISPLAY_OUTPUT_PORT ^= (1<<7);
-            TCNT1 = 0;
-			overflowCounter++;
-			
-			if( overflowCounter >= 2)
-			{
-				DISPLAY_OUTPUT_PORT ^= (1<<7);
-				overflowCounter = 0;
+	LED_PORT = LED_DATA_DIRECTION = 0xff; // Enable the data direction register of of the led port to outputs and pull up all ports.
+	TCCR1B |= (1 << CS10) | (1<<CS11); // Enable Timer1 with an prescaler of 64
+
+	while(1){
+
+		if (TCNT1 >= 15624){ // 1 ms
+			TCNT1 = 0; // Reset the counter register to 0 to start counting to 1 ms again.
+			msCounter++; // Increment the milliseconds tracker variable.
+
+			if( msCounter >= 2){ // 2 Seconds
+				LED_PORT ^= (1<<7); // Toggle led.
+				msCounter = 0; // Reset the 2 seconds counter.
 			}
-        }
+		}
 	}
 }
