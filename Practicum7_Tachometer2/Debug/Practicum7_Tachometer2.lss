@@ -3,27 +3,27 @@ Practicum7_Tachometer2.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000090  00000000  00000000  00000054  2**1
+  0 .text         000000a4  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  000000e4  2**0
+  1 .data         00000000  00800060  00800060  000000f8  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  000000e4  2**0
+  2 .comment      00000030  00000000  00000000  000000f8  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000114  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000128  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000020  00000000  00000000  00000150  2**0
+  4 .debug_aranges 00000020  00000000  00000000  00000164  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000579  00000000  00000000  00000170  2**0
+  5 .debug_info   00000569  00000000  00000000  00000184  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000004f9  00000000  00000000  000006e9  2**0
+  6 .debug_abbrev 000004f5  00000000  00000000  000006ed  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000001d8  00000000  00000000  00000be2  2**0
+  7 .debug_line   00000220  00000000  00000000  00000be2  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000024  00000000  00000000  00000dbc  2**2
+  8 .debug_frame  00000024  00000000  00000000  00000e04  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000002e9  00000000  00000000  00000de0  2**0
+  9 .debug_str    000002e0  00000000  00000000  00000e28  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_ranges 00000010  00000000  00000000  000010c9  2**0
+ 10 .debug_ranges 00000010  00000000  00000000  00001108  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -59,48 +59,103 @@ Disassembly of section .text:
   5c:	de bf       	out	0x3e, r29	; 62
   5e:	cd bf       	out	0x3d, r28	; 61
   60:	0e 94 36 00 	call	0x6c	; 0x6c <main>
-  64:	0c 94 46 00 	jmp	0x8c	; 0x8c <_exit>
+  64:	0c 94 50 00 	jmp	0xa0	; 0xa0 <_exit>
 
 00000068 <__bad_interrupt>:
   68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 0000006c <main>:
+ */
+
 #include <avr/io.h>
-#include <avr/interrupt.h>
 
-int main (void)
-{
-    DDRD |= (1 << 5); // Set LED as output
-  6c:	8d 9a       	sbi	0x11, 5	; 17
-
-    TCCR1B |= (1 << WGM12); // Configure timer 1 for CTC mode
-  6e:	8e b5       	in	r24, 0x2e	; 46
-  70:	88 60       	ori	r24, 0x08	; 8
-  72:	8e bd       	out	0x2e, r24	; 46
-
-    TCCR1A |= (1 << COM1A0); // Enable timer 1 Compare Output channel A in toggle mode
-  74:	8f b5       	in	r24, 0x2f	; 47
-  76:	80 64       	ori	r24, 0x40	; 64
-  78:	8f bd       	out	0x2f, r24	; 47
-
-    OCR1A   = 15624; // Set CTC compare value to 1Hz at 1MHz AVR clock, with a prescaler of 64
-  7a:	88 e0       	ldi	r24, 0x08	; 8
-  7c:	9d e3       	ldi	r25, 0x3D	; 61
-  7e:	9b bd       	out	0x2b, r25	; 43
-  80:	8a bd       	out	0x2a, r24	; 42
-
-    TCCR1B |= ((1 << CS10) | (1 << CS11)); // Start timer at Fcpu/64
-  82:	8e b5       	in	r24, 0x2e	; 46
-  84:	83 60       	ori	r24, 0x03	; 3
-  86:	8e bd       	out	0x2e, r24	; 46
+void main(){
+    DDRD = 0x00;
+  6c:	11 ba       	out	0x11, r1	; 17
+    DDRC = 0xff;
+  6e:	8f ef       	ldi	r24, 0xFF	; 255
+  70:	84 bb       	out	0x14, r24	; 20
+    PORTC = 0xff;
+  72:	85 bb       	out	0x15, r24	; 21
+    PORTD = 0xff;
+  74:	82 bb       	out	0x12, r24	; 18
+        {
+            PORTC = ~( 1 << 6 );
+        }
+        else if (!( PIND & ( 1 << 7 )) )
+        {
+            PORTC = ~( 1 << 7 );
+  76:	4f e7       	ldi	r20, 0x7F	; 127
+        {
+            PORTC = ~( 1 << 5 );
+        }
+        else if (!( PIND & ( 1 << 6 )) )
+        {
+            PORTC = ~( 1 << 6 );
+  78:	3f eb       	ldi	r19, 0xBF	; 191
+        {
+            PORTC = ~( 1 << 4 );
+        }
+        else if (!( PIND & ( 1 << 5 )) )
+        {
+            PORTC = ~( 1 << 5 );
+  7a:	2f ed       	ldi	r18, 0xDF	; 223
+        {
+            PORTC = ~( 1 << 3 );
+        }
+        else */if (!( PIND & ( 1 << 4 )) )
+        {
+            PORTC = ~( 1 << 4 );
+  7c:	9f ee       	ldi	r25, 0xEF	; 239
+    DDRC = 0xff;
+    PORTC = 0xff;
+    PORTD = 0xff;
 
     while(1){
         asm volatile ("nop"); // Do nothing , No Operation
-  88:	00 00       	nop
-  8a:	fe cf       	rjmp	.-4      	; 0x88 <main+0x1c>
+  7e:	00 00       	nop
+        }
+        else if (!( PIND & ( 1 <<3 )) )
+        {
+            PORTC = ~( 1 << 3 );
+        }
+        else */if (!( PIND & ( 1 << 4 )) )
+  80:	84 99       	sbic	0x10, 4	; 16
+  82:	02 c0       	rjmp	.+4      	; 0x88 <main+0x1c>
+        {
+            PORTC = ~( 1 << 4 );
+  84:	95 bb       	out	0x15, r25	; 21
+  86:	0a c0       	rjmp	.+20     	; 0x9c <main+0x30>
+        }
+        else if (!( PIND & ( 1 << 5 )) )
+  88:	85 99       	sbic	0x10, 5	; 16
+  8a:	02 c0       	rjmp	.+4      	; 0x90 <main+0x24>
+        {
+            PORTC = ~( 1 << 5 );
+  8c:	25 bb       	out	0x15, r18	; 21
+  8e:	06 c0       	rjmp	.+12     	; 0x9c <main+0x30>
+        }
+        else if (!( PIND & ( 1 << 6 )) )
+  90:	86 99       	sbic	0x10, 6	; 16
+  92:	02 c0       	rjmp	.+4      	; 0x98 <main+0x2c>
+        {
+            PORTC = ~( 1 << 6 );
+  94:	35 bb       	out	0x15, r19	; 21
+  96:	02 c0       	rjmp	.+4      	; 0x9c <main+0x30>
+        }
+        else if (!( PIND & ( 1 << 7 )) )
+  98:	87 9b       	sbis	0x10, 7	; 16
+        {
+            PORTC = ~( 1 << 7 );
+  9a:	45 bb       	out	0x15, r20	; 21
+        }
+        PORTC = 0xff;
+  9c:	85 bb       	out	0x15, r24	; 21
+    }
+  9e:	ef cf       	rjmp	.-34     	; 0x7e <main+0x12>
 
-0000008c <_exit>:
-  8c:	f8 94       	cli
+000000a0 <_exit>:
+  a0:	f8 94       	cli
 
-0000008e <__stop_program>:
-  8e:	ff cf       	rjmp	.-2      	; 0x8e <__stop_program>
+000000a2 <__stop_program>:
+  a2:	ff cf       	rjmp	.-2      	; 0xa2 <__stop_program>
