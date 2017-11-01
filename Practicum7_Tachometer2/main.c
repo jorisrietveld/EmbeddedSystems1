@@ -66,7 +66,8 @@ void initInterrupts(){
 
 ISR(TIMER0_OVF_vect)
 {
-    DISPLAY_PORT = 0xFF; // Output next value in screen buffer.
+    displayBufferIndex = displayBufferIndex == 27 ? 0 : displayBufferIndex++; // Increment the display index tracker, rotate if it exceeds buffer size.
+    DISPLAY_PORT = screenBuffer[ displayBufferIndex ]; // Output 1 segment of an character on the display.
 }
 
 ISR(TIMER1_OVF_vect)
