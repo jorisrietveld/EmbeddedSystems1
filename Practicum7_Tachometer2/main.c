@@ -22,89 +22,90 @@
 #define INPUT_PIN PIND  // Input Register of to the external input ports, used to interact with the user and read data from the sensors.
 #define INPUT_PORT PORTD // Output Register of the external input ports, used to enable pull-up registers.
 
-volatile uint16_t timerOverflowCount = 0; // Count Timer 1 overflows to measure distance between input signals.
-volatile uint16_t lastPulseMicrosecondsCount = 0; // Amount of microseconds since last external interrupt.
-volatile uint8_t lastPulseOverflowCount = 0; // Amount of overflows since last external interrupt.
+volatile uint64_t timerOverflowCount = 0; // Count Timer 1 overflows to measure distance between input signals.
+volatile uint64_t lastPulseMicrosecondsCount = 0; // Amount of microseconds since last external interrupt.
+
+volatile uint64_t overflowBetweenPusesCount = 0;
+
+volatile uint64_t lastPulseOverflowCount = 0; // Amount of overflows since last external interrupt.
 
 uint16_t lastCalculationTime = 0; // Contains the last amount of timer 1 overflows on the calculation.
 
-volatile uint8_t screenBuffer[4][7] = {
-        { 0xBF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF },
-        { 0xBF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF },
-        { 0xDF, 0xBF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFF },
-        { 0xDF, 0xBF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFF }
-};
-volatile uint8_t screenBufferIndex = 0;
-volatile uint8_t segmentBufferIndex = 0;
-
-uint8_t displayEncodedNumbers[10][7] = {
-        { 0xDF, 0xBF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFF },  // Sequence of encoded segments to create the number 0
-        { 0xBF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 1
-        { 0xDF, 0xBF, 0xFD, 0xEF, 0xF7, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 2
-        { 0xDF, 0xBF, 0xFD, 0xFB, 0xF7, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 3
-        { 0xFE, 0xFD, 0xBF, 0xFB, 0xFF, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 4
-        { 0xDF, 0xFE, 0xFD, 0xFB, 0xF7, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 5
-        { 0xDF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFD, 0xFF },  // Sequence of encoded segments to create the number 6
-        { 0xDF, 0xBF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 7
-        { 0xDF, 0xBF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFD },  // Sequence of encoded segments to create the number 8
-        { 0xDF, 0xBF, 0xFB, 0xF7, 0xFE, 0xFD, 0xFF },  // Sequence of encoded segments to create the number 9
-};
+// The encoded segment bytes, number 11 is an hack to turn off displays.
+volatile uint8_t encodedNumbers[11] = { 0x82, 0xBB, 0x85, 0x91, 0xB8, 0xD0, 0xC0, 0x9B, 0x80, 0x90, 0xFF };
+volatile uint8_t screenOutputBuffer[4] = { 0, 1, 10, 10 }; // The numbers currently being multiplexed on the displays.
+volatile uint8_t displayIndex = 0; // The current display that is turned on during multiplexing.
+volatile uint8_t testByte = 0b1000000; // An byte to break every encoded segment into 7 single segment pieces.
 
 void initIoRegisters();
 void initiateTimers();
 void initInterrupts();
-void updateScreenBuffer( uint16_t number );
+
+void writeScreenBuffer( uint16_t number );
+void outputScreenBuffer();
 
 int main(){
     initIoRegisters();
     initiateTimers();
     initInterrupts();
-
+	uint8_t counter = 123;
     while(1){
-        updateScreenBuffer(10);
+		outputScreenBuffer();
+		//_delay_ms(1000);	
+        
         //asm volatile ("nop"); // Do nothing , No Operation
+		
         if( timerOverflowCount - lastCalculationTime > 7 ){ //  Overflow occurs at 15.259 Hz so 7 ~ 0.5 s
+			/*
             lastCalculationTime = timerOverflowCount;
-
             uint16_t overflows = timerOverflowCount - lastPulseOverflowCount; // Get amount of overflows since last pulse.
-            uint16_t microSeconds = TCNT1 - lastPulseMicrosecondsCount; // Get remaining microseconds since last pulse.
             uint32_t microSecondsBetweenPulse = (overflows*65535)+microSeconds; // Calculate amount of microseconds since last pulse.
-            uint16_t revolutionsPerMinute = microSecondsBetweenPulse * 60000000; // Calculate revolutions per minute
+			uint16_t revolutionsPerMinute = microSecondsBetweenPulse * 60000000; // Calculate revolutions per minute
+			*/
+			uint64_t timeBetween = lastPulseMicrosecondsCount + ( overflowBetweenPusesCount * 65535 );
+			//lastPulseMicrosecondsCount
+			writeScreenBuffer( timeBetween / 1000 );
+			//writeScreenBuffer( 100 );
         }
     }
 }
 
 ISR(TIMER0_OVF_vect){
-    TCNT0 = 182;
-    SEGMENT_PORT = 0xff;
-    if( segmentBufferIndex == 6 ){ // Is this the last segment in the buffer.
-        segmentBufferIndex = 0; // Start from the first index.
-        if( screenBufferIndex < 3 ){
-            screenBufferIndex++; // Go the the next screen buffer.
-        }else{
-            screenBufferIndex = 0;
-        }
-    }
-    DISPLAY_PORT = ~(1<<screenBufferIndex); // Enable current display
-    SEGMENT_PORT = screenBuffer[screenBufferIndex][segmentBufferIndex++]; // Enable current segment
+	TCNT0 = 182; // ( 60 Hz / 28 segments ) / ( 1 MHz / prescaler 8 )
+
+	if( testByte == 0b0000000 ){ // If an complete segment is written to the screen.
+		testByte = 0b1000000;     // reset testByte
+
+		if( displayIndex < 3 ){ // If there are more displays.
+			displayIndex++; // Increment display index
+			}else {
+			displayIndex = 0; // Reset displays and start over.
+		}
+	}
+	SEGMENT_PORT = 0xFF; // Make sure all segments are off, to prevent shadows of numbers.
+	DISPLAY_PORT = ~( 1 << displayIndex ); // Enable the correct display port.
+	// get an single segment from an encoded segment byte and display it on the screen.
+	SEGMENT_PORT = ~testByte | encodedNumbers[ screenOutputBuffer[ displayIndex] ];
+	testByte >>= 1; // Shift to the next segment.
 }
 
 ISR(TIMER1_OVF_vect){
-    timerOverflowCount++;     // Increment overflow counter.
+    timerOverflowCount++; // Increment overflow counter.
 }
 
 ISR(INT0_vect){
     lastPulseMicrosecondsCount = TCNT1; // Save current amount of microseconds.
+	overflowBetweenPusesCount = timerOverflowCount - lastPulseOverflowCount;
     lastPulseOverflowCount = timerOverflowCount; // Save current amount of overflows.
 }
 
 void initIoRegisters(){
-    DISPLAY_DATA_DIR = SEGMENT_DATA_DIR = 0xFF; // Initiate data output I/O registers.
-    INPUT_DATA_DIR = 0x0F; // Initiate data input I/O registers.
-
-    DISPLAY_PORT = 0xFF;
+    DISPLAY_DATA_DIR = 0xFF;
+    SEGMENT_DATA_DIR = 0xFF; // Initiate data output I/O registers.
+    INPUT_DATA_DIR = (1<<0) | (1<<1) | (1<<2) | (1<<3); // Initiate data input I/O registers.
+    DISPLAY_PORT = 0xFF; // Turn of all display selectors.
 	SEGMENT_PORT = 0xFF; // Turn of all segment leds.
-    INPUT_DATA_DIR = 0x0F; // Enable pull-up resistors on the external input ports.
+    INPUT_PORT = 0x00; // Enable pull-up resistors on the external input ports.
 }
 
 void initiateTimers(){
@@ -115,41 +116,47 @@ void initiateTimers(){
 }
 
 void initInterrupts(){
-    MCUCR = ( 1<<ISC00 ); // Configure Interrupt mode to respond to falling edges.
-    TIMSK = 1<< TOIE0 | 1 << TOIE1;// Enable overflow interrupt on Timer 0 and Timer 1
+    MCUCR = ( 1<<ISC01 ); // Configure Interrupt mode to respond to falling edges.
+    TIMSK = 1<< TOIE1;// Enable overflow interrupt on Timer 0 and Timer 1
     GICR = 1 << INT0; // Enable external interrupts on port D3.
 
     sei(); // Enable
 }
 
-/**
- * This function updates the values in the screen buffer. It takes an number as argument and parses it into
- * individual digits. Then it fills the screen buffers for each digit with the corresponding encoded segment values.
- *
- * @param number An number to be displayed on the the 7 segment displays.
- */
-void updateScreenBuffer( uint16_t number )
+void outputScreenBuffer()
 {
-    screenBufferIndex = 0; // The buffer for the least significant digit.
+   if( testByte == 0b0000000 ){ // If an complete segment is written to the screen.
+	   testByte = 0b1000000;     // reset testByte
 
-    while( number ){ // While there are digits left to process.
-        uint8_t digit = number % 10; // Get the least significant digit.
-        number /=10; // Throw away the least significant digit and move the the next.
-        for ( int i = 0; i<7; ++i ) { // Load 7 single segment values for the digit into the screen buffer.
-            if( screenBuffer[screenBufferIndex][i] != displayEncodedNumbers[digit][i] ) {
-               screenBuffer[screenBufferIndex][i] = displayEncodedNumbers[digit][i];
-            }
-        }
-    }
-
-    while( screenBufferIndex < 4 ){ // Fill remaining buffers with 0xff so the segments turn off.
-        for ( int i = 0; i<7; ++i ) { // Load 7 segment segment off commands into buffer.
-            if( screenBuffer[screenBufferIndex][i] != 0xFF ) {
-                screenBuffer[screenBufferIndex][i]  = 0xFF;
-            }
-        }
-        screenBufferIndex++;
-    }
+	   if( displayIndex < 3 ){ // If there are more displays.
+		   displayIndex++; // Increment display index
+		   }else {
+		   displayIndex = 0; // Reset displays and start over.
+	   }
+   }
+   SEGMENT_PORT = 0xFF; // Make sure all segments are off, to prevent shadows of numbers.
+   DISPLAY_PORT = ~( 1 << displayIndex ); // Enable the correct display port.
+   // get an single segment from an encoded segment byte and display it on the screen.
+   SEGMENT_PORT = ~testByte | encodedNumbers[ screenOutputBuffer[ displayIndex] ];
+   testByte >>= 1; // Shift to the next segment.
 }
 
+void writeScreenBuffer( uint16_t number ){ // 123
+	uint8_t i;
+	volatile uint8_t digit;
+	
+    for( i = 0; i < 4; i ++){ // For each screen buffer index.
+        if( number > 0 ){ // Are there digits to inject into the screen buffer.
+			digit = number % 10; // Optimized away???? I need that !
+			number = number / 10; // Go to the next digit.
+        }
+        else { // There are no new digits to insert into the buffer.
+           digit = 10; // 11 is the encoded character for turning off displays.
+        }
+		
+		if( screenOutputBuffer[1] != digit ){
+			screenOutputBuffer[i] = digit; // Get the least significant digit of the number and write it to the buffer.
+		}
+    }
+}
 
