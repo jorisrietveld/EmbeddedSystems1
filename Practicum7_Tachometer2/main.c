@@ -3,9 +3,12 @@
  * Created: 31-10-2017 19:50
  * License: GPLv3 - General Public License version 3
  */
-
+#ifndef F_CPU // Setup the clock speed so we delay loops work correct.
+#define F_CPU 1000000UL // 1 MHz clock speed
+#endif
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <util/delay.h>
 
 #define DISPLAY_DATA_DIR DDRA // Data Direction Register of to the display selector ports.
 #define DISPLAY_PIN PINA // Input Register of to the display selector ports.
@@ -19,25 +22,80 @@
 #define INPUT_PIN PIND  // Input Register of to the external input ports, used to interact with the user and read data from the sensors.
 #define INPUT_PORT PORTD // Output Register of the external input ports, used to enable pull-up registers.
 
-volatile uint32_t timerOverflowCount = 0; // Count Timer 1 overflows to measure distance between input signals.
-volatile uint16_t microsecondsBetweenPulses = 0; // Amount of microseconds since last external interrupt.
-volatile uint8_t overflowsBetweenPulses = 0; // Amount of overflows since last external interrupt.
+volatile uint16_t timerOverflowCount = 0; // Count Timer 1 overflows to measure distance between input signals.
+volatile uint16_t lastPulseMicrosecondsCount = 0; // Amount of microseconds since last external interrupt.
+volatile uint8_t lastPulseOverflowCount = 0; // Amount of overflows since last external interrupt.
 
-volatile uint8_t displayBufferIndex = 0; // Current index of the screen buffer that is being displayed on the seven segment displays.
-volatile uint8_t screenBuffer[28] = { [0 ...(27)] = 0xFF }; // The screen buffer that is being multiplexed on the displays.
+uint16_t lastCalculationTime = 0; // Contains the last amount of timer 1 overflows on the calculation.
 
-void initRegisters();
+volatile uint8_t screenBuffer[4][7] = {
+        { 0xBF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF },
+        { 0xBF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF },
+        { 0xDF, 0xBF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFF },
+        { 0xDF, 0xBF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFF }
+};
+volatile uint8_t screenBufferIndex = 0;
+volatile uint8_t segmentBufferIndex = 0;
+
+uint8_t displayEncodedNumbers[10][7] = {
+        { 0xDF, 0xBF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFF },  // Sequence of encoded segments to create the number 0
+        { 0xBF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 1
+        { 0xDF, 0xBF, 0xFD, 0xEF, 0xF7, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 2
+        { 0xDF, 0xBF, 0xFD, 0xFB, 0xF7, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 3
+        { 0xFE, 0xFD, 0xBF, 0xFB, 0xFF, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 4
+        { 0xDF, 0xFE, 0xFD, 0xFB, 0xF7, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 5
+        { 0xDF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFD, 0xFF },  // Sequence of encoded segments to create the number 6
+        { 0xDF, 0xBF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF },  // Sequence of encoded segments to create the number 7
+        { 0xDF, 0xBF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFD },  // Sequence of encoded segments to create the number 8
+        { 0xDF, 0xBF, 0xFB, 0xF7, 0xFE, 0xFD, 0xFF },  // Sequence of encoded segments to create the number 9
+};
+
+void initIoRegisters();
+void initiateTimers();
+void initInterrupts();
+void updateScreenBuffer( uint16_t number );
 
 int main(){
-    TCCR1B |= (1 << WGM12 ); // Configure timer 1 for CTC mode, Clear Timer on Compare.
-    TIMSK |= (1 << OCIE1A ); // Enable interrupts on register OCR1A with Timer 1, Output Compare Interrupt Enable 1 A
-    sei(); // Set Enable Interrupts, Enable global interrupts.
-    OCR1A = 15624; // Set CTC compare value to 1Hz at 1MHz AVR clock, with a prescaler of 64,
-    TCCR1B |= (1 << CS10) | (1<<CS11); // Enable Timer1 with an prescaler of 64
+    initIoRegisters();
+    initiateTimers();
+    initInterrupts();
 
     while(1){
-        asm volatile ("nop"); // Do nothing , No Operation
+        updateScreenBuffer(10);
+        //asm volatile ("nop"); // Do nothing , No Operation
+        if( timerOverflowCount - lastCalculationTime > 7 ){ //  Overflow occurs at 15.259 Hz so 7 ~ 0.5 s
+            lastCalculationTime = timerOverflowCount;
+
+            uint16_t overflows = timerOverflowCount - lastPulseOverflowCount; // Get amount of overflows since last pulse.
+            uint16_t microSeconds = TCNT1 - lastPulseMicrosecondsCount; // Get remaining microseconds since last pulse.
+            uint32_t microSecondsBetweenPulse = (overflows*65535)+microSeconds; // Calculate amount of microseconds since last pulse.
+            uint16_t revolutionsPerMinute = microSecondsBetweenPulse * 60000000; // Calculate revolutions per minute
+        }
     }
+}
+
+ISR(TIMER0_OVF_vect){
+    TCNT0 = 182;
+    SEGMENT_PORT = 0xff;
+    if( segmentBufferIndex == 6 ){ // Is this the last segment in the buffer.
+        segmentBufferIndex = 0; // Start from the first index.
+        if( screenBufferIndex < 3 ){
+            screenBufferIndex++; // Go the the next screen buffer.
+        }else{
+            screenBufferIndex = 0;
+        }
+    }
+    DISPLAY_PORT = ~(1<<screenBufferIndex); // Enable current display
+    SEGMENT_PORT = screenBuffer[screenBufferIndex][segmentBufferIndex++]; // Enable current segment
+}
+
+ISR(TIMER1_OVF_vect){
+    timerOverflowCount++;     // Increment overflow counter.
+}
+
+ISR(INT0_vect){
+    lastPulseMicrosecondsCount = TCNT1; // Save current amount of microseconds.
+    lastPulseOverflowCount = timerOverflowCount; // Save current amount of overflows.
 }
 
 void initIoRegisters(){
@@ -50,36 +108,48 @@ void initIoRegisters(){
 }
 
 void initiateTimers(){
-    TCCR0 = 1 << CS00; // Initiate Timer 0 for multiplexing the segment displays.
-    TCNT0 = 0; // Initiate counter register of Timer 0.
+    TCCR0 = 1 << CS01; // Initiate Timer 0 for multiplexing the segment displays.
+    TCNT0 = 182; // Initiate counter register of Timer 0.
     TCCR1B = 1 << CS10; // Initiate Timer 1 for tracking time between external inputs.
     TCNT1 = 0; // Initiate counter register of Timer 0.
 }
 
 void initInterrupts(){
+    MCUCR = ( 1<<ISC00 ); // Configure Interrupt mode to respond to falling edges.
     TIMSK = 1<< TOIE0 | 1 << TOIE1;// Enable overflow interrupt on Timer 0 and Timer 1
     GICR = 1 << INT0; // Enable external interrupts on port D3.
 
-    sei();
+    sei(); // Enable
 }
 
-
-ISR(TIMER0_OVF_vect)
+/**
+ * This function updates the values in the screen buffer. It takes an number as argument and parses it into
+ * individual digits. Then it fills the screen buffers for each digit with the corresponding encoded segment values.
+ *
+ * @param number An number to be displayed on the the 7 segment displays.
+ */
+void updateScreenBuffer( uint16_t number )
 {
-    displayBufferIndex = displayBufferIndex == 27 ? 0 : displayBufferIndex++; // Increment the display index tracker, rotate if it exceeds buffer size.
-    DISPLAY_PORT = screenBuffer[ displayBufferIndex ]; // Output 1 segment of an character on the display.
-}
+    screenBufferIndex = 0; // The buffer for the least significant digit.
 
-ISR(TIMER1_OVF_vect)
-{
-    // Increment overflow counter.
-    timerOverflowCount++;
-}
+    while( number ){ // While there are digits left to process.
+        uint8_t digit = number % 10; // Get the least significant digit.
+        number /=10; // Throw away the least significant digit and move the the next.
+        for ( int i = 0; i<7; ++i ) { // Load 7 single segment values for the digit into the screen buffer.
+            if( screenBuffer[screenBufferIndex][i] != displayEncodedNumbers[digit][i] ) {
+               screenBuffer[screenBufferIndex][i] = displayEncodedNumbers[digit][i];
+            }
+        }
+    }
 
-ISR(INT0_vect)
-{
-    microsecondsBetweenPulses = TCNT1;
-    overflowsBetweenPulses = timerOverflowCount;
+    while( screenBufferIndex < 4 ){ // Fill remaining buffers with 0xff so the segments turn off.
+        for ( int i = 0; i<7; ++i ) { // Load 7 segment segment off commands into buffer.
+            if( screenBuffer[screenBufferIndex][i] != 0xFF ) {
+                screenBuffer[screenBufferIndex][i]  = 0xFF;
+            }
+        }
+        screenBufferIndex++;
+    }
 }
 
 

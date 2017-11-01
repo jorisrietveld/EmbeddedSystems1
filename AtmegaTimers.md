@@ -30,7 +30,7 @@
 | **Microseconds** | 65535 us    | 524280 us      | 4194240 us       | 16776960 us   | 67107840 us |
 | **Milliseconds** | 65.535 ms   | 524.280 ms    | 4194.240 ms   | 16776.960 ms      | 67107.840 ms |
 | **Seconds** | 0.065535 s | 0.5524280 s   | 4.194240 s    | 16.776960 s       | 67.776960 s |
-| **Hertz** | 15/259 Hz | 1.907 Hz | 0.2384 Hz | 0.0569 Hz | 0.0149 Hz |
+| **Hertz** | 15.259 Hz | 1.907 Hz | 0.2384 Hz | 0.0569 Hz | 0.0149 Hz |
 
 
 ## Timer/Counter 0 Registers - 8 Bit Register - Range( 0, 255 )

@@ -20,25 +20,14 @@
 #define CONTROL_DATA_DIR DDRD
 #define CONTROL_INPUT_PIN PORTD
 
-
-
-volatile uint8_t screenBuffer[28] = { // The screen buffer that is being multiplexed on the displays.
-        0xBF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-        0xBF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-        0xDF, 0xBF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFF,
-        0xDF, 0xBF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFF
-};
-
-/*volatile uint8_t screenBuffer[4][7] = {
+volatile uint8_t screenBuffer[4][7] = {
         { 0xBF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF },
         { 0xBF, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF },
         { 0xDF, 0xBF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFF },
         { 0xDF, 0xBF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFF }
 };
-
 volatile uint8_t screenBufferIndex = 0;
-volatile uint8_t segmentBufferIndex = 0;*/
-
+volatile uint8_t segmentBufferIndex = 0;
 
 uint8_t displayEncodedNumbers[10][7] = {
         { 0xDF, 0xBF, 0xFB, 0xF7, 0xEF, 0xFE, 0xFF },  // Sequence of encoded segments to create the number 0
@@ -57,47 +46,30 @@ uint8_t displayEncodedNumbers[10][7] = {
  * This service routine is for updating the values displayed on the displays.
  * It gets activated every 255 clock ticks, so for 1mHz = 255 uS
  * The Timer Interrupt flag register: T0V0 gets reset.
- *//*
+ */
 ISR(TIMER0_OVF_vect){
-    TCNT0 = 125;
+	//TCCR0 = 182;
+	TCNT0 = 182;
+	SEGMENT_OUTPUT_PORT = 0xff;
     if( segmentBufferIndex == 6 ){ // Is this the last segment in the buffer.
         segmentBufferIndex = 0; // Start from the first index.
         if( screenBufferIndex < 3 ){
             screenBufferIndex++; // Go the the next screen buffer.
-        }
-        else{
+        }else{
             screenBufferIndex = 0;
         }
     }
     DISPLAY_OUTPUT_PORT = ~(1<<screenBufferIndex); // Enable current display
-    SEGMENT_OUTPUT_PORT = screenBuffer[screenBufferIndex][segmentBufferIndex]; // Enable current segment
-    //segmentBufferIndex++; // Increment segment index for next timer overflow.
-    segmentBufferIndex++;
-}*/
-
-volatile uint8_t displayIndex = 0; // Current index of the screen buffer that is being displayed on the seven segment displays.
-volatile uint8_t segmentIndex =1;
-ISR(TIMER0_OVF_vect)
-{
-	TCNT0 = 125;
-	DISPLAY_OUTPUT_PORT = ~(1<<indexEnzo);
-	 SEGMENT_OUTPUT_PORT = screenBuffer[ displayBufferIndex ]; // Output 1 segment of an character on the display.
-	indexEnzo = indexEnzo < 3 ? indexEnzo++ : 0 ;
-	displayBufferIndex = displayBufferIndex < 26 ? displayBufferIndex++ : 0; // Increment the display index tracker, rotate if it exceeds buffer size.
-	
-	  DISPLAY_OUTPUT_PORT = ~(1<<screenBufferIndex); // Enable current display
-	  SEGMENT_OUTPUT_PORT = screenBuffer[screenBufferIndex][segmentBufferIndex]; // Enable current segment
-	  //segmentBufferIndex++; // Increment segment index for next timer overflow.
-	  segmentBufferIndex++;
+    SEGMENT_OUTPUT_PORT = screenBuffer[screenBufferIndex][segmentBufferIndex++]; // Enable current segment
+    //segmentBufferIndex++;
 }
-
 
 /**
  * This function updates the values in the screen buffer. It takes an number as argument and parses it into
  * individual digits. Then it fills the screen buffers for each digit with the corresponding encoded segment values.
  *
  * @param number An number to be displayed on the the 7 segment displays.
- *//*
+ */
 void updateScreenBuffer( uint16_t number )
 {
     screenBufferIndex = 0; // The starting position of the screen buffer to fill.
@@ -115,7 +87,7 @@ void updateScreenBuffer( uint16_t number )
         }
         screenBufferIndex--;
     }
-}*/
+}
 
 void initiateIO()
 {
@@ -131,7 +103,7 @@ void initiateRegisters()
 {
     MCUCR = ( 1<<ISC00 );   // Enable interrupt reaction
     TCCR0 = (1 << CS01); // Set up timer 0 with prescaler 8, 0.125 tick = 1 us
-    TCNT0 = 125; // Initialize timer 0 tick counter to 125, update every ms.
+    TCNT0 = 182; // Initialize Timer 0 with 182 ticks for an display refresch rate of 60 Hz.
     // TIMSK Timer Interrupt mask, TOIE0 Timer Overflow Interrupt Enable 0
     TIMSK = ( 1<< TOIE0); // Enable interrupts on an overflow of the Timer 0 register.
     sei(); // Enable global interrupts.
@@ -141,11 +113,10 @@ int main()
 {
     initiateIO();
     initiateRegisters();
-	uint8_t valueB = 0;
+
     while(1)
     {
-		valueB + 10 %1;
-        
+        _delay_ms(10);
         //updateScreenBuffer(1);
         //PORTA = 0xff;
         //updateScreenBuffer( 3 );
