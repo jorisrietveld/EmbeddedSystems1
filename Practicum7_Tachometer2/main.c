@@ -62,9 +62,9 @@ int main(){
             uint32_t microSecondsBetweenPulse = (overflows*65535)+microSeconds; // Calculate amount of microseconds since last pulse.
 			uint16_t revolutionsPerMinute = microSecondsBetweenPulse * 60000000; // Calculate revolutions per minute
 			*/
-			uint64_t timeBetween = lastPulseMicrosecondsCount + ( overflowBetweenPusesCount * 65535 );
+			uint64_t timeBetween = lastPulseMicrosecondsCount + (overflowBetweenPusesCount * 65536 );
 			//lastPulseMicrosecondsCount
-			writeScreenBuffer( timeBetween / 1000 );
+			writeScreenBuffer( overflowBetweenPusesCount );
 			//writeScreenBuffer( 100 );
         }
     }
