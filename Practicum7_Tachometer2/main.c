@@ -41,18 +41,19 @@ volatile uint8_t testByte = 0b1000000; // An byte to break every encoded segment
 
 void initIoRegisters();
 void initiateTimers();
-void initInterrupts();
 
-void writeScreenBuffer( uint16_t number );
-void outputScreenBuffer();
+void writeScreenBuffer( uint16_t number ); // Define function to display an number to the screens.
+void outputScreenBuffer(); // Define function to write the the displays.
 
+/**
+ * The main program routine.
+ * @return null.
+ */
 int main(){
-    initIoRegisters();
-    initiateTimers();
-    initInterrupts();
-    uint8_t counter = 123;
+    initIoRegisters(); // Initiate the I/O registers.
+    initiateTimers(); // Initiate the timer registers.
     while(1){
-        outputScreenBuffer();
+        outputScreenBuffer(); // Output the buffer.
         writeScreenBuffer( rpm );
     }
 }
@@ -85,13 +86,6 @@ void initiateTimers(){
     TCNT0 = 182; // Initiate counter register of Timer 0.
     TCCR1B = 1 << CS10; // Initiate Timer 1 for tracking time between external inputs.
     TCNT1 = 0; // Initiate counter register of Timer 0.
-}
-
-void initInterrupts(){
-    MCUCR = ( 1<<ISC01 ); // Configure Interrupt mode to respond to falling edges.
-    TIMSK = 1<<TOIE1 | 1<<TOIE0;// Enable overflow interrupt on Timer 0 and Timer 1
-    GICR = 1 << INT0; // Enable external interrupts on port D3.
-    sei(); // Enable
 }
 
 void outputScreenBuffer()

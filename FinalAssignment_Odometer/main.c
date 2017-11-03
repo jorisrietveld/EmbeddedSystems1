@@ -4,7 +4,8 @@
  * License: GPLv3 - General Public License version 3
  */
 
-#define F_CPU 1000000UL // Oscillator frequency
+#define F_CPU 1000000UL // MCU frequency
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <avr/delay.h>
@@ -29,14 +30,9 @@ long pulsen = 0;
 long pulsentmp = 0;
 int i;
 int test;
-int numbers[11] = { //Zet alle mogelijke nummers in een array zodat met de index het nummer kan worden aan geroepen.
+int numbers[11] = { 0x7d,0x44,0x7a,0x6e,0x47,0x2f,0x3f,0x64,0x7f,0x6f,0x80 }; //
+int displays[4] = { 0x08,0x04,0x02,0x01 }; //
 
-        0x7d,0x44,0x7a,0x6e,0x47,0x2f,0x3f,0x64,0x7f,0x6f,0x80 //begint bij 0, gaat door tot 9 en dan als laatste een punt.
-};
-int displays[4] = { //Zet de displays in een array zodat ze bij index kunnen worden aangeroepen.
-
-        0x08,0x04,0x02,0x01
-};
 uint8_t isSwitchActive(uint8_t switchNumber){
     return !(PIND &( 1 << switchNumber));
 }
@@ -49,8 +45,7 @@ ISR(INT1_vect){
 /*
  * De interne interrupt, wordt aangeroepen zodra de timer is afgelopen
  */
-ISR(TIMER0_OVF_vect)
-{
+ISR(TIMER0_OVF_vect){
     TCNT0 = 6; // teller 6 maken
     if (++interruptTeller == 500) { //Als de timer 500 keer is afgelopen (na een seconde).
         asm volatile ("nop"); //Zorgt voor betere precisie
@@ -60,13 +55,25 @@ ISR(TIMER0_OVF_vect)
         asm volatile ("nop"); //Zorgt voor betere precisie.
     }
 }
+
+void initIoRegisters(){
+    DISPLAY_DATA_DIR = 0xFF; // Initiate display output I/O registers.
+    SEGMENT_DATA_DIR = 0xFF; // Initiate segment output I/O registers.
+}
+
+void initiateTimers(){
+    TCCR0 = _BV(CS01); //| _BV(CS00); // de prescaling is 8
+    TCNT0 = 6; // Start Timer 0 Counter register with 6
+    TIMSK = _BV(TOIE0);
+}
+
 /*
  * De main loop
  */
 int main(void) {
-    //Zet zowel poort C als D als output.
-    DDRC = 0xff;
-    DDRA = 0xff;
+    initIoRegisters();
+    initiateTimers();
+
     GICR  = _BV(INT1);  // enable externe interrupt bit INT0
     MCUCR = 1<<ISC11|1<<ISC10;  // neergaande flank ISC01=1 ISC00=0, dus wanneer de button word ingedrukt.
     TCCR0 = _BV(CS01); //| _BV(CS00); // de prescaling is 8
@@ -203,8 +210,6 @@ int display(int number, int display) {
         //_delay_ms(1);
     }
 
-
-
     PORTA = ~displays[display]; //Zet de juiste display aan.
     PORTC = ~numbers[number]; //Stuur de byte voor welk nummer er weergegeven moet worden.
     //_delay_ms(1);
@@ -213,8 +218,7 @@ int display(int number, int display) {
  * Functie om een nummer, bestaande uit meerdere getallen weer te geven.
  * number: het getal om weer te geven (max 9999).
  */
-int displayNumber(int number)
-{
+int displayNumber(int number){
     int dis = 3; //Begin bij de juiste display.
     if ( number != 0 && number < 9999 ) //Check of de waarde 0 is en kleiner als het max nummer.
     {
