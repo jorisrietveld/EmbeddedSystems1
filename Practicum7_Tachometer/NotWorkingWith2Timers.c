@@ -10,7 +10,8 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
-//#define TIMER0_DISPLAY_REFRESH // Handle the multiplexing by timer 1.
+#define MEASUREMENTS_PER_CIRCLE 1
+//#define TIMER0_DISPLAY_REFRESH
 
 #define DISPLAY_DATA_DIR DDRA // Data Direction Register of to the display selector ports.
 #define DISPLAY_PIN PINA // Input Register of to the display selector ports.
@@ -24,14 +25,9 @@
 #define INPUT_PIN PIND  // Input Register of to the external input ports, used to interact with the user and read data from the sensors.
 #define INPUT_PORT PORTD // Output Register of the external input ports, used to enable pull-up registers.
 
-volatile uint64_t timerOverflowCount = 0; // Count Timer 1 overflows to measure distance between input signals.
-volatile uint64_t lastPulseMicrosecondsCount = 0; // Amount of microseconds since last external interrupt.
-volatile uint64_t overflowBetweenPusesCount = 0;
-volatile uint64_t lastPulseOverflowCount = 0; // Amount of overflows since last external interrupt.
-uint16_t lastCalculationTime = 0; // Contains the last amount of timer 1 overflows on the calculation.
-
-volatile uint16_t countedPulses = 0;
-volatile uint16_t rpm = 0;
+volatile uint16_t pulseCount = 0;
+//volatile uint16_t amountOfPulses100ms = 0;
+volatile uint16_t numberToDisplay = 0;
 
 // The encoded segment bytes, number 11 is an hack to turn off displays.
 volatile uint8_t encodedNumbers[11] = { 0x82, 0xBB, 0x85, 0x91, 0xB8, 0xD0, 0xC0, 0x9B, 0x80, 0x90, 0xFF };
@@ -52,23 +48,39 @@ int main(){
     initInterrupts();
     uint8_t counter = 123;
     while(1){
+#ifndef TIMER0_DISPLAY_REFRESH // If the display refresh isn't running on the timer.
         outputScreenBuffer();
-        writeScreenBuffer( rpm );
+#endif
+        writeScreenBuffer(numberToDisplay);
     }
 }
 
 ISR(TIMER0_OVF_vect){
+    TCNT0 = 182; // ( 60 Hz / 28 segments ) / ( 1 MHz / prescaler 8 )
 
+    if( testByte == 0b0000000 ){ // If an complete segment is written to the screen.
+        testByte = 0b1000000;     // reset testByte
+
+        if( displayIndex < 3 ){ // If there are more displays.
+            displayIndex++; // Increment display index
+        }else {
+            displayIndex = 0; // Reset displays and start over.
+        }
+    }
+    SEGMENT_PORT = 0xFF; // Make sure all segments are off, to prevent shadows of numbers.
+    DISPLAY_PORT = ~( 1 << displayIndex ); // Enable the correct display port.
+    // get an single segment from an encoded segment byte and display it on the screen.
+    SEGMENT_PORT = ~testByte | encodedNumbers[ screenOutputBuffer[ displayIndex] ];
+    testByte >>= 1; // Shift to the next segment.
 }
 
 ISR(TIMER1_OVF_vect){
-    timerOverflowCount++; // Increment overflow counter.
-    rpm = countedPulses / 1.025; //Bereken de toeren per minuut,
-    countedPulses = 0; //Zet het aantal getelde pulsen weer op 0.
+    numberToDisplay = (pulseCount / MEASUREMENTS_PER_CIRCLE) * 60;
+    pulseCount = 0;
 }
 
 ISR(INT0_vect){
-    countedPulses++;
+    pulseCount++;
 }
 
 void initIoRegisters(){
@@ -83,14 +95,20 @@ void initIoRegisters(){
 void initiateTimers(){
     TCCR0 = 1 << CS01; // Initiate Timer 0 for multiplexing the segment displays.
     TCNT0 = 182; // Initiate counter register of Timer 0.
-    TCCR1B = 1 << CS10; // Initiate Timer 1 for tracking time between external inputs.
-    TCNT1 = 0; // Initiate counter register of Timer 0.
+    TCCR1B = 1 << WGM12; // Initiate Timer 1 for tracking time between external inputs.
+    OCR1A = 15624; // Initiate compare register.
+    TCCR1B |= (1 << CS10) | (1 << CS11); // Configure timer 1 to use an prescaler of 64 on 1 MHz clock.
 }
 
 void initInterrupts(){
     MCUCR = ( 1<<ISC01 ); // Configure Interrupt mode to respond to falling edges.
-    TIMSK = 1<<TOIE1 | 1<<TOIE0;// Enable overflow interrupt on Timer 0 and Timer 1
+#ifndef TIMER0_DISPLAY_REFRESH
+    TIMSK = 1<<OCIE1A;// Enable overflow interrupt on Timer 0 and Timer 1
+#else
+    TIMSK = 1<< TOIE1;// Enable overflow interrupt on Timer 0 and Timer 1
+#endif
     GICR = 1 << INT0; // Enable external interrupts on port D3.
+
     sei(); // Enable
 }
 
@@ -122,11 +140,16 @@ void writeScreenBuffer( uint16_t number ){ // 123
             number = number / 10; // Go to the next digit.
         }
         else { // There are no new digits to insert into the buffer.
-            //digit = 10; // 11 is the encoded character for turning off displays.
+            digit = 10; // 11 is the encoded character for turning off displays.
         }
         if( screenOutputBuffer[1] != digit ){
             screenOutputBuffer[i] = digit; // Get the least significant digit of the number and write it to the buffer.
         }
     }
 }
+// 11000 RPM =  183.33 RPS   =   0.1833 RPmS    =    0.000018333 RPuS
+// 1000 RPM =   16.66 RPS   =    0.01666 RPmS   =   
+// 1 RPM    =  0.0166 RPS   =  0.00000166 RPmS  =   0.0000000166 RPuS
+void readButtons(){
 
+}

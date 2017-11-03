@@ -3,38 +3,38 @@ Practicum7_Tachometer2.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000346  00000000  00000000  00000094  2**1
+  0 .text         00000572  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000062  00800060  00000346  000003da  2**0
+  1 .data         00000010  00800060  00000572  00000606  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000009  008000c2  008000c2  0000043c  2**0
+  2 .bss          0000000d  00800070  00800070  00000616  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  0000043c  2**0
+  3 .comment      00000030  00000000  00000000  00000616  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000046c  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000648  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000058  00000000  00000000  000004a8  2**0
+  5 .debug_aranges 00000060  00000000  00000000  00000684  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000007ad  00000000  00000000  00000500  2**0
+  6 .debug_info   000007a2  00000000  00000000  000006e4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000005e2  00000000  00000000  00000cad  2**0
+  7 .debug_abbrev 000005db  00000000  00000000  00000e86  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000375  00000000  00000000  0000128f  2**0
+  8 .debug_line   0000034a  00000000  00000000  00001461  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000000e0  00000000  00000000  00001604  2**2
+  9 .debug_frame  00000128  00000000  00000000  000017ac  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000451  00000000  00000000  000016e4  2**0
+ 10 .debug_str    0000043e  00000000  00000000  000018d4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000001c0  00000000  00000000  00001b35  2**0
+ 11 .debug_loc    00000224  00000000  00000000  00001d12  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000090  00000000  00000000  00001cf5  2**0
+ 12 .debug_ranges 00000050  00000000  00000000  00001f36  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
    0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
-   4:	0c 94 a7 00 	jmp	0x14e	; 0x14e <__vector_1>
+   4:	0c 94 b0 00 	jmp	0x160	; 0x160 <__vector_1>
    8:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
    c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   10:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
@@ -42,7 +42,7 @@ Disassembly of section .text:
   18:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   1c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
-  24:	0c 94 90 00 	jmp	0x120	; 0x120 <__vector_9>
+  24:	0c 94 53 00 	jmp	0xa6	; 0xa6 <__vector_9>
   28:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
   2c:	0c 94 49 00 	jmp	0x92	; 0x92 <__vector_11>
   30:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
@@ -67,18 +67,18 @@ Disassembly of section .text:
   60:	10 e0       	ldi	r17, 0x00	; 0
   62:	a0 e6       	ldi	r26, 0x60	; 96
   64:	b0 e0       	ldi	r27, 0x00	; 0
-  66:	e6 e4       	ldi	r30, 0x46	; 70
-  68:	f3 e0       	ldi	r31, 0x03	; 3
+  66:	e2 e7       	ldi	r30, 0x72	; 114
+  68:	f5 e0       	ldi	r31, 0x05	; 5
   6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
   6c:	05 90       	lpm	r0, Z+
   6e:	0d 92       	st	X+, r0
-  70:	a2 3c       	cpi	r26, 0xC2	; 194
+  70:	a0 37       	cpi	r26, 0x70	; 112
   72:	b1 07       	cpc	r27, r17
   74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
 
 00000076 <__do_clear_bss>:
   76:	20 e0       	ldi	r18, 0x00	; 0
-  78:	a2 ec       	ldi	r26, 0xC2	; 194
+  78:	a0 e7       	ldi	r26, 0x70	; 112
   7a:	b0 e0       	ldi	r27, 0x00	; 0
   7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
 
@@ -86,18 +86,18 @@ Disassembly of section .text:
   7e:	1d 92       	st	X+, r1
 
 00000080 <.do_clear_bss_start>:
-  80:	ab 3c       	cpi	r26, 0xCB	; 203
+  80:	ad 37       	cpi	r26, 0x7D	; 125
   82:	b2 07       	cpc	r27, r18
   84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
-  86:	0e 94 67 01 	call	0x2ce	; 0x2ce <main>
-  8a:	0c 94 a1 01 	jmp	0x342	; 0x342 <_exit>
+  86:	0e 94 5e 01 	call	0x2bc	; 0x2bc <main>
+  8a:	0c 94 b7 02 	jmp	0x56e	; 0x56e <_exit>
 
 0000008e <__bad_interrupt>:
   8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000092 <__vector_11>:
-            uint16_t revolutionsPerMinute = microSecondsBetweenPulse * 60000000; // Calculate revolutions per minute
-        }
+        outputScreenBuffer();
+        writeScreenBuffer( rpm );
     }
 }
 
@@ -107,440 +107,712 @@ ISR(TIMER0_OVF_vect){
   96:	0f b6       	in	r0, 0x3f	; 63
   98:	0f 92       	push	r0
   9a:	11 24       	eor	r1, r1
-  9c:	2f 93       	push	r18
-  9e:	8f 93       	push	r24
-  a0:	9f 93       	push	r25
-  a2:	ef 93       	push	r30
-  a4:	ff 93       	push	r31
-    TCNT0 = 182;
-  a6:	86 eb       	ldi	r24, 0xB6	; 182
-  a8:	82 bf       	out	0x32, r24	; 50
-    SEGMENT_PORT = 0xff;
-  aa:	8f ef       	ldi	r24, 0xFF	; 255
-  ac:	85 bb       	out	0x15, r24	; 21
-    if( segmentBufferIndex == 6 ){ // Is this the last segment in the buffer.
-  ae:	80 91 c2 00 	lds	r24, 0x00C2	; 0x8000c2 <__data_end>
-  b2:	86 30       	cpi	r24, 0x06	; 6
-  b4:	71 f4       	brne	.+28     	; 0xd2 <__vector_11+0x40>
-        segmentBufferIndex = 0; // Start from the first index.
-  b6:	10 92 c2 00 	sts	0x00C2, r1	; 0x8000c2 <__data_end>
-        if( screenBufferIndex < 3 ){
-  ba:	80 91 c3 00 	lds	r24, 0x00C3	; 0x8000c3 <screenBufferIndex>
-  be:	83 30       	cpi	r24, 0x03	; 3
-  c0:	30 f4       	brcc	.+12     	; 0xce <__vector_11+0x3c>
-            screenBufferIndex++; // Go the the next screen buffer.
-  c2:	80 91 c3 00 	lds	r24, 0x00C3	; 0x8000c3 <screenBufferIndex>
-  c6:	8f 5f       	subi	r24, 0xFF	; 255
-  c8:	80 93 c3 00 	sts	0x00C3, r24	; 0x8000c3 <screenBufferIndex>
-  cc:	02 c0       	rjmp	.+4      	; 0xd2 <__vector_11+0x40>
-        }else{
-            screenBufferIndex = 0;
-  ce:	10 92 c3 00 	sts	0x00C3, r1	; 0x8000c3 <screenBufferIndex>
-        }
-    }
-    DISPLAY_PORT = ~(1<<screenBufferIndex); // Enable current display
-  d2:	20 91 c3 00 	lds	r18, 0x00C3	; 0x8000c3 <screenBufferIndex>
-  d6:	81 e0       	ldi	r24, 0x01	; 1
-  d8:	90 e0       	ldi	r25, 0x00	; 0
-  da:	02 c0       	rjmp	.+4      	; 0xe0 <__vector_11+0x4e>
-  dc:	88 0f       	add	r24, r24
-  de:	99 1f       	adc	r25, r25
-  e0:	2a 95       	dec	r18
-  e2:	e2 f7       	brpl	.-8      	; 0xdc <__vector_11+0x4a>
-  e4:	80 95       	com	r24
-  e6:	8b bb       	out	0x1b, r24	; 27
-    SEGMENT_PORT = screenBuffer[screenBufferIndex][segmentBufferIndex++]; // Enable current segment
-  e8:	e0 91 c3 00 	lds	r30, 0x00C3	; 0x8000c3 <screenBufferIndex>
-  ec:	80 91 c2 00 	lds	r24, 0x00C2	; 0x8000c2 <__data_end>
-  f0:	91 e0       	ldi	r25, 0x01	; 1
-  f2:	98 0f       	add	r25, r24
-  f4:	90 93 c2 00 	sts	0x00C2, r25	; 0x8000c2 <__data_end>
-  f8:	97 e0       	ldi	r25, 0x07	; 7
-  fa:	e9 9f       	mul	r30, r25
-  fc:	f0 01       	movw	r30, r0
-  fe:	11 24       	eor	r1, r1
- 100:	ea 55       	subi	r30, 0x5A	; 90
- 102:	ff 4f       	sbci	r31, 0xFF	; 255
- 104:	e8 0f       	add	r30, r24
- 106:	f1 1d       	adc	r31, r1
- 108:	80 81       	ld	r24, Z
- 10a:	85 bb       	out	0x15, r24	; 21
-}
- 10c:	ff 91       	pop	r31
- 10e:	ef 91       	pop	r30
- 110:	9f 91       	pop	r25
- 112:	8f 91       	pop	r24
- 114:	2f 91       	pop	r18
- 116:	0f 90       	pop	r0
- 118:	0f be       	out	0x3f, r0	; 63
- 11a:	0f 90       	pop	r0
- 11c:	1f 90       	pop	r1
- 11e:	18 95       	reti
 
-00000120 <__vector_9>:
+}
+  9c:	0f 90       	pop	r0
+  9e:	0f be       	out	0x3f, r0	; 63
+  a0:	0f 90       	pop	r0
+  a2:	1f 90       	pop	r1
+  a4:	18 95       	reti
+
+000000a6 <__vector_9>:
 
 ISR(TIMER1_OVF_vect){
- 120:	1f 92       	push	r1
- 122:	0f 92       	push	r0
- 124:	0f b6       	in	r0, 0x3f	; 63
- 126:	0f 92       	push	r0
- 128:	11 24       	eor	r1, r1
- 12a:	8f 93       	push	r24
- 12c:	9f 93       	push	r25
-    timerOverflowCount++;     // Increment overflow counter.
- 12e:	80 91 c9 00 	lds	r24, 0x00C9	; 0x8000c9 <timerOverflowCount>
- 132:	90 91 ca 00 	lds	r25, 0x00CA	; 0x8000ca <timerOverflowCount+0x1>
- 136:	01 96       	adiw	r24, 0x01	; 1
- 138:	90 93 ca 00 	sts	0x00CA, r25	; 0x8000ca <timerOverflowCount+0x1>
- 13c:	80 93 c9 00 	sts	0x00C9, r24	; 0x8000c9 <timerOverflowCount>
+  a6:	1f 92       	push	r1
+  a8:	0f 92       	push	r0
+  aa:	0f b6       	in	r0, 0x3f	; 63
+  ac:	0f 92       	push	r0
+  ae:	11 24       	eor	r1, r1
+  b0:	2f 93       	push	r18
+  b2:	3f 93       	push	r19
+  b4:	4f 93       	push	r20
+  b6:	5f 93       	push	r21
+  b8:	6f 93       	push	r22
+  ba:	7f 93       	push	r23
+  bc:	8f 93       	push	r24
+  be:	9f 93       	push	r25
+  c0:	af 93       	push	r26
+  c2:	bf 93       	push	r27
+  c4:	ef 93       	push	r30
+  c6:	ff 93       	push	r31
+    timerOverflowCount++; // Increment overflow counter.
+  c8:	20 91 75 00 	lds	r18, 0x0075	; 0x800075 <timerOverflowCount>
+  cc:	30 91 76 00 	lds	r19, 0x0076	; 0x800076 <timerOverflowCount+0x1>
+  d0:	40 91 77 00 	lds	r20, 0x0077	; 0x800077 <timerOverflowCount+0x2>
+  d4:	50 91 78 00 	lds	r21, 0x0078	; 0x800078 <timerOverflowCount+0x3>
+  d8:	60 91 79 00 	lds	r22, 0x0079	; 0x800079 <timerOverflowCount+0x4>
+  dc:	70 91 7a 00 	lds	r23, 0x007A	; 0x80007a <timerOverflowCount+0x5>
+  e0:	80 91 7b 00 	lds	r24, 0x007B	; 0x80007b <timerOverflowCount+0x6>
+  e4:	90 91 7c 00 	lds	r25, 0x007C	; 0x80007c <timerOverflowCount+0x7>
+  e8:	a1 e0       	ldi	r26, 0x01	; 1
+  ea:	0e 94 ab 02 	call	0x556	; 0x556 <__adddi3_s8>
+  ee:	20 93 75 00 	sts	0x0075, r18	; 0x800075 <timerOverflowCount>
+  f2:	30 93 76 00 	sts	0x0076, r19	; 0x800076 <timerOverflowCount+0x1>
+  f6:	40 93 77 00 	sts	0x0077, r20	; 0x800077 <timerOverflowCount+0x2>
+  fa:	50 93 78 00 	sts	0x0078, r21	; 0x800078 <timerOverflowCount+0x3>
+  fe:	60 93 79 00 	sts	0x0079, r22	; 0x800079 <timerOverflowCount+0x4>
+ 102:	70 93 7a 00 	sts	0x007A, r23	; 0x80007a <timerOverflowCount+0x5>
+ 106:	80 93 7b 00 	sts	0x007B, r24	; 0x80007b <timerOverflowCount+0x6>
+ 10a:	90 93 7c 00 	sts	0x007C, r25	; 0x80007c <timerOverflowCount+0x7>
+    rpm = countedPulses / 1.025; //Bereken de toeren per minuut,
+ 10e:	60 91 73 00 	lds	r22, 0x0073	; 0x800073 <countedPulses>
+ 112:	70 91 74 00 	lds	r23, 0x0074	; 0x800074 <countedPulses+0x1>
+ 116:	80 e0       	ldi	r24, 0x00	; 0
+ 118:	90 e0       	ldi	r25, 0x00	; 0
+ 11a:	0e 94 0e 02 	call	0x41c	; 0x41c <__floatunsisf>
+ 11e:	23 e3       	ldi	r18, 0x33	; 51
+ 120:	33 e3       	ldi	r19, 0x33	; 51
+ 122:	43 e8       	ldi	r20, 0x83	; 131
+ 124:	5f e3       	ldi	r21, 0x3F	; 63
+ 126:	0e 94 6d 01 	call	0x2da	; 0x2da <__divsf3>
+ 12a:	0e 94 df 01 	call	0x3be	; 0x3be <__fixunssfsi>
+ 12e:	70 93 72 00 	sts	0x0072, r23	; 0x800072 <rpm+0x1>
+ 132:	60 93 71 00 	sts	0x0071, r22	; 0x800071 <rpm>
+    countedPulses = 0; //Zet het aantal getelde pulsen weer op 0.
+ 136:	10 92 74 00 	sts	0x0074, r1	; 0x800074 <countedPulses+0x1>
+ 13a:	10 92 73 00 	sts	0x0073, r1	; 0x800073 <countedPulses>
 }
- 140:	9f 91       	pop	r25
- 142:	8f 91       	pop	r24
- 144:	0f 90       	pop	r0
- 146:	0f be       	out	0x3f, r0	; 63
- 148:	0f 90       	pop	r0
- 14a:	1f 90       	pop	r1
- 14c:	18 95       	reti
+ 13e:	ff 91       	pop	r31
+ 140:	ef 91       	pop	r30
+ 142:	bf 91       	pop	r27
+ 144:	af 91       	pop	r26
+ 146:	9f 91       	pop	r25
+ 148:	8f 91       	pop	r24
+ 14a:	7f 91       	pop	r23
+ 14c:	6f 91       	pop	r22
+ 14e:	5f 91       	pop	r21
+ 150:	4f 91       	pop	r20
+ 152:	3f 91       	pop	r19
+ 154:	2f 91       	pop	r18
+ 156:	0f 90       	pop	r0
+ 158:	0f be       	out	0x3f, r0	; 63
+ 15a:	0f 90       	pop	r0
+ 15c:	1f 90       	pop	r1
+ 15e:	18 95       	reti
 
-0000014e <__vector_1>:
+00000160 <__vector_1>:
 
 ISR(INT0_vect){
- 14e:	1f 92       	push	r1
- 150:	0f 92       	push	r0
- 152:	0f b6       	in	r0, 0x3f	; 63
- 154:	0f 92       	push	r0
- 156:	11 24       	eor	r1, r1
- 158:	8f 93       	push	r24
- 15a:	9f 93       	push	r25
-    lastPulseMicrosecondsCount = TCNT1; // Save current amount of microseconds.
- 15c:	8c b5       	in	r24, 0x2c	; 44
- 15e:	9d b5       	in	r25, 0x2d	; 45
- 160:	90 93 c8 00 	sts	0x00C8, r25	; 0x8000c8 <lastPulseMicrosecondsCount+0x1>
- 164:	80 93 c7 00 	sts	0x00C7, r24	; 0x8000c7 <lastPulseMicrosecondsCount>
-    lastPulseOverflowCount = timerOverflowCount; // Save current amount of overflows.
- 168:	80 91 c9 00 	lds	r24, 0x00C9	; 0x8000c9 <timerOverflowCount>
- 16c:	90 91 ca 00 	lds	r25, 0x00CA	; 0x8000ca <timerOverflowCount+0x1>
- 170:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <lastPulseOverflowCount>
+ 160:	1f 92       	push	r1
+ 162:	0f 92       	push	r0
+ 164:	0f b6       	in	r0, 0x3f	; 63
+ 166:	0f 92       	push	r0
+ 168:	11 24       	eor	r1, r1
+ 16a:	8f 93       	push	r24
+ 16c:	9f 93       	push	r25
+    countedPulses++;
+ 16e:	80 91 73 00 	lds	r24, 0x0073	; 0x800073 <countedPulses>
+ 172:	90 91 74 00 	lds	r25, 0x0074	; 0x800074 <countedPulses+0x1>
+ 176:	01 96       	adiw	r24, 0x01	; 1
+ 178:	90 93 74 00 	sts	0x0074, r25	; 0x800074 <countedPulses+0x1>
+ 17c:	80 93 73 00 	sts	0x0073, r24	; 0x800073 <countedPulses>
 }
- 174:	9f 91       	pop	r25
- 176:	8f 91       	pop	r24
- 178:	0f 90       	pop	r0
- 17a:	0f be       	out	0x3f, r0	; 63
- 17c:	0f 90       	pop	r0
- 17e:	1f 90       	pop	r1
- 180:	18 95       	reti
+ 180:	9f 91       	pop	r25
+ 182:	8f 91       	pop	r24
+ 184:	0f 90       	pop	r0
+ 186:	0f be       	out	0x3f, r0	; 63
+ 188:	0f 90       	pop	r0
+ 18a:	1f 90       	pop	r1
+ 18c:	18 95       	reti
 
-00000182 <initIoRegisters>:
+0000018e <initIoRegisters>:
 
 void initIoRegisters(){
-    DISPLAY_DATA_DIR = SEGMENT_DATA_DIR = 0xFF; // Initiate data output I/O registers.
- 182:	8f ef       	ldi	r24, 0xFF	; 255
- 184:	84 bb       	out	0x14, r24	; 20
- 186:	8a bb       	out	0x1a, r24	; 26
-    INPUT_DATA_DIR = 0x0F; // Initiate data input I/O registers.
- 188:	9f e0       	ldi	r25, 0x0F	; 15
- 18a:	91 bb       	out	0x11, r25	; 17
+    DISPLAY_DATA_DIR = 0xFF;
+ 18e:	8f ef       	ldi	r24, 0xFF	; 255
+ 190:	8a bb       	out	0x1a, r24	; 26
+    SEGMENT_DATA_DIR = 0xFF; // Initiate data output I/O registers.
+ 192:	84 bb       	out	0x14, r24	; 20
+    INPUT_DATA_DIR = (1<<0) | (1<<1) | (1<<2) | (1<<3); // Initiate data input I/O registers.
+ 194:	9f e0       	ldi	r25, 0x0F	; 15
+ 196:	91 bb       	out	0x11, r25	; 17
+    DISPLAY_PORT = 0xFF; // Turn of all display selectors.
+ 198:	8b bb       	out	0x1b, r24	; 27
+    SEGMENT_PORT = 0xFF; // Turn of all segment leds.
+ 19a:	85 bb       	out	0x15, r24	; 21
+    INPUT_PORT = 0x00; // Enable pull-up resistors on the external input ports.
+ 19c:	12 ba       	out	0x12, r1	; 18
+ 19e:	08 95       	ret
 
-    DISPLAY_PORT = 0xFF;
- 18c:	8b bb       	out	0x1b, r24	; 27
-	SEGMENT_PORT = 0xFF; // Turn of all segment leds.
- 18e:	85 bb       	out	0x15, r24	; 21
-    INPUT_DATA_DIR = 0x0F; // Enable pull-up resistors on the external input ports.
- 190:	91 bb       	out	0x11, r25	; 17
- 192:	08 95       	ret
-
-00000194 <initiateTimers>:
+000001a0 <initiateTimers>:
 }
 
 void initiateTimers(){
     TCCR0 = 1 << CS01; // Initiate Timer 0 for multiplexing the segment displays.
- 194:	82 e0       	ldi	r24, 0x02	; 2
- 196:	83 bf       	out	0x33, r24	; 51
+ 1a0:	82 e0       	ldi	r24, 0x02	; 2
+ 1a2:	83 bf       	out	0x33, r24	; 51
     TCNT0 = 182; // Initiate counter register of Timer 0.
- 198:	86 eb       	ldi	r24, 0xB6	; 182
- 19a:	82 bf       	out	0x32, r24	; 50
+ 1a4:	86 eb       	ldi	r24, 0xB6	; 182
+ 1a6:	82 bf       	out	0x32, r24	; 50
     TCCR1B = 1 << CS10; // Initiate Timer 1 for tracking time between external inputs.
- 19c:	81 e0       	ldi	r24, 0x01	; 1
- 19e:	8e bd       	out	0x2e, r24	; 46
+ 1a8:	81 e0       	ldi	r24, 0x01	; 1
+ 1aa:	8e bd       	out	0x2e, r24	; 46
     TCNT1 = 0; // Initiate counter register of Timer 0.
- 1a0:	1d bc       	out	0x2d, r1	; 45
- 1a2:	1c bc       	out	0x2c, r1	; 44
- 1a4:	08 95       	ret
+ 1ac:	1d bc       	out	0x2d, r1	; 45
+ 1ae:	1c bc       	out	0x2c, r1	; 44
+ 1b0:	08 95       	ret
 
-000001a6 <initInterrupts>:
+000001b2 <initInterrupts>:
 }
 
 void initInterrupts(){
-    MCUCR = ( 1<<ISC00 ); // Configure Interrupt mode to respond to falling edges.
- 1a6:	81 e0       	ldi	r24, 0x01	; 1
- 1a8:	85 bf       	out	0x35, r24	; 53
-    TIMSK = 1<< TOIE0 | 1 << TOIE1;// Enable overflow interrupt on Timer 0 and Timer 1
- 1aa:	85 e0       	ldi	r24, 0x05	; 5
- 1ac:	89 bf       	out	0x39, r24	; 57
+    MCUCR = ( 1<<ISC01 ); // Configure Interrupt mode to respond to falling edges.
+ 1b2:	82 e0       	ldi	r24, 0x02	; 2
+ 1b4:	85 bf       	out	0x35, r24	; 53
+    TIMSK = 1<<TOIE1 | 1<<TOIE0;// Enable overflow interrupt on Timer 0 and Timer 1
+ 1b6:	85 e0       	ldi	r24, 0x05	; 5
+ 1b8:	89 bf       	out	0x39, r24	; 57
     GICR = 1 << INT0; // Enable external interrupts on port D3.
- 1ae:	80 e4       	ldi	r24, 0x40	; 64
- 1b0:	8b bf       	out	0x3b, r24	; 59
-
+ 1ba:	80 e4       	ldi	r24, 0x40	; 64
+ 1bc:	8b bf       	out	0x3b, r24	; 59
     sei(); // Enable
- 1b2:	78 94       	sei
- 1b4:	08 95       	ret
+ 1be:	78 94       	sei
+ 1c0:	08 95       	ret
 
-000001b6 <updateScreenBuffer>:
- * individual digits. Then it fills the screen buffers for each digit with the corresponding encoded segment values.
- *
- * @param number An number to be displayed on the the 7 segment displays.
- */
-void updateScreenBuffer( uint16_t number )
+000001c2 <outputScreenBuffer>:
+}
+
+void outputScreenBuffer()
 {
- 1b6:	ac 01       	movw	r20, r24
-    screenBufferIndex = 0; // The buffer for the least significant digit.
- 1b8:	10 92 c3 00 	sts	0x00C3, r1	; 0x8000c3 <screenBufferIndex>
+    if( testByte == 0b0000000 ){ // If an complete segment is written to the screen.
+ 1c2:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_start>
+ 1c6:	81 11       	cpse	r24, r1
+ 1c8:	0f c0       	rjmp	.+30     	; 0x1e8 <outputScreenBuffer+0x26>
+        testByte = 0b1000000;     // reset testByte
+ 1ca:	80 e4       	ldi	r24, 0x40	; 64
+ 1cc:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__data_start>
 
-    while( number ){ // While there are digits left to process.
- 1bc:	89 2b       	or	r24, r25
- 1be:	09 f4       	brne	.+2      	; 0x1c2 <updateScreenBuffer+0xc>
- 1c0:	57 c0       	rjmp	.+174    	; 0x270 <updateScreenBuffer+0xba>
-        uint8_t digit = number % 10; // Get the least significant digit.
- 1c2:	9a 01       	movw	r18, r20
- 1c4:	ad ec       	ldi	r26, 0xCD	; 205
- 1c6:	bc ec       	ldi	r27, 0xCC	; 204
- 1c8:	0e 94 92 01 	call	0x324	; 0x324 <__umulhisi3>
- 1cc:	fc 01       	movw	r30, r24
- 1ce:	f6 95       	lsr	r31
- 1d0:	e7 95       	ror	r30
- 1d2:	f6 95       	lsr	r31
- 1d4:	e7 95       	ror	r30
- 1d6:	f6 95       	lsr	r31
- 1d8:	e7 95       	ror	r30
- 1da:	cf 01       	movw	r24, r30
- 1dc:	88 0f       	add	r24, r24
- 1de:	99 1f       	adc	r25, r25
- 1e0:	ee 0f       	add	r30, r30
- 1e2:	ff 1f       	adc	r31, r31
- 1e4:	ee 0f       	add	r30, r30
- 1e6:	ff 1f       	adc	r31, r31
- 1e8:	ee 0f       	add	r30, r30
- 1ea:	ff 1f       	adc	r31, r31
- 1ec:	e8 0f       	add	r30, r24
- 1ee:	f9 1f       	adc	r31, r25
- 1f0:	ca 01       	movw	r24, r20
- 1f2:	8e 1b       	sub	r24, r30
- 1f4:	9f 0b       	sbc	r25, r31
- 1f6:	fc 01       	movw	r30, r24
-        number /=10; // Throw away the least significant digit and move the the next.
- 1f8:	0e 94 92 01 	call	0x324	; 0x324 <__umulhisi3>
- 1fc:	ac 01       	movw	r20, r24
- 1fe:	56 95       	lsr	r21
- 200:	47 95       	ror	r20
- 202:	56 95       	lsr	r21
- 204:	47 95       	ror	r20
- 206:	56 95       	lsr	r21
- 208:	47 95       	ror	r20
-        for ( int i = 0; i<7; ++i ) { // Load 7 single segment values for the digit into the screen buffer.
- 20a:	20 e0       	ldi	r18, 0x00	; 0
- 20c:	30 e0       	ldi	r19, 0x00	; 0
-            if( screenBuffer[screenBufferIndex][i] != displayEncodedNumbers[digit][i] ) {
- 20e:	ff 27       	eor	r31, r31
- 210:	bf 01       	movw	r22, r30
- 212:	66 0f       	add	r22, r22
- 214:	77 1f       	adc	r23, r23
- 216:	66 0f       	add	r22, r22
- 218:	77 1f       	adc	r23, r23
- 21a:	66 0f       	add	r22, r22
- 21c:	77 1f       	adc	r23, r23
- 21e:	6e 1b       	sub	r22, r30
- 220:	7f 0b       	sbc	r23, r31
- 222:	60 5a       	subi	r22, 0xA0	; 160
- 224:	7f 4f       	sbci	r23, 0xFF	; 255
- 226:	80 91 c3 00 	lds	r24, 0x00C3	; 0x8000c3 <screenBufferIndex>
- 22a:	f9 01       	movw	r30, r18
- 22c:	97 e0       	ldi	r25, 0x07	; 7
- 22e:	89 9f       	mul	r24, r25
- 230:	e0 0d       	add	r30, r0
- 232:	f1 1d       	adc	r31, r1
- 234:	11 24       	eor	r1, r1
- 236:	ea 55       	subi	r30, 0x5A	; 90
- 238:	ff 4f       	sbci	r31, 0xFF	; 255
- 23a:	90 81       	ld	r25, Z
- 23c:	fb 01       	movw	r30, r22
- 23e:	e2 0f       	add	r30, r18
- 240:	f3 1f       	adc	r31, r19
- 242:	80 81       	ld	r24, Z
- 244:	98 17       	cp	r25, r24
- 246:	59 f0       	breq	.+22     	; 0x25e <updateScreenBuffer+0xa8>
-               screenBuffer[screenBufferIndex][i] = displayEncodedNumbers[digit][i];
- 248:	90 91 c3 00 	lds	r25, 0x00C3	; 0x8000c3 <screenBufferIndex>
- 24c:	f9 01       	movw	r30, r18
- 24e:	a7 e0       	ldi	r26, 0x07	; 7
- 250:	9a 9f       	mul	r25, r26
- 252:	e0 0d       	add	r30, r0
- 254:	f1 1d       	adc	r31, r1
- 256:	11 24       	eor	r1, r1
- 258:	ea 55       	subi	r30, 0x5A	; 90
- 25a:	ff 4f       	sbci	r31, 0xFF	; 255
- 25c:	80 83       	st	Z, r24
-    screenBufferIndex = 0; // The buffer for the least significant digit.
-
-    while( number ){ // While there are digits left to process.
-        uint8_t digit = number % 10; // Get the least significant digit.
-        number /=10; // Throw away the least significant digit and move the the next.
-        for ( int i = 0; i<7; ++i ) { // Load 7 single segment values for the digit into the screen buffer.
- 25e:	2f 5f       	subi	r18, 0xFF	; 255
- 260:	3f 4f       	sbci	r19, 0xFF	; 255
- 262:	27 30       	cpi	r18, 0x07	; 7
- 264:	31 05       	cpc	r19, r1
- 266:	f9 f6       	brne	.-66     	; 0x226 <updateScreenBuffer+0x70>
- */
-void updateScreenBuffer( uint16_t number )
-{
-    screenBufferIndex = 0; // The buffer for the least significant digit.
-
-    while( number ){ // While there are digits left to process.
- 268:	41 15       	cp	r20, r1
- 26a:	51 05       	cpc	r21, r1
- 26c:	09 f0       	breq	.+2      	; 0x270 <updateScreenBuffer+0xba>
- 26e:	a9 cf       	rjmp	.-174    	; 0x1c2 <updateScreenBuffer+0xc>
-               screenBuffer[screenBufferIndex][i] = displayEncodedNumbers[digit][i];
-            }
+        if( displayIndex < 3 ){ // If there are more displays.
+ 1d0:	80 91 70 00 	lds	r24, 0x0070	; 0x800070 <__data_end>
+ 1d4:	83 30       	cpi	r24, 0x03	; 3
+ 1d6:	30 f4       	brcc	.+12     	; 0x1e4 <outputScreenBuffer+0x22>
+            displayIndex++; // Increment display index
+ 1d8:	80 91 70 00 	lds	r24, 0x0070	; 0x800070 <__data_end>
+ 1dc:	8f 5f       	subi	r24, 0xFF	; 255
+ 1de:	80 93 70 00 	sts	0x0070, r24	; 0x800070 <__data_end>
+ 1e2:	02 c0       	rjmp	.+4      	; 0x1e8 <outputScreenBuffer+0x26>
+        }else {
+            displayIndex = 0; // Reset displays and start over.
+ 1e4:	10 92 70 00 	sts	0x0070, r1	; 0x800070 <__data_end>
         }
     }
+    SEGMENT_PORT = 0xFF; // Make sure all segments are off, to prevent shadows of numbers.
+ 1e8:	8f ef       	ldi	r24, 0xFF	; 255
+ 1ea:	85 bb       	out	0x15, r24	; 21
+    DISPLAY_PORT = ~( 1 << displayIndex ); // Enable the correct display port.
+ 1ec:	20 91 70 00 	lds	r18, 0x0070	; 0x800070 <__data_end>
+ 1f0:	81 e0       	ldi	r24, 0x01	; 1
+ 1f2:	90 e0       	ldi	r25, 0x00	; 0
+ 1f4:	02 c0       	rjmp	.+4      	; 0x1fa <outputScreenBuffer+0x38>
+ 1f6:	88 0f       	add	r24, r24
+ 1f8:	99 1f       	adc	r25, r25
+ 1fa:	2a 95       	dec	r18
+ 1fc:	e2 f7       	brpl	.-8      	; 0x1f6 <outputScreenBuffer+0x34>
+ 1fe:	80 95       	com	r24
+ 200:	8b bb       	out	0x1b, r24	; 27
+    // get an single segment from an encoded segment byte and display it on the screen.
+    SEGMENT_PORT = ~testByte | encodedNumbers[ screenOutputBuffer[ displayIndex] ];
+ 202:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_start>
+ 206:	e0 91 70 00 	lds	r30, 0x0070	; 0x800070 <__data_end>
+ 20a:	f0 e0       	ldi	r31, 0x00	; 0
+ 20c:	ef 59       	subi	r30, 0x9F	; 159
+ 20e:	ff 4f       	sbci	r31, 0xFF	; 255
+ 210:	e0 81       	ld	r30, Z
+ 212:	f0 e0       	ldi	r31, 0x00	; 0
+ 214:	eb 59       	subi	r30, 0x9B	; 155
+ 216:	ff 4f       	sbci	r31, 0xFF	; 255
+ 218:	90 81       	ld	r25, Z
+ 21a:	80 95       	com	r24
+ 21c:	89 2b       	or	r24, r25
+ 21e:	85 bb       	out	0x15, r24	; 21
+    testByte >>= 1; // Shift to the next segment.
+ 220:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_start>
+ 224:	86 95       	lsr	r24
+ 226:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__data_start>
+ 22a:	08 95       	ret
 
-    while( screenBufferIndex < 4 ){ // Fill remaining buffers with 0xff so the segments turn off.
- 270:	80 91 c3 00 	lds	r24, 0x00C3	; 0x8000c3 <screenBufferIndex>
- 274:	84 30       	cpi	r24, 0x04	; 4
- 276:	38 f1       	brcs	.+78     	; 0x2c6 <updateScreenBuffer+0x110>
- 278:	08 95       	ret
-        for ( int i = 0; i<7; ++i ) { // Load 7 segment segment off commands into buffer.
-            if( screenBuffer[screenBufferIndex][i] != 0xFF ) {
- 27a:	20 91 c3 00 	lds	r18, 0x00C3	; 0x8000c3 <screenBufferIndex>
- 27e:	fc 01       	movw	r30, r24
- 280:	47 e0       	ldi	r20, 0x07	; 7
- 282:	24 9f       	mul	r18, r20
- 284:	e0 0d       	add	r30, r0
- 286:	f1 1d       	adc	r31, r1
- 288:	11 24       	eor	r1, r1
- 28a:	ea 55       	subi	r30, 0x5A	; 90
- 28c:	ff 4f       	sbci	r31, 0xFF	; 255
- 28e:	20 81       	ld	r18, Z
- 290:	2f 3f       	cpi	r18, 0xFF	; 255
- 292:	59 f0       	breq	.+22     	; 0x2aa <updateScreenBuffer+0xf4>
-                screenBuffer[screenBufferIndex][i]  = 0xFF;
- 294:	20 91 c3 00 	lds	r18, 0x00C3	; 0x8000c3 <screenBufferIndex>
- 298:	fc 01       	movw	r30, r24
- 29a:	a7 e0       	ldi	r26, 0x07	; 7
- 29c:	2a 9f       	mul	r18, r26
- 29e:	e0 0d       	add	r30, r0
- 2a0:	f1 1d       	adc	r31, r1
- 2a2:	11 24       	eor	r1, r1
- 2a4:	ea 55       	subi	r30, 0x5A	; 90
- 2a6:	ff 4f       	sbci	r31, 0xFF	; 255
- 2a8:	30 83       	st	Z, r19
-            }
+0000022c <writeScreenBuffer>:
+}
+
+void writeScreenBuffer( uint16_t number ){ // 123
+ 22c:	0f 93       	push	r16
+ 22e:	1f 93       	push	r17
+ 230:	cf 93       	push	r28
+ 232:	df 93       	push	r29
+ 234:	1f 92       	push	r1
+ 236:	cd b7       	in	r28, 0x3d	; 61
+ 238:	de b7       	in	r29, 0x3e	; 62
+ 23a:	fc 01       	movw	r30, r24
+ 23c:	40 e0       	ldi	r20, 0x00	; 0
+ 23e:	50 e0       	ldi	r21, 0x00	; 0
+            number = number / 10; // Go to the next digit.
+        }
+        else { // There are no new digits to insert into the buffer.
+            //digit = 10; // 11 is the encoded character for turning off displays.
+        }
+        if( screenOutputBuffer[1] != digit ){
+ 240:	01 e6       	ldi	r16, 0x61	; 97
+ 242:	10 e0       	ldi	r17, 0x00	; 0
+void writeScreenBuffer( uint16_t number ){ // 123
+    uint8_t i;
+    volatile uint8_t digit;
+
+    for( i = 0; i < 4; i ++){ // For each screen buffer index.
+        if( number > 0 ){ // Are there digits to inject into the screen buffer.
+ 244:	30 97       	sbiw	r30, 0x00	; 0
+ 246:	21 f1       	breq	.+72     	; 0x290 <writeScreenBuffer+0x64>
+            digit = number % 10; // Optimized away???? I need that !
+ 248:	9f 01       	movw	r18, r30
+ 24a:	ad ec       	ldi	r26, 0xCD	; 205
+ 24c:	bc ec       	ldi	r27, 0xCC	; 204
+ 24e:	0e 94 9c 02 	call	0x538	; 0x538 <__umulhisi3>
+ 252:	96 95       	lsr	r25
+ 254:	87 95       	ror	r24
+ 256:	96 95       	lsr	r25
+ 258:	87 95       	ror	r24
+ 25a:	96 95       	lsr	r25
+ 25c:	87 95       	ror	r24
+ 25e:	9c 01       	movw	r18, r24
+ 260:	22 0f       	add	r18, r18
+ 262:	33 1f       	adc	r19, r19
+ 264:	88 0f       	add	r24, r24
+ 266:	99 1f       	adc	r25, r25
+ 268:	88 0f       	add	r24, r24
+ 26a:	99 1f       	adc	r25, r25
+ 26c:	88 0f       	add	r24, r24
+ 26e:	99 1f       	adc	r25, r25
+ 270:	82 0f       	add	r24, r18
+ 272:	93 1f       	adc	r25, r19
+ 274:	9f 01       	movw	r18, r30
+ 276:	28 1b       	sub	r18, r24
+ 278:	39 0b       	sbc	r19, r25
+ 27a:	29 83       	std	Y+1, r18	; 0x01
+            number = number / 10; // Go to the next digit.
+ 27c:	9f 01       	movw	r18, r30
+ 27e:	0e 94 9c 02 	call	0x538	; 0x538 <__umulhisi3>
+ 282:	fc 01       	movw	r30, r24
+ 284:	f6 95       	lsr	r31
+ 286:	e7 95       	ror	r30
+ 288:	f6 95       	lsr	r31
+ 28a:	e7 95       	ror	r30
+ 28c:	f6 95       	lsr	r31
+ 28e:	e7 95       	ror	r30
+        }
+        else { // There are no new digits to insert into the buffer.
+            //digit = 10; // 11 is the encoded character for turning off displays.
+        }
+        if( screenOutputBuffer[1] != digit ){
+ 290:	d8 01       	movw	r26, r16
+ 292:	11 96       	adiw	r26, 0x01	; 1
+ 294:	9c 91       	ld	r25, X
+ 296:	89 81       	ldd	r24, Y+1	; 0x01
+ 298:	98 17       	cp	r25, r24
+ 29a:	29 f0       	breq	.+10     	; 0x2a6 <writeScreenBuffer+0x7a>
+            screenOutputBuffer[i] = digit; // Get the least significant digit of the number and write it to the buffer.
+ 29c:	89 81       	ldd	r24, Y+1	; 0x01
+ 29e:	da 01       	movw	r26, r20
+ 2a0:	af 59       	subi	r26, 0x9F	; 159
+ 2a2:	bf 4f       	sbci	r27, 0xFF	; 255
+ 2a4:	8c 93       	st	X, r24
+ 2a6:	4f 5f       	subi	r20, 0xFF	; 255
+ 2a8:	5f 4f       	sbci	r21, 0xFF	; 255
+
+void writeScreenBuffer( uint16_t number ){ // 123
+    uint8_t i;
+    volatile uint8_t digit;
+
+    for( i = 0; i < 4; i ++){ // For each screen buffer index.
+ 2aa:	44 30       	cpi	r20, 0x04	; 4
+ 2ac:	51 05       	cpc	r21, r1
+ 2ae:	51 f6       	brne	.-108    	; 0x244 <writeScreenBuffer+0x18>
+        }
+        if( screenOutputBuffer[1] != digit ){
+            screenOutputBuffer[i] = digit; // Get the least significant digit of the number and write it to the buffer.
         }
     }
+}
+ 2b0:	0f 90       	pop	r0
+ 2b2:	df 91       	pop	r29
+ 2b4:	cf 91       	pop	r28
+ 2b6:	1f 91       	pop	r17
+ 2b8:	0f 91       	pop	r16
+ 2ba:	08 95       	ret
 
-    while( screenBufferIndex < 4 ){ // Fill remaining buffers with 0xff so the segments turn off.
-        for ( int i = 0; i<7; ++i ) { // Load 7 segment segment off commands into buffer.
- 2aa:	01 96       	adiw	r24, 0x01	; 1
- 2ac:	87 30       	cpi	r24, 0x07	; 7
- 2ae:	91 05       	cpc	r25, r1
- 2b0:	21 f7       	brne	.-56     	; 0x27a <updateScreenBuffer+0xc4>
-            if( screenBuffer[screenBufferIndex][i] != 0xFF ) {
-                screenBuffer[screenBufferIndex][i]  = 0xFF;
-            }
-        }
-        screenBufferIndex++;
- 2b2:	80 91 c3 00 	lds	r24, 0x00C3	; 0x8000c3 <screenBufferIndex>
- 2b6:	8f 5f       	subi	r24, 0xFF	; 255
- 2b8:	80 93 c3 00 	sts	0x00C3, r24	; 0x8000c3 <screenBufferIndex>
-               screenBuffer[screenBufferIndex][i] = displayEncodedNumbers[digit][i];
-            }
-        }
-    }
+000002bc <main>:
 
-    while( screenBufferIndex < 4 ){ // Fill remaining buffers with 0xff so the segments turn off.
- 2bc:	80 91 c3 00 	lds	r24, 0x00C3	; 0x8000c3 <screenBufferIndex>
- 2c0:	84 30       	cpi	r24, 0x04	; 4
- 2c2:	10 f0       	brcs	.+4      	; 0x2c8 <updateScreenBuffer+0x112>
- 2c4:	08 95       	ret
-        for ( int i = 0; i<7; ++i ) { // Load 7 segment segment off commands into buffer.
-            if( screenBuffer[screenBufferIndex][i] != 0xFF ) {
-                screenBuffer[screenBufferIndex][i]  = 0xFF;
- 2c6:	3f ef       	ldi	r19, 0xFF	; 255
-    screenBufferIndex = 0; // The buffer for the least significant digit.
-
-    while( number ){ // While there are digits left to process.
-        uint8_t digit = number % 10; // Get the least significant digit.
-        number /=10; // Throw away the least significant digit and move the the next.
-        for ( int i = 0; i<7; ++i ) { // Load 7 single segment values for the digit into the screen buffer.
- 2c8:	80 e0       	ldi	r24, 0x00	; 0
- 2ca:	90 e0       	ldi	r25, 0x00	; 0
- 2cc:	d6 cf       	rjmp	.-84     	; 0x27a <updateScreenBuffer+0xc4>
-
-000002ce <main>:
-void initiateTimers();
-void initInterrupts();
-void updateScreenBuffer( uint16_t number );
+void writeScreenBuffer( uint16_t number );
+void outputScreenBuffer();
 
 int main(){
     initIoRegisters();
- 2ce:	0e 94 c1 00 	call	0x182	; 0x182 <initIoRegisters>
+ 2bc:	0e 94 c7 00 	call	0x18e	; 0x18e <initIoRegisters>
     initiateTimers();
- 2d2:	0e 94 ca 00 	call	0x194	; 0x194 <initiateTimers>
+ 2c0:	0e 94 d0 00 	call	0x1a0	; 0x1a0 <initiateTimers>
     initInterrupts();
- 2d6:	0e 94 d3 00 	call	0x1a6	; 0x1a6 <initInterrupts>
-
+ 2c4:	0e 94 d9 00 	call	0x1b2	; 0x1b2 <initInterrupts>
+    uint8_t counter = 123;
     while(1){
-        updateScreenBuffer(10);
- 2da:	8a e0       	ldi	r24, 0x0A	; 10
- 2dc:	90 e0       	ldi	r25, 0x00	; 0
- 2de:	0e 94 db 00 	call	0x1b6	; 0x1b6 <updateScreenBuffer>
-        //asm volatile ("nop"); // Do nothing , No Operation
-        if( timerOverflowCount - lastCalculationTime > 7 ){ //  Overflow occurs at 15.259 Hz so 7 ~ 0.5 s
- 2e2:	80 91 c9 00 	lds	r24, 0x00C9	; 0x8000c9 <timerOverflowCount>
- 2e6:	90 91 ca 00 	lds	r25, 0x00CA	; 0x8000ca <timerOverflowCount+0x1>
- 2ea:	20 91 c4 00 	lds	r18, 0x00C4	; 0x8000c4 <lastCalculationTime>
- 2ee:	30 91 c5 00 	lds	r19, 0x00C5	; 0x8000c5 <lastCalculationTime+0x1>
- 2f2:	82 1b       	sub	r24, r18
- 2f4:	93 0b       	sbc	r25, r19
- 2f6:	08 97       	sbiw	r24, 0x08	; 8
- 2f8:	80 f3       	brcs	.-32     	; 0x2da <main+0xc>
-            lastCalculationTime = timerOverflowCount;
- 2fa:	80 91 c9 00 	lds	r24, 0x00C9	; 0x8000c9 <timerOverflowCount>
- 2fe:	90 91 ca 00 	lds	r25, 0x00CA	; 0x8000ca <timerOverflowCount+0x1>
- 302:	90 93 c5 00 	sts	0x00C5, r25	; 0x8000c5 <lastCalculationTime+0x1>
- 306:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <lastCalculationTime>
+        outputScreenBuffer();
+ 2c8:	0e 94 e1 00 	call	0x1c2	; 0x1c2 <outputScreenBuffer>
+        writeScreenBuffer( rpm );
+ 2cc:	80 91 71 00 	lds	r24, 0x0071	; 0x800071 <rpm>
+ 2d0:	90 91 72 00 	lds	r25, 0x0072	; 0x800072 <rpm+0x1>
+ 2d4:	0e 94 16 01 	call	0x22c	; 0x22c <writeScreenBuffer>
+ 2d8:	f7 cf       	rjmp	.-18     	; 0x2c8 <main+0xc>
 
-            uint16_t overflows = timerOverflowCount - lastPulseOverflowCount; // Get amount of overflows since last pulse.
- 30a:	80 91 c9 00 	lds	r24, 0x00C9	; 0x8000c9 <timerOverflowCount>
- 30e:	90 91 ca 00 	lds	r25, 0x00CA	; 0x8000ca <timerOverflowCount+0x1>
- 312:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <lastPulseOverflowCount>
-            uint16_t microSeconds = TCNT1 - lastPulseMicrosecondsCount; // Get remaining microseconds since last pulse.
- 316:	8c b5       	in	r24, 0x2c	; 44
- 318:	9d b5       	in	r25, 0x2d	; 45
- 31a:	80 91 c7 00 	lds	r24, 0x00C7	; 0x8000c7 <lastPulseMicrosecondsCount>
- 31e:	90 91 c8 00 	lds	r25, 0x00C8	; 0x8000c8 <lastPulseMicrosecondsCount+0x1>
- 322:	db cf       	rjmp	.-74     	; 0x2da <main+0xc>
+000002da <__divsf3>:
+ 2da:	0e 94 81 01 	call	0x302	; 0x302 <__divsf3x>
+ 2de:	0c 94 62 02 	jmp	0x4c4	; 0x4c4 <__fp_round>
+ 2e2:	0e 94 5b 02 	call	0x4b6	; 0x4b6 <__fp_pscB>
+ 2e6:	58 f0       	brcs	.+22     	; 0x2fe <__divsf3+0x24>
+ 2e8:	0e 94 54 02 	call	0x4a8	; 0x4a8 <__fp_pscA>
+ 2ec:	40 f0       	brcs	.+16     	; 0x2fe <__divsf3+0x24>
+ 2ee:	29 f4       	brne	.+10     	; 0x2fa <__divsf3+0x20>
+ 2f0:	5f 3f       	cpi	r21, 0xFF	; 255
+ 2f2:	29 f0       	breq	.+10     	; 0x2fe <__divsf3+0x24>
+ 2f4:	0c 94 4b 02 	jmp	0x496	; 0x496 <__fp_inf>
+ 2f8:	51 11       	cpse	r21, r1
+ 2fa:	0c 94 96 02 	jmp	0x52c	; 0x52c <__fp_szero>
+ 2fe:	0c 94 51 02 	jmp	0x4a2	; 0x4a2 <__fp_nan>
 
-00000324 <__umulhisi3>:
- 324:	a2 9f       	mul	r26, r18
- 326:	b0 01       	movw	r22, r0
- 328:	b3 9f       	mul	r27, r19
- 32a:	c0 01       	movw	r24, r0
- 32c:	a3 9f       	mul	r26, r19
- 32e:	70 0d       	add	r23, r0
- 330:	81 1d       	adc	r24, r1
- 332:	11 24       	eor	r1, r1
- 334:	91 1d       	adc	r25, r1
- 336:	b2 9f       	mul	r27, r18
- 338:	70 0d       	add	r23, r0
- 33a:	81 1d       	adc	r24, r1
- 33c:	11 24       	eor	r1, r1
- 33e:	91 1d       	adc	r25, r1
- 340:	08 95       	ret
+00000302 <__divsf3x>:
+ 302:	0e 94 73 02 	call	0x4e6	; 0x4e6 <__fp_split3>
+ 306:	68 f3       	brcs	.-38     	; 0x2e2 <__divsf3+0x8>
 
-00000342 <_exit>:
- 342:	f8 94       	cli
+00000308 <__divsf3_pse>:
+ 308:	99 23       	and	r25, r25
+ 30a:	b1 f3       	breq	.-20     	; 0x2f8 <__divsf3+0x1e>
+ 30c:	55 23       	and	r21, r21
+ 30e:	91 f3       	breq	.-28     	; 0x2f4 <__divsf3+0x1a>
+ 310:	95 1b       	sub	r25, r21
+ 312:	55 0b       	sbc	r21, r21
+ 314:	bb 27       	eor	r27, r27
+ 316:	aa 27       	eor	r26, r26
+ 318:	62 17       	cp	r22, r18
+ 31a:	73 07       	cpc	r23, r19
+ 31c:	84 07       	cpc	r24, r20
+ 31e:	38 f0       	brcs	.+14     	; 0x32e <__divsf3_pse+0x26>
+ 320:	9f 5f       	subi	r25, 0xFF	; 255
+ 322:	5f 4f       	sbci	r21, 0xFF	; 255
+ 324:	22 0f       	add	r18, r18
+ 326:	33 1f       	adc	r19, r19
+ 328:	44 1f       	adc	r20, r20
+ 32a:	aa 1f       	adc	r26, r26
+ 32c:	a9 f3       	breq	.-22     	; 0x318 <__divsf3_pse+0x10>
+ 32e:	35 d0       	rcall	.+106    	; 0x39a <__divsf3_pse+0x92>
+ 330:	0e 2e       	mov	r0, r30
+ 332:	3a f0       	brmi	.+14     	; 0x342 <__divsf3_pse+0x3a>
+ 334:	e0 e8       	ldi	r30, 0x80	; 128
+ 336:	32 d0       	rcall	.+100    	; 0x39c <__divsf3_pse+0x94>
+ 338:	91 50       	subi	r25, 0x01	; 1
+ 33a:	50 40       	sbci	r21, 0x00	; 0
+ 33c:	e6 95       	lsr	r30
+ 33e:	00 1c       	adc	r0, r0
+ 340:	ca f7       	brpl	.-14     	; 0x334 <__divsf3_pse+0x2c>
+ 342:	2b d0       	rcall	.+86     	; 0x39a <__divsf3_pse+0x92>
+ 344:	fe 2f       	mov	r31, r30
+ 346:	29 d0       	rcall	.+82     	; 0x39a <__divsf3_pse+0x92>
+ 348:	66 0f       	add	r22, r22
+ 34a:	77 1f       	adc	r23, r23
+ 34c:	88 1f       	adc	r24, r24
+ 34e:	bb 1f       	adc	r27, r27
+ 350:	26 17       	cp	r18, r22
+ 352:	37 07       	cpc	r19, r23
+ 354:	48 07       	cpc	r20, r24
+ 356:	ab 07       	cpc	r26, r27
+ 358:	b0 e8       	ldi	r27, 0x80	; 128
+ 35a:	09 f0       	breq	.+2      	; 0x35e <__divsf3_pse+0x56>
+ 35c:	bb 0b       	sbc	r27, r27
+ 35e:	80 2d       	mov	r24, r0
+ 360:	bf 01       	movw	r22, r30
+ 362:	ff 27       	eor	r31, r31
+ 364:	93 58       	subi	r25, 0x83	; 131
+ 366:	5f 4f       	sbci	r21, 0xFF	; 255
+ 368:	3a f0       	brmi	.+14     	; 0x378 <__divsf3_pse+0x70>
+ 36a:	9e 3f       	cpi	r25, 0xFE	; 254
+ 36c:	51 05       	cpc	r21, r1
+ 36e:	78 f0       	brcs	.+30     	; 0x38e <__divsf3_pse+0x86>
+ 370:	0c 94 4b 02 	jmp	0x496	; 0x496 <__fp_inf>
+ 374:	0c 94 96 02 	jmp	0x52c	; 0x52c <__fp_szero>
+ 378:	5f 3f       	cpi	r21, 0xFF	; 255
+ 37a:	e4 f3       	brlt	.-8      	; 0x374 <__divsf3_pse+0x6c>
+ 37c:	98 3e       	cpi	r25, 0xE8	; 232
+ 37e:	d4 f3       	brlt	.-12     	; 0x374 <__divsf3_pse+0x6c>
+ 380:	86 95       	lsr	r24
+ 382:	77 95       	ror	r23
+ 384:	67 95       	ror	r22
+ 386:	b7 95       	ror	r27
+ 388:	f7 95       	ror	r31
+ 38a:	9f 5f       	subi	r25, 0xFF	; 255
+ 38c:	c9 f7       	brne	.-14     	; 0x380 <__divsf3_pse+0x78>
+ 38e:	88 0f       	add	r24, r24
+ 390:	91 1d       	adc	r25, r1
+ 392:	96 95       	lsr	r25
+ 394:	87 95       	ror	r24
+ 396:	97 f9       	bld	r25, 7
+ 398:	08 95       	ret
+ 39a:	e1 e0       	ldi	r30, 0x01	; 1
+ 39c:	66 0f       	add	r22, r22
+ 39e:	77 1f       	adc	r23, r23
+ 3a0:	88 1f       	adc	r24, r24
+ 3a2:	bb 1f       	adc	r27, r27
+ 3a4:	62 17       	cp	r22, r18
+ 3a6:	73 07       	cpc	r23, r19
+ 3a8:	84 07       	cpc	r24, r20
+ 3aa:	ba 07       	cpc	r27, r26
+ 3ac:	20 f0       	brcs	.+8      	; 0x3b6 <__divsf3_pse+0xae>
+ 3ae:	62 1b       	sub	r22, r18
+ 3b0:	73 0b       	sbc	r23, r19
+ 3b2:	84 0b       	sbc	r24, r20
+ 3b4:	ba 0b       	sbc	r27, r26
+ 3b6:	ee 1f       	adc	r30, r30
+ 3b8:	88 f7       	brcc	.-30     	; 0x39c <__divsf3_pse+0x94>
+ 3ba:	e0 95       	com	r30
+ 3bc:	08 95       	ret
 
-00000344 <__stop_program>:
- 344:	ff cf       	rjmp	.-2      	; 0x344 <__stop_program>
+000003be <__fixunssfsi>:
+ 3be:	0e 94 7b 02 	call	0x4f6	; 0x4f6 <__fp_splitA>
+ 3c2:	88 f0       	brcs	.+34     	; 0x3e6 <__fixunssfsi+0x28>
+ 3c4:	9f 57       	subi	r25, 0x7F	; 127
+ 3c6:	98 f0       	brcs	.+38     	; 0x3ee <__fixunssfsi+0x30>
+ 3c8:	b9 2f       	mov	r27, r25
+ 3ca:	99 27       	eor	r25, r25
+ 3cc:	b7 51       	subi	r27, 0x17	; 23
+ 3ce:	b0 f0       	brcs	.+44     	; 0x3fc <__fixunssfsi+0x3e>
+ 3d0:	e1 f0       	breq	.+56     	; 0x40a <__LOCK_REGION_LENGTH__+0xa>
+ 3d2:	66 0f       	add	r22, r22
+ 3d4:	77 1f       	adc	r23, r23
+ 3d6:	88 1f       	adc	r24, r24
+ 3d8:	99 1f       	adc	r25, r25
+ 3da:	1a f0       	brmi	.+6      	; 0x3e2 <__fixunssfsi+0x24>
+ 3dc:	ba 95       	dec	r27
+ 3de:	c9 f7       	brne	.-14     	; 0x3d2 <__fixunssfsi+0x14>
+ 3e0:	14 c0       	rjmp	.+40     	; 0x40a <__LOCK_REGION_LENGTH__+0xa>
+ 3e2:	b1 30       	cpi	r27, 0x01	; 1
+ 3e4:	91 f0       	breq	.+36     	; 0x40a <__LOCK_REGION_LENGTH__+0xa>
+ 3e6:	0e 94 95 02 	call	0x52a	; 0x52a <__fp_zero>
+ 3ea:	b1 e0       	ldi	r27, 0x01	; 1
+ 3ec:	08 95       	ret
+ 3ee:	0c 94 95 02 	jmp	0x52a	; 0x52a <__fp_zero>
+ 3f2:	67 2f       	mov	r22, r23
+ 3f4:	78 2f       	mov	r23, r24
+ 3f6:	88 27       	eor	r24, r24
+ 3f8:	b8 5f       	subi	r27, 0xF8	; 248
+ 3fa:	39 f0       	breq	.+14     	; 0x40a <__LOCK_REGION_LENGTH__+0xa>
+ 3fc:	b9 3f       	cpi	r27, 0xF9	; 249
+ 3fe:	cc f3       	brlt	.-14     	; 0x3f2 <__fixunssfsi+0x34>
+ 400:	86 95       	lsr	r24
+ 402:	77 95       	ror	r23
+ 404:	67 95       	ror	r22
+ 406:	b3 95       	inc	r27
+ 408:	d9 f7       	brne	.-10     	; 0x400 <__LOCK_REGION_LENGTH__>
+ 40a:	3e f4       	brtc	.+14     	; 0x41a <__LOCK_REGION_LENGTH__+0x1a>
+ 40c:	90 95       	com	r25
+ 40e:	80 95       	com	r24
+ 410:	70 95       	com	r23
+ 412:	61 95       	neg	r22
+ 414:	7f 4f       	sbci	r23, 0xFF	; 255
+ 416:	8f 4f       	sbci	r24, 0xFF	; 255
+ 418:	9f 4f       	sbci	r25, 0xFF	; 255
+ 41a:	08 95       	ret
+
+0000041c <__floatunsisf>:
+ 41c:	e8 94       	clt
+ 41e:	09 c0       	rjmp	.+18     	; 0x432 <__floatsisf+0x12>
+
+00000420 <__floatsisf>:
+ 420:	97 fb       	bst	r25, 7
+ 422:	3e f4       	brtc	.+14     	; 0x432 <__floatsisf+0x12>
+ 424:	90 95       	com	r25
+ 426:	80 95       	com	r24
+ 428:	70 95       	com	r23
+ 42a:	61 95       	neg	r22
+ 42c:	7f 4f       	sbci	r23, 0xFF	; 255
+ 42e:	8f 4f       	sbci	r24, 0xFF	; 255
+ 430:	9f 4f       	sbci	r25, 0xFF	; 255
+ 432:	99 23       	and	r25, r25
+ 434:	a9 f0       	breq	.+42     	; 0x460 <__floatsisf+0x40>
+ 436:	f9 2f       	mov	r31, r25
+ 438:	96 e9       	ldi	r25, 0x96	; 150
+ 43a:	bb 27       	eor	r27, r27
+ 43c:	93 95       	inc	r25
+ 43e:	f6 95       	lsr	r31
+ 440:	87 95       	ror	r24
+ 442:	77 95       	ror	r23
+ 444:	67 95       	ror	r22
+ 446:	b7 95       	ror	r27
+ 448:	f1 11       	cpse	r31, r1
+ 44a:	f8 cf       	rjmp	.-16     	; 0x43c <__floatsisf+0x1c>
+ 44c:	fa f4       	brpl	.+62     	; 0x48c <__floatsisf+0x6c>
+ 44e:	bb 0f       	add	r27, r27
+ 450:	11 f4       	brne	.+4      	; 0x456 <__floatsisf+0x36>
+ 452:	60 ff       	sbrs	r22, 0
+ 454:	1b c0       	rjmp	.+54     	; 0x48c <__floatsisf+0x6c>
+ 456:	6f 5f       	subi	r22, 0xFF	; 255
+ 458:	7f 4f       	sbci	r23, 0xFF	; 255
+ 45a:	8f 4f       	sbci	r24, 0xFF	; 255
+ 45c:	9f 4f       	sbci	r25, 0xFF	; 255
+ 45e:	16 c0       	rjmp	.+44     	; 0x48c <__floatsisf+0x6c>
+ 460:	88 23       	and	r24, r24
+ 462:	11 f0       	breq	.+4      	; 0x468 <__floatsisf+0x48>
+ 464:	96 e9       	ldi	r25, 0x96	; 150
+ 466:	11 c0       	rjmp	.+34     	; 0x48a <__floatsisf+0x6a>
+ 468:	77 23       	and	r23, r23
+ 46a:	21 f0       	breq	.+8      	; 0x474 <__floatsisf+0x54>
+ 46c:	9e e8       	ldi	r25, 0x8E	; 142
+ 46e:	87 2f       	mov	r24, r23
+ 470:	76 2f       	mov	r23, r22
+ 472:	05 c0       	rjmp	.+10     	; 0x47e <__floatsisf+0x5e>
+ 474:	66 23       	and	r22, r22
+ 476:	71 f0       	breq	.+28     	; 0x494 <__floatsisf+0x74>
+ 478:	96 e8       	ldi	r25, 0x86	; 134
+ 47a:	86 2f       	mov	r24, r22
+ 47c:	70 e0       	ldi	r23, 0x00	; 0
+ 47e:	60 e0       	ldi	r22, 0x00	; 0
+ 480:	2a f0       	brmi	.+10     	; 0x48c <__floatsisf+0x6c>
+ 482:	9a 95       	dec	r25
+ 484:	66 0f       	add	r22, r22
+ 486:	77 1f       	adc	r23, r23
+ 488:	88 1f       	adc	r24, r24
+ 48a:	da f7       	brpl	.-10     	; 0x482 <__floatsisf+0x62>
+ 48c:	88 0f       	add	r24, r24
+ 48e:	96 95       	lsr	r25
+ 490:	87 95       	ror	r24
+ 492:	97 f9       	bld	r25, 7
+ 494:	08 95       	ret
+
+00000496 <__fp_inf>:
+ 496:	97 f9       	bld	r25, 7
+ 498:	9f 67       	ori	r25, 0x7F	; 127
+ 49a:	80 e8       	ldi	r24, 0x80	; 128
+ 49c:	70 e0       	ldi	r23, 0x00	; 0
+ 49e:	60 e0       	ldi	r22, 0x00	; 0
+ 4a0:	08 95       	ret
+
+000004a2 <__fp_nan>:
+ 4a2:	9f ef       	ldi	r25, 0xFF	; 255
+ 4a4:	80 ec       	ldi	r24, 0xC0	; 192
+ 4a6:	08 95       	ret
+
+000004a8 <__fp_pscA>:
+ 4a8:	00 24       	eor	r0, r0
+ 4aa:	0a 94       	dec	r0
+ 4ac:	16 16       	cp	r1, r22
+ 4ae:	17 06       	cpc	r1, r23
+ 4b0:	18 06       	cpc	r1, r24
+ 4b2:	09 06       	cpc	r0, r25
+ 4b4:	08 95       	ret
+
+000004b6 <__fp_pscB>:
+ 4b6:	00 24       	eor	r0, r0
+ 4b8:	0a 94       	dec	r0
+ 4ba:	12 16       	cp	r1, r18
+ 4bc:	13 06       	cpc	r1, r19
+ 4be:	14 06       	cpc	r1, r20
+ 4c0:	05 06       	cpc	r0, r21
+ 4c2:	08 95       	ret
+
+000004c4 <__fp_round>:
+ 4c4:	09 2e       	mov	r0, r25
+ 4c6:	03 94       	inc	r0
+ 4c8:	00 0c       	add	r0, r0
+ 4ca:	11 f4       	brne	.+4      	; 0x4d0 <__fp_round+0xc>
+ 4cc:	88 23       	and	r24, r24
+ 4ce:	52 f0       	brmi	.+20     	; 0x4e4 <__fp_round+0x20>
+ 4d0:	bb 0f       	add	r27, r27
+ 4d2:	40 f4       	brcc	.+16     	; 0x4e4 <__fp_round+0x20>
+ 4d4:	bf 2b       	or	r27, r31
+ 4d6:	11 f4       	brne	.+4      	; 0x4dc <__fp_round+0x18>
+ 4d8:	60 ff       	sbrs	r22, 0
+ 4da:	04 c0       	rjmp	.+8      	; 0x4e4 <__fp_round+0x20>
+ 4dc:	6f 5f       	subi	r22, 0xFF	; 255
+ 4de:	7f 4f       	sbci	r23, 0xFF	; 255
+ 4e0:	8f 4f       	sbci	r24, 0xFF	; 255
+ 4e2:	9f 4f       	sbci	r25, 0xFF	; 255
+ 4e4:	08 95       	ret
+
+000004e6 <__fp_split3>:
+ 4e6:	57 fd       	sbrc	r21, 7
+ 4e8:	90 58       	subi	r25, 0x80	; 128
+ 4ea:	44 0f       	add	r20, r20
+ 4ec:	55 1f       	adc	r21, r21
+ 4ee:	59 f0       	breq	.+22     	; 0x506 <__fp_splitA+0x10>
+ 4f0:	5f 3f       	cpi	r21, 0xFF	; 255
+ 4f2:	71 f0       	breq	.+28     	; 0x510 <__fp_splitA+0x1a>
+ 4f4:	47 95       	ror	r20
+
+000004f6 <__fp_splitA>:
+ 4f6:	88 0f       	add	r24, r24
+ 4f8:	97 fb       	bst	r25, 7
+ 4fa:	99 1f       	adc	r25, r25
+ 4fc:	61 f0       	breq	.+24     	; 0x516 <__fp_splitA+0x20>
+ 4fe:	9f 3f       	cpi	r25, 0xFF	; 255
+ 500:	79 f0       	breq	.+30     	; 0x520 <__fp_splitA+0x2a>
+ 502:	87 95       	ror	r24
+ 504:	08 95       	ret
+ 506:	12 16       	cp	r1, r18
+ 508:	13 06       	cpc	r1, r19
+ 50a:	14 06       	cpc	r1, r20
+ 50c:	55 1f       	adc	r21, r21
+ 50e:	f2 cf       	rjmp	.-28     	; 0x4f4 <__fp_split3+0xe>
+ 510:	46 95       	lsr	r20
+ 512:	f1 df       	rcall	.-30     	; 0x4f6 <__fp_splitA>
+ 514:	08 c0       	rjmp	.+16     	; 0x526 <__fp_splitA+0x30>
+ 516:	16 16       	cp	r1, r22
+ 518:	17 06       	cpc	r1, r23
+ 51a:	18 06       	cpc	r1, r24
+ 51c:	99 1f       	adc	r25, r25
+ 51e:	f1 cf       	rjmp	.-30     	; 0x502 <__fp_splitA+0xc>
+ 520:	86 95       	lsr	r24
+ 522:	71 05       	cpc	r23, r1
+ 524:	61 05       	cpc	r22, r1
+ 526:	08 94       	sec
+ 528:	08 95       	ret
+
+0000052a <__fp_zero>:
+ 52a:	e8 94       	clt
+
+0000052c <__fp_szero>:
+ 52c:	bb 27       	eor	r27, r27
+ 52e:	66 27       	eor	r22, r22
+ 530:	77 27       	eor	r23, r23
+ 532:	cb 01       	movw	r24, r22
+ 534:	97 f9       	bld	r25, 7
+ 536:	08 95       	ret
+
+00000538 <__umulhisi3>:
+ 538:	a2 9f       	mul	r26, r18
+ 53a:	b0 01       	movw	r22, r0
+ 53c:	b3 9f       	mul	r27, r19
+ 53e:	c0 01       	movw	r24, r0
+ 540:	a3 9f       	mul	r26, r19
+ 542:	70 0d       	add	r23, r0
+ 544:	81 1d       	adc	r24, r1
+ 546:	11 24       	eor	r1, r1
+ 548:	91 1d       	adc	r25, r1
+ 54a:	b2 9f       	mul	r27, r18
+ 54c:	70 0d       	add	r23, r0
+ 54e:	81 1d       	adc	r24, r1
+ 550:	11 24       	eor	r1, r1
+ 552:	91 1d       	adc	r25, r1
+ 554:	08 95       	ret
+
+00000556 <__adddi3_s8>:
+ 556:	00 24       	eor	r0, r0
+ 558:	a7 fd       	sbrc	r26, 7
+ 55a:	00 94       	com	r0
+ 55c:	2a 0f       	add	r18, r26
+ 55e:	30 1d       	adc	r19, r0
+ 560:	40 1d       	adc	r20, r0
+ 562:	50 1d       	adc	r21, r0
+ 564:	60 1d       	adc	r22, r0
+ 566:	70 1d       	adc	r23, r0
+ 568:	80 1d       	adc	r24, r0
+ 56a:	90 1d       	adc	r25, r0
+ 56c:	08 95       	ret
+
+0000056e <_exit>:
+ 56e:	f8 94       	cli
+
+00000570 <__stop_program>:
+ 570:	ff cf       	rjmp	.-2      	; 0x570 <__stop_program>

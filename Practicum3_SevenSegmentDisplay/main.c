@@ -19,7 +19,5 @@ int main( void )
 	
 	while(1){
 		writeNumbersToSegmentDisplays(10);
-		//setPrintNumberBaseMode( BASE_HEXADECIMAL );
-		//countUp( 200 );
 	}
 }

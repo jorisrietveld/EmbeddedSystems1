@@ -31,7 +31,6 @@ uint8_t displaySelectors[4] = { 0x08,0x04,0x02,0x01 }; // Display selectors.
 void initIoRegisters(); // Declare function to initiate the I/O registers.
 void initiateTimers(); // Declare function to initiate the Timer registers.
 void displayNumber(uint16_t number);
-
 /*
  * De main loop
  */
@@ -84,8 +83,8 @@ ISR(TIMER0_OVF_vect){
  */
 int display(int encodingsIndex, int displayIndex) {
     SEGMENT_PORT = 0xFF;
-    DISPLAY_PORT = ~displaySelectors[displayIndex]; //Enable display
-    SEGMENT_PORT = ~encodedNumbers[encodingsIndex]; // Enable Segment.
+    DISPLAY_PORT = ~displaySelectors[displayIndex]; //Zet de juiste display aan.
+    SEGMENT_PORT = ~encodedNumbers[encodingsIndex]; //Stuur de byte voor welk nummer er weergegeven moet worden.
 }
 
 /**
