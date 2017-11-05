@@ -165,9 +165,6 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="main_joris.c">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="SegDisplayEncoding.h">
       <SubType>compile</SubType>
     </Compile>
