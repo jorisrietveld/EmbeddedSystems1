@@ -24,6 +24,11 @@ volatile uint16_t centimetersPerSecond = 0; // Amount of cm traveled in the last
 volatile uint16_t milliseconds = 0; //The amount of milliseconds since the last overflow.
 volatile uint16_t millisecondsOverflow = 0; // The amount of overflows since the meter is turned on.
 
+volatile uint8_t encodedNumbers[11] = { 0x82, 0xBB, 0x85, 0x91, 0xB8, 0xD0, 0xC0, 0x9B, 0x80, 0x90, 0xFF };
+volatile uint8_t screenOutputBuffer[4] = { 0, 1, 10, 10 }; // The numbers currently being multiplexed on the displays.
+volatile uint8_t displayIndex = 0; // The current display that is turned on during multiplexing.
+volatile uint8_t testByte = 0b1000000; // An byte to break every encoded segment into 7 single segment pieces.
+
 uint32_t lastButtonCheckTime = 0; // The time stamp of last button check call.
 uint8_t buttonCheckInterval = 30; // The interval of calling the button check function.
 uint8_t lastButtonState = 0;
@@ -38,13 +43,20 @@ uint16_t drivingSpeedAlert = 0;
 void initIO(); // Declare function for setting up I/O.
 void initTimer(); // Declare function for setting up the timers.
 void initInterrupts(); // Declare function for setting up the interrupts.
-void checkButtons(); // Declare function for checking active witches.
+
+void outputScreenBuffer(); // Output an new segment to the 7 segment diplays.
+void writeScreenBuffer( uint16_t number ); // Write an new number to the screen buffer.
+
 uint32_t getMilliseconds(); // Declare function for getting the current milliseconds since the last reset.
 void clearMilliseconds(); // Declare function for resetting the milliseconds count.
-void updateMaximumDrivingSpeed(); // Declare function for updating the maximum driving speed.
+
 void resetDayCounter(); // Declare function for resetting the day counter.
 uint64_t getDayCounterValue(); // Declare function for getting the display value of the day counter.
-uint64_t getDistanceCounterValue(); // Declare function for getting the display value of the distance counter.
+uint64_t getTotalCounterValue(); // Declare function for getting the display value of the distance counter.
+
+void updateMaximumDrivingSpeed(); // Declare function for updating the maximum driving speed.
+void checkButtons(); // Declare function for checking active witches.
+
 
 /**
  * The main program routine and initial starting point of the program.
@@ -55,12 +67,14 @@ int main(){
     initInterrupts();
     while(1){
         asm volatile ("nop"); // Do nothing , No Operation
+        outputScreenBuffer(); // Multiplex the next segment to the screen.
 
         if( getMilliseconds() - lastButtonCheckTime > buttonCheckInterval ) { // Check the button state every 10 milliseconds.
             lastButtonCheckTime = getMilliseconds(); // Save the current check time.
             checkButtons(); // Check the button state.
         }
-        DISPLAY_PORT = ~(1 << mode+4);
+
+        //DISPLAY_PORT = ~(1 << mode+4);
     }
 }
 
@@ -126,7 +140,7 @@ void updateMaximumDrivingSpeed(){
  * This function resets the value in the day counter.
  */
 void resetDayCounter(){
-    dayCounter = distanceTraveled;
+    dayCounter = distanceTraveledCm;
 }
 
 /**
@@ -134,11 +148,16 @@ void resetDayCounter(){
  * @return The value to display on the day counter.
  */
 uint64_t getDayCounterValue(){
-    return distanceTraveledCm - dayCounter;
+    return (distanceTraveledCm - dayCounter) / 100000;
+
 }
 
-uint64_t getDistanceCounterValue(){
-    return distanceTraveled;
+/**
+ * Get current value to display on the odometer.
+ * @return The distance in kilometer on the odometer.
+ */
+uint64_t getTotalCounterValue(){
+    return distanceTraveled/ 100000;
 }
 
 /**
@@ -147,7 +166,7 @@ uint64_t getDistanceCounterValue(){
  */
 void checkButtons()
 {
-    if(bit_is_clear(PIND, 0)){// Checks if the button on bit one is pressed then
+    if(bit_is_clear(PIND, 0)){// Checks if the button on bit one is pressed then moves to next mode.
         if (lastButtonState == 1){
             mode++;
             mode %=4;
@@ -164,7 +183,7 @@ void checkButtons()
             lastButtonState = 2;
         }
     }
-    else if(bit_is_clear(PIND, 3)){
+    else if(bit_is_clear(PIND, 3)){// Checks if the button on bit 3 is pressed and mode 4 is on then updates the maximum driving speed
         if (lastButtonState == 3 && mode == 4) {
             updateMaximumDrivingSpeed();
             lastButtonState = 0;
@@ -174,14 +193,59 @@ void checkButtons()
     }
 }
 
-void displayValueOnScreen(){
-    //  mode == 0
+void displayValueOnScreen() {
+    if (mode == 1) {
+        writeScreenBuffer(currentDrivingSpeed);
+    } else if (mode == 2) {
+        writeScreenBuffer( getTotalCounterValue() );
+    }
+    else if (mode == 3){
+        writeScreenBuffer( getDayCounterValue() );
+    }
+    else if (mode == 4){
+        writeScreenBuffer( drivingSpeedAlert );
+    }
+}
 
-    // if mode == 2
+/**
+ * This function will output an segment value from the screen buffer to the connected displays.
+ */
+void outputScreenBuffer(){
+    if( testByte == 0b0000000 ){ // If an complete segment is written to the screen.
+        testByte = 0b1000000;     // reset testByte
 
-    //if mode == 3
+        if( displayIndex < 3 ){ // If there are more displays.
+            displayIndex++; // Increment display index
+        }else {
+            displayIndex = 0; // Reset displays and start over.
+        }
+    }
+    SEGMENT_PORT = 0xFF; // Make sure all segments are off, to prevent shadows of numbers.
+    DISPLAY_PORT = ~( 1 << displayIndex ); // Enable the correct display port.
+    // get an single segment from an encoded segment byte and display it on the screen.
+    SEGMENT_PORT = ~testByte | encodedNumbers[ screenOutputBuffer[ displayIndex] ];
+    testByte >>= 1; // Shift to the next segment.
+}
 
-    // if mode == 4
+/**
+ * This function writes an new number to the screen buffer.
+ * @param number
+ */
+void writeScreenBuffer( uint16_t number ){
+    volatile uint8_t digit; // Make sure the compiler wont screw me!
+
+    for( uint8_t i = 0; i < 4; i ++){ // For each screen buffer index.
+        if( number > 0 ){ // Are there digits to inject into the screen buffer.
+            digit = number % 10; // Optimized away???? I need that !
+            number = number / 10; // Go to the next digit.
+        }
+        else { // There are no new digits to insert into the buffer.
+            digit = 10; // 11 is the encoded character for turning off displays.
+        }
+        if( screenOutputBuffer[1] != digit ){
+            screenOutputBuffer[i] = digit; // Get the least significant digit of the number and write it to the buffer.
+        }
+    }
 }
 
 /**
@@ -196,7 +260,7 @@ ISR(INT0_vect){
  * This service routine is responsible to keep track of the milliseconds since the last clear.
  */
 ISR(TIMER0_OVF_vect){
-    if(milliseconds == 65535) {
+    if(milliseconds == 65535) { // If the
         millisecondsOverflow++;
     }
     milliseconds++;
