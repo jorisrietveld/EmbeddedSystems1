@@ -19,10 +19,12 @@ volatile uint
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <avr/sfr_defs.h>
 
 void initIO(); // Declare function for setting up I/O.
 void initTimer(); // Declare function for setting up the timers.
 void initInterrupts(); // Declare function for setting up the interrupts.
+void checkSwitches(); // Declare function for checking activeswitches.
 
 /**
  * The main program routine and initial starting point of the program.
@@ -61,8 +63,28 @@ void initTimer(){
     TCCR1B |= 1<< WGM12; // Enable Timer 1 waveform modes.
     OCR1A = 15624; // Count to 1 second before triggering an interrupt. (freq / (MCU freq / Prescaler) = (1 / (1 000 000 / 64 ) = 15624
     TCCR1B |= 1 << CS10 | 1 << CS11; // Enable timer 1 from an internal clock source and prescaler of 64.
+    TCCR0 =
+}
+
+void checkSwithes(){
+    if(bit_is_clear(PIND, 0))
+    {
+        pressed_Confidence_level ++;
+        if(pressed == 0)
+        {
+            PORTD ^= 1 << PIND0;
+            PORTD ^= 1 << PIND2;
+            pressed = 1;
+        }
+        else
+        {
+            Released_confidence_level ++;
+            pressed = 0;
+        }
+    }
 }
 
 ISR(TIMER1_COMPA_vect){
     DISPLAY_PORT ^= (1<<7); // Toggle led.
 }
+
