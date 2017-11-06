@@ -32,9 +32,9 @@ volatile uint8_t testByte = 0b1000000; // An byte to break every encoded segment
 uint32_t lastButtonCheckTime = 0; // The time stamp of last button check call.
 uint8_t buttonCheckInterval = 30; // The interval of calling the button check function.
 uint8_t lastButtonState = 0;
-uint8_t mode = 0;
+uint8_t mode = 1;
 
-uint16_t currentDrivingSpeed = 0; // The current driving speed of the car in kilometers per hour.
+uint16_t currentDrivingSpeed = 10; // The current driving speed of the car in kilometers per hour.
 uint64_t distanceTraveled = 0;
 uint64_t dayCounter = 0;
 
@@ -43,20 +43,16 @@ uint16_t drivingSpeedAlert = 0;
 void initIO(); // Declare function for setting up I/O.
 void initTimer(); // Declare function for setting up the timers.
 void initInterrupts(); // Declare function for setting up the interrupts.
-
 void outputScreenBuffer(); // Output an new segment to the 7 segment diplays.
 void writeScreenBuffer( uint16_t number ); // Write an new number to the screen buffer.
-
-uint32_t getMilliseconds(); // Declare function for getting the current milliseconds since the last reset.
 void clearMilliseconds(); // Declare function for resetting the milliseconds count.
-
 void resetDayCounter(); // Declare function for resetting the day counter.
-uint64_t getDayCounterValue(); // Declare function for getting the display value of the day counter.
-uint64_t getTotalCounterValue(); // Declare function for getting the display value of the distance counter.
-
 void updateMaximumDrivingSpeed(); // Declare function for updating the maximum driving speed.
 void checkButtons(); // Declare function for checking active witches.
-
+void displayValueOnScreen(); // Declare function for displaying an value on the screen based on the current mode.
+uint32_t getMilliseconds(); // Declare function for getting the current milliseconds since the last reset.
+uint64_t getDayCounterValue(); // Declare function for getting the display value of the day counter.
+uint64_t getTotalCounterValue(); // Declare function for getting the display value of the distance counter.
 
 /**
  * The main program routine and initial starting point of the program.
@@ -73,7 +69,8 @@ int main(){
             lastButtonCheckTime = getMilliseconds(); // Save the current check time.
             checkButtons(); // Check the button state.
         }
-
+        displayValueOnScreen();
+       // writeScreenBuffer(mode);
         //DISPLAY_PORT = ~(1 << mode+4);
     }
 }
@@ -94,8 +91,10 @@ void initIO(){
 void initInterrupts(){
     TIMSK |= 1 << OCIE1A; // Enable interrupt on timer 1, compare register A
     TIMSK |= 1 << TOIE0; // Enable interrupt on timer 0 overflow.
-    GICR  = INT0;  // enable externe interrupt bit INT0
-    MCUCR = ISC01;  // React to falling edge.
+    GICR = 1 << INT0;
+    MCUCR = 1 << ISC01;// | 1 << ISC00;
+    //GICR  = INT0;  // enable externe interrupt bit INT0
+    //MCUCR = ISC00;  // React to falling edge.
     sei();
 }
 
@@ -168,8 +167,8 @@ void checkButtons()
 {
     if(bit_is_clear(PIND, 0)){// Checks if the button on bit one is pressed then moves to next mode.
         if (lastButtonState == 1){
+            mode %= 4;
             mode++;
-            mode %=4;
             lastButtonState=0;
         } else {
             lastButtonState = 1;
@@ -194,15 +193,16 @@ void checkButtons()
 }
 
 void displayValueOnScreen() {
-    if (mode == 1) {
+    //writeScreenBuffer(mode);
+    if (mode == 1) {//if mode 1 is on it shows the driving speed in Km/h
         writeScreenBuffer(currentDrivingSpeed);
-    } else if (mode == 2) {
-        writeScreenBuffer( getTotalCounterValue() );
+    } else if (mode == 2) {// if mode 2 is on it shows the total driven Km
+        writeScreenBuffer( (uint16_t)getTotalCounterValue() );
     }
-    else if (mode == 3){
-        writeScreenBuffer( getDayCounterValue() );
+    else if (mode == 3){// if mode 3 is on it shows the driven Km since last reset
+        writeScreenBuffer( (uint16_t)getDayCounterValue() );
     }
-    else if (mode == 4){
+    else if (mode == 4){//
         writeScreenBuffer( drivingSpeedAlert );
     }
 }
